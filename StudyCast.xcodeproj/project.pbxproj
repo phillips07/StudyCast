@@ -8,25 +8,35 @@
 
 /* Begin PBXBuildFile section */
 		6A7B23C8DBBFEF791442A1AD /* Pods_StudyCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1CAC1376E446AF50FF75B6 /* Pods_StudyCast.framework */; };
-		D9158CAB1DCCF93B002E1122 /* ClassPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAA1DCCF93B002E1122 /* ClassPickerViewController.swift */; };
+		D9158CB31DCE56AE002E1122 /* ClassSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */; };
+		D9158CB41DCE56AE002E1122 /* ClassSelectController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAD1DCE56AE002E1122 /* ClassSelectController+handlers.swift */; };
+		D9158CB51DCE56AE002E1122 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAE1DCE56AE002E1122 /* LoginController.swift */; };
+		D9158CB61DCE56AE002E1122 /* LoginController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAF1DCE56AE002E1122 /* LoginController+handlers.swift */; };
+		D9158CB71DCE56AE002E1122 /* RegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CB01DCE56AE002E1122 /* RegisterController.swift */; };
+		D9158CB81DCE56AE002E1122 /* RegisterController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CB11DCE56AE002E1122 /* RegisterController+handlers.swift */; };
+		D9158CB91DCE56AE002E1122 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CB21DCE56AE002E1122 /* ViewController.swift */; };
+		D9158CBD1DCE58FD002E1122 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9158CBC1DCE58FD002E1122 /* GoogleService-Info.plist */; };
+		D9158CC51DCE5C3A002E1122 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9158CC41DCE5C3A002E1122 /* Assets.xcassets */; };
 		D9E66C731DC1A8DF00579C88 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E66C721DC1A8DF00579C88 /* AppDelegate.swift */; };
-		D9E66C751DC1A8DF00579C88 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E66C741DC1A8DF00579C88 /* FirstViewController.swift */; };
-		D9E66C771DC1A8DF00579C88 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E66C761DC1A8DF00579C88 /* SecondViewController.swift */; };
 		D9E66C7A1DC1A8DF00579C88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E66C781DC1A8DF00579C88 /* Main.storyboard */; };
-		D9E66C7C1DC1A8DF00579C88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9E66C7B1DC1A8DF00579C88 /* Assets.xcassets */; };
 		D9E66C7F1DC1A8DF00579C88 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D9E66C7D1DC1A8DF00579C88 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5420768FA31978EBF637DD89 /* Pods-StudyCast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyCast.release.xcconfig"; path = "Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast.release.xcconfig"; sourceTree = "<group>"; };
 		AE1CAC1376E446AF50FF75B6 /* Pods_StudyCast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StudyCast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D9158CAA1DCCF93B002E1122 /* ClassPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassPickerViewController.swift; sourceTree = "<group>"; };
+		D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassSelectController.swift; sourceTree = "<group>"; };
+		D9158CAD1DCE56AE002E1122 /* ClassSelectController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ClassSelectController+handlers.swift"; sourceTree = "<group>"; };
+		D9158CAE1DCE56AE002E1122 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
+		D9158CAF1DCE56AE002E1122 /* LoginController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LoginController+handlers.swift"; sourceTree = "<group>"; };
+		D9158CB01DCE56AE002E1122 /* RegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterController.swift; sourceTree = "<group>"; };
+		D9158CB11DCE56AE002E1122 /* RegisterController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RegisterController+handlers.swift"; sourceTree = "<group>"; };
+		D9158CB21DCE56AE002E1122 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D9158CBC1DCE58FD002E1122 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D9158CC41DCE5C3A002E1122 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D9E66C6F1DC1A8DF00579C88 /* StudyCast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyCast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9E66C721DC1A8DF00579C88 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D9E66C741DC1A8DF00579C88 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		D9E66C761DC1A8DF00579C88 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		D9E66C791DC1A8DF00579C88 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D9E66C7B1DC1A8DF00579C88 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D9E66C7E1DC1A8DF00579C88 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D9E66C801DC1A8DF00579C88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F9631652C95A303A6030DA74 /* Pods-StudyCast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyCast.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast.debug.xcconfig"; sourceTree = "<group>"; };
@@ -74,12 +84,17 @@
 			isa = PBXGroup;
 			children = (
 				D9E66C721DC1A8DF00579C88 /* AppDelegate.swift */,
-				D9E66C741DC1A8DF00579C88 /* FirstViewController.swift */,
-				D9158CAA1DCCF93B002E1122 /* ClassPickerViewController.swift */,
-				D9E66C761DC1A8DF00579C88 /* SecondViewController.swift */,
+				D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */,
+				D9158CAD1DCE56AE002E1122 /* ClassSelectController+handlers.swift */,
+				D9158CAE1DCE56AE002E1122 /* LoginController.swift */,
+				D9158CAF1DCE56AE002E1122 /* LoginController+handlers.swift */,
+				D9158CB01DCE56AE002E1122 /* RegisterController.swift */,
+				D9158CB11DCE56AE002E1122 /* RegisterController+handlers.swift */,
+				D9158CB21DCE56AE002E1122 /* ViewController.swift */,
+				D9158CC41DCE5C3A002E1122 /* Assets.xcassets */,
 				D9E66C781DC1A8DF00579C88 /* Main.storyboard */,
-				D9E66C7B1DC1A8DF00579C88 /* Assets.xcassets */,
 				D9E66C7D1DC1A8DF00579C88 /* LaunchScreen.storyboard */,
+				D9158CBC1DCE58FD002E1122 /* GoogleService-Info.plist */,
 				D9E66C801DC1A8DF00579C88 /* Info.plist */,
 			);
 			path = StudyCast;
@@ -156,8 +171,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9158CBD1DCE58FD002E1122 /* GoogleService-Info.plist in Resources */,
 				D9E66C7F1DC1A8DF00579C88 /* LaunchScreen.storyboard in Resources */,
-				D9E66C7C1DC1A8DF00579C88 /* Assets.xcassets in Resources */,
+				D9158CC51DCE5C3A002E1122 /* Assets.xcassets in Resources */,
 				D9E66C7A1DC1A8DF00579C88 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -217,10 +233,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9E66C771DC1A8DF00579C88 /* SecondViewController.swift in Sources */,
-				D9158CAB1DCCF93B002E1122 /* ClassPickerViewController.swift in Sources */,
+				D9158CB61DCE56AE002E1122 /* LoginController+handlers.swift in Sources */,
 				D9E66C731DC1A8DF00579C88 /* AppDelegate.swift in Sources */,
-				D9E66C751DC1A8DF00579C88 /* FirstViewController.swift in Sources */,
+				D9158CB91DCE56AE002E1122 /* ViewController.swift in Sources */,
+				D9158CB31DCE56AE002E1122 /* ClassSelectController.swift in Sources */,
+				D9158CB41DCE56AE002E1122 /* ClassSelectController+handlers.swift in Sources */,
+				D9158CB51DCE56AE002E1122 /* LoginController.swift in Sources */,
+				D9158CB71DCE56AE002E1122 /* RegisterController.swift in Sources */,
+				D9158CB81DCE56AE002E1122 /* RegisterController+handlers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
