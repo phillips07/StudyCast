@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6A7B23C8DBBFEF791442A1AD /* Pods_StudyCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1CAC1376E446AF50FF75B6 /* Pods_StudyCast.framework */; };
+		D9158CAB1DCCF93B002E1122 /* ClassPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAA1DCCF93B002E1122 /* ClassPickerViewController.swift */; };
 		D9E66C731DC1A8DF00579C88 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E66C721DC1A8DF00579C88 /* AppDelegate.swift */; };
 		D9E66C751DC1A8DF00579C88 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E66C741DC1A8DF00579C88 /* FirstViewController.swift */; };
 		D9E66C771DC1A8DF00579C88 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E66C761DC1A8DF00579C88 /* SecondViewController.swift */; };
@@ -16,6 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5420768FA31978EBF637DD89 /* Pods-StudyCast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyCast.release.xcconfig"; path = "Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast.release.xcconfig"; sourceTree = "<group>"; };
+		AE1CAC1376E446AF50FF75B6 /* Pods_StudyCast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StudyCast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9158CAA1DCCF93B002E1122 /* ClassPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassPickerViewController.swift; sourceTree = "<group>"; };
 		D9E66C6F1DC1A8DF00579C88 /* StudyCast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyCast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9E66C721DC1A8DF00579C88 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9E66C741DC1A8DF00579C88 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -24,6 +29,7 @@
 		D9E66C7B1DC1A8DF00579C88 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D9E66C7E1DC1A8DF00579C88 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D9E66C801DC1A8DF00579C88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F9631652C95A303A6030DA74 /* Pods-StudyCast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyCast.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +37,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A7B23C8DBBFEF791442A1AD /* Pods_StudyCast.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0EF2A0E1201F88F0F1F19096 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AE1CAC1376E446AF50FF75B6 /* Pods_StudyCast.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D9E66C661DC1A8DF00579C88 = {
 			isa = PBXGroup;
 			children = (
 				D9E66C711DC1A8DF00579C88 /* StudyCast */,
 				D9E66C701DC1A8DF00579C88 /* Products */,
+				E4A99D5FBCD2F64FACC61521 /* Pods */,
+				0EF2A0E1201F88F0F1F19096 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +75,7 @@
 			children = (
 				D9E66C721DC1A8DF00579C88 /* AppDelegate.swift */,
 				D9E66C741DC1A8DF00579C88 /* FirstViewController.swift */,
+				D9158CAA1DCCF93B002E1122 /* ClassPickerViewController.swift */,
 				D9E66C761DC1A8DF00579C88 /* SecondViewController.swift */,
 				D9E66C781DC1A8DF00579C88 /* Main.storyboard */,
 				D9E66C7B1DC1A8DF00579C88 /* Assets.xcassets */,
@@ -67,6 +85,15 @@
 			path = StudyCast;
 			sourceTree = "<group>";
 		};
+		E4A99D5FBCD2F64FACC61521 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F9631652C95A303A6030DA74 /* Pods-StudyCast.debug.xcconfig */,
+				5420768FA31978EBF637DD89 /* Pods-StudyCast.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,9 +101,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D9E66C831DC1A8DF00579C88 /* Build configuration list for PBXNativeTarget "StudyCast" */;
 			buildPhases = (
+				F9C53A0EE56D925D1849C039 /* [CP] Check Pods Manifest.lock */,
 				D9E66C6B1DC1A8DF00579C88 /* Sources */,
 				D9E66C6C1DC1A8DF00579C88 /* Frameworks */,
 				D9E66C6D1DC1A8DF00579C88 /* Resources */,
+				311782AC063E23E5897856EA /* [CP] Embed Pods Frameworks */,
+				AE467E6BD88322A0AA29A7FE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -134,12 +164,61 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		311782AC063E23E5897856EA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AE467E6BD88322A0AA29A7FE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F9C53A0EE56D925D1849C039 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D9E66C6B1DC1A8DF00579C88 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				D9E66C771DC1A8DF00579C88 /* SecondViewController.swift in Sources */,
+				D9158CAB1DCCF93B002E1122 /* ClassPickerViewController.swift in Sources */,
 				D9E66C731DC1A8DF00579C88 /* AppDelegate.swift in Sources */,
 				D9E66C751DC1A8DF00579C88 /* FirstViewController.swift in Sources */,
 			);
@@ -260,6 +339,7 @@
 		};
 		D9E66C841DC1A8DF00579C88 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F9631652C95A303A6030DA74 /* Pods-StudyCast.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = StudyCast/Info.plist;
@@ -272,6 +352,7 @@
 		};
 		D9E66C851DC1A8DF00579C88 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5420768FA31978EBF637DD89 /* Pods-StudyCast.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = StudyCast/Info.plist;
@@ -301,6 +382,7 @@
 				D9E66C851DC1A8DF00579C88 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
