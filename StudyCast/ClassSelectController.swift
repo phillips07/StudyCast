@@ -15,8 +15,8 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         view.backgroundColor = UIColor(r: 61, g: 91, b: 151)
         
-        view.addSubview(classTableView)
-        view.addSubview(userTableView)
+        view.addSubview(facultyTableView)
+        view.addSubview(userClassesTableView)
         view.addSubview(userClassLabel)
         view.addSubview(doneButton)
         view.addSubview(classSearchBar)
@@ -24,8 +24,8 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         view.addSubview(viewLabel)
         view.addSubview(cancelButton)
         
-        setupUserTableView()
-        setupClassTableView()
+        setupUserClassesTableView()
+        setupFacultyTableView()
         setupUserClassLabel()
         setupDoneButton()
         setupClassSearchBar()
@@ -33,11 +33,10 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         setupViewLabel()
         setupCancelButton()
         
-        self.classTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        self.userTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell2")
+        self.facultyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.userClassesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell2")
     }
-    
-    //Dummy data for Tableviews
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
@@ -48,15 +47,16 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        /*if tableView == classTableView {
-            let cell:UITableViewCell = self.classTableView.dequeueReusableCell(withIdentifier: "cell")! as     UITableViewCell
+        if tableView == facultyTableView {
+            let cell:UITableViewCell = self.facultyTableView.dequeueReusableCell(withIdentifier: "cell")! as     UITableViewCell
             cell.textLabel?.text = String(self.facultyDataSet[indexPath.row])
             return cell
-        } else if tableView == userTableView {
-            let cell2:UITableViewCell = self.userTableView.dequeueReusableCell(withIdentifier: "cell2")! as UITableViewCell
+        } else if tableView == userClassesTableView {
+            let cell2:UITableViewCell = self.userClassesTableView.dequeueReusableCell(withIdentifier: "cell2")! as UITableViewCell
             cell2.textLabel?.text = String(self.enscDataSet[indexPath.row])
             return cell2
-        }*/
+        }
+        
         
         let cell = UITableViewCell (style: .subtitle, reuseIdentifier: "cellId")
         
@@ -66,7 +66,7 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     
-    
+    //Dummy data for Tableviews
     let facultyDataSet = ["Engineering", "Business", "Archeology", "Computer Science"]
     
     let enscDataSet = ["ENSC 100W", "ENSC 105", "ENSC 252", "ENSC 254", "ENSC 351", "ENSC 424"]
@@ -78,18 +78,19 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
     let cmpsDataSet = ["CMPS 100W", "CMPS 105", "CMPS 252", "CMPS 254", "CMPS 351", "CMPS 424"]
     
     
-    let classTableView: UITableView = {
+    lazy var facultyTableView: UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.layer.cornerRadius = 6
-        //tv.dataSource = ClassSelectController
+        tv.dataSource = self
         return tv
     }()
     
-    let userTableView: UITableView = {
+    lazy var userClassesTableView: UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.layer.cornerRadius = 6
+        tv.dataSource = self
         return tv
     }()
     
@@ -164,19 +165,19 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         classTableView
     }*/
     
-    func setupClassTableView() {
-        classTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        classTableView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -35).isActive = true
-        classTableView.heightAnchor.constraint(equalToConstant: 185).isActive = true
-        classTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 145).isActive = true
+    func setupFacultyTableView() {
+        facultyTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        facultyTableView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -35).isActive = true
+        facultyTableView.heightAnchor.constraint(equalToConstant: 185).isActive = true
+        facultyTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 145).isActive = true
         
     }
     
-    func setupUserTableView() {
-        userTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        userTableView.widthAnchor.constraint(equalTo: classTableView.widthAnchor).isActive = true
-        userTableView.heightAnchor.constraint(equalTo: classTableView.heightAnchor).isActive = true
-        userTableView.topAnchor.constraint(equalTo: classTableView.bottomAnchor, constant: 40).isActive = true
+    func setupUserClassesTableView() {
+        userClassesTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        userClassesTableView.widthAnchor.constraint(equalTo: classTableView.widthAnchor).isActive = true
+        userClassesTableView.heightAnchor.constraint(equalTo: classTableView.heightAnchor).isActive = true
+        userClassesTableView.topAnchor.constraint(equalTo: classTableView.bottomAnchor, constant: 40).isActive = true
     }
     
     func setupUserClassLabel() {
