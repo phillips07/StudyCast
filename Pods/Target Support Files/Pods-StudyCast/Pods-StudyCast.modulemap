@@ -1,0 +1,6 @@
+framework module Pods_StudyCast {
+  umbrella header "Pods-StudyCast-umbrella.h"
+
+  export *
+  module * { export * }
+}
