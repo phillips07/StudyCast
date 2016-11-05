@@ -36,8 +36,8 @@ class ViewController: UIViewController {
         } catch let logoutError {
             print(logoutError)
         }
-        let loginController = LoginController()
-        //let loginController = ClassSelectController()
+        //let loginController = LoginController()
+        let loginController = ClassSelectController()
         present(loginController, animated: true, completion: nil)
     }
 }
