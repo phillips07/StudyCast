@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ClassSelectController: UIViewController {
+class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,12 +32,57 @@ class ClassSelectController: UIViewController {
         //setupNavBar()
         setupViewLabel()
         setupCancelButton()
+        
+        self.classTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        self.userTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell2")
     }
+    
+    //Dummy data for Tableviews
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1;
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        /*if tableView == classTableView {
+            let cell:UITableViewCell = self.classTableView.dequeueReusableCell(withIdentifier: "cell")! as     UITableViewCell
+            cell.textLabel?.text = String(self.facultyDataSet[indexPath.row])
+            return cell
+        } else if tableView == userTableView {
+            let cell2:UITableViewCell = self.userTableView.dequeueReusableCell(withIdentifier: "cell2")! as UITableViewCell
+            cell2.textLabel?.text = String(self.enscDataSet[indexPath.row])
+            return cell2
+        }*/
+        
+        let cell = UITableViewCell (style: .subtitle, reuseIdentifier: "cellId")
+        
+        cell.textLabel?.text = "it fucked up"
+        
+        return cell
+    }
+    
+    
+    
+    let facultyDataSet = ["Engineering", "Business", "Archeology", "Computer Science"]
+    
+    let enscDataSet = ["ENSC 100W", "ENSC 105", "ENSC 252", "ENSC 254", "ENSC 351", "ENSC 424"]
+    
+    let busDataSet = ["BUS 100W", "BUS 105", "BUS 252", "BUS 254", "BUS 351", "BUS 424"]
+    
+    let archDataSet = ["ARCH 100W", "ARCH 105", "ARCH 252", "ARCH 254", "ARCH 351", "ARCH 424"]
+    
+    let cmpsDataSet = ["CMPS 100W", "CMPS 105", "CMPS 252", "CMPS 254", "CMPS 351", "CMPS 424"]
+    
     
     let classTableView: UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.layer.cornerRadius = 6
+        //tv.dataSource = ClassSelectController
         return tv
     }()
     
@@ -77,6 +122,17 @@ class ClassSelectController: UIViewController {
         return cs
     }()
     
+    /*class facultyTableViewController: UITableViewController {
+        
+       
+        
+        override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return facultyDataSet.count
+        }
+        
+        
+    }*/
+    
     /*lazy var navBar: UINavigationBar = {
         let nb = UINavigationBar()
         nb.translatesAutoresizingMaskIntoConstraints = false
@@ -104,11 +160,16 @@ class ClassSelectController: UIViewController {
         return button
     }()
     
+    /*func setupClassTableViewController() {
+        classTableView
+    }*/
+    
     func setupClassTableView() {
         classTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         classTableView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -35).isActive = true
         classTableView.heightAnchor.constraint(equalToConstant: 185).isActive = true
         classTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 145).isActive = true
+        
     }
     
     func setupUserTableView() {
