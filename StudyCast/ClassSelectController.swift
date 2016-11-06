@@ -9,8 +9,13 @@
 import UIKit
 import Firebase
 
-class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
 
+    var numCells = 0
+    
+    var pickedClassesDataSet: [String] = []
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(r: 61, g: 91, b: 151)
@@ -48,7 +53,7 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         if tableView == facultyTableView {
             return facultyDataSet.count
         } else if tableView == classesTableView {
-            return enscDataSet.count
+            return numCells
         } else if tableView == userClassesTableView {
             return busDataSet.count
         } else {
@@ -65,18 +70,17 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
             let cell:UITableViewCell = self.facultyTableView.dequeueReusableCell(withIdentifier: "cell")! as     UITableViewCell
             cell.textLabel?.text = String(self.facultyDataSet[indexPath.row])
             return cell
-        } else if tableView == userClassesTableView {
+        } else if ((tableView == userClassesTableView) && (indexPath.row < numCells)) {
             let cell2:UITableViewCell = self.userClassesTableView.dequeueReusableCell(withIdentifier: "cell2")! as UITableViewCell
-            cell2.textLabel?.text = String(self.enscDataSet[indexPath.row])
+            cell2.textLabel?.text = String(self.pickedClassesDataSet[indexPath.row])
             return cell2
         } else if tableView == classesTableView {
             let cell3:UITableViewCell = self.classesTableView.dequeueReusableCell(withIdentifier: "cell3")! as UITableViewCell
             cell3.textLabel?.text = String(self.enscDataSet[indexPath.row])
             return cell3
-        } else {
+        }
+        else {
             let cell = UITableViewCell (style: .subtitle, reuseIdentifier: "default")
-            
-            cell.textLabel?.text = "default text"
             
             return cell
         }
@@ -106,6 +110,11 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         let backButton = UIBarButtonItem(title: "back", style: .plain, target: self, action: #selector(handleTap))
         self.navigationItem.leftBarButtonItem = backButton
         //UINavigationItem.setLeftBarButton(UINavigationItem(UITabBarSystemItem: .Stop, target: self, action: nil), animated: true)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        tv.addGestureRecognizer(tapGesture)
+        tapGesture.delegate = self
+        
         return tv
     }()
     
@@ -261,6 +270,8 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
 
 class UserCell: UITableViewCell {
     
+    let CS = ClassSelectController()
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
     }
@@ -269,11 +280,19 @@ class UserCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
-        //let registerController = RegisterController()
-        //present(registerController, animated: true, completion: nil)
+    override func awakeFromNib() {
+        super.awakeFromNib()
         
-        //self.present
-        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(CS.handleTap(recognizer:)))
+        addGestureRecognizer(tapGesture)
     }
+    
+
+    
+    /*override func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
+     
+        CS.handleTap(text: (self.textLabel?.text)!)
+    }*/
+    
+    
 }
