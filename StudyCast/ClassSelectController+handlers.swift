@@ -19,4 +19,9 @@ extension ClassSelectController {
     func handleCancel(){
     
     }
+    
+    func handleTap(){
+        
+    }
+    
 }

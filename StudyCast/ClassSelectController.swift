@@ -17,6 +17,7 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         
         view.addSubview(facultyTableView)
         view.addSubview(userClassesTableView)
+        view.addSubview(classesTableView)
         view.addSubview(userClassLabel)
         view.addSubview(doneButton)
         view.addSubview(classSearchBar)
@@ -25,6 +26,7 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         view.addSubview(cancelButton)
         
         setupUserClassesTableView()
+        setupClassesTableView()
         setupFacultyTableView()
         setupUserClassLabel()
         setupDoneButton()
@@ -33,13 +35,25 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         setupViewLabel()
         setupCancelButton()
         
-        self.facultyTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        //UITableView
+        //UITableView.register(UserCell.self, forCellReuseIdentifier: "cellId")
+        
+        self.facultyTableView.register(UserCell.self, forCellReuseIdentifier: "cell")
         self.userClassesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell2")
+        self.classesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell3")
     }
 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        if tableView == facultyTableView {
+            return facultyDataSet.count
+        } else if tableView == classesTableView {
+            return enscDataSet.count
+        } else if tableView == userClassesTableView {
+            return busDataSet.count
+        } else {
+            return 1
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -55,19 +69,25 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
             let cell2:UITableViewCell = self.userClassesTableView.dequeueReusableCell(withIdentifier: "cell2")! as UITableViewCell
             cell2.textLabel?.text = String(self.enscDataSet[indexPath.row])
             return cell2
+        } else if tableView == classesTableView {
+            let cell3:UITableViewCell = self.classesTableView.dequeueReusableCell(withIdentifier: "cell3")! as UITableViewCell
+            cell3.textLabel?.text = String(self.enscDataSet[indexPath.row])
+            return cell3
+        } else {
+            let cell = UITableViewCell (style: .subtitle, reuseIdentifier: "default")
+            
+            cell.textLabel?.text = "default text"
+            
+            return cell
         }
-        
-        
-        let cell = UITableViewCell (style: .subtitle, reuseIdentifier: "cellId")
-        
-        cell.textLabel?.text = "it fucked up"
-        
-        return cell
     }
     
     
-    //Dummy data for Tableviews
-    let facultyDataSet = ["Engineering", "Business", "Archeology", "Computer Science"]
+    /*
+     Dummy data for Tableviews
+     ***** Remember that the dummy data was placed in the faculty data set to be used in the top table view, however to impliment the actual idea, the classes should be in something like classDataSet and the rest of the code will need to be updated to support.
+    */
+    let facultyDataSet = ["ENSC 100W", "ENSC 105", "ENSC 252", "ENSC 254", "ENSC 351", "ENSC 424","BUS 100W", "BUS 105", "BUS 252", "BUS 254", "BUS 351", "BUS 424","ARCH 100W", "ARCH 105", "ARCH 252", "ARCH 254", "ARCH 351", "ARCH 424","CMPS 100W", "CMPS 105", "CMPS 252", "CMPS 254", "CMPS 351", "CMPS 424"]
     
     let enscDataSet = ["ENSC 100W", "ENSC 105", "ENSC 252", "ENSC 254", "ENSC 351", "ENSC 424"]
     
@@ -79,6 +99,17 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
     
     
     lazy var facultyTableView: UITableView = {
+        let tv = UITableView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.layer.cornerRadius = 6
+        tv.dataSource = self
+        let backButton = UIBarButtonItem(title: "back", style: .plain, target: self, action: #selector(handleTap))
+        self.navigationItem.leftBarButtonItem = backButton
+        //UINavigationItem.setLeftBarButton(UINavigationItem(UITabBarSystemItem: .Stop, target: self, action: nil), animated: true)
+        return tv
+    }()
+    
+    lazy var classesTableView: UITableView = {
         let tv = UITableView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.layer.cornerRadius = 6
@@ -125,9 +156,7 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
     
     /*class facultyTableViewController: UITableViewController {
         
-       
-        
-        override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+       override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return facultyDataSet.count
         }
         
@@ -160,12 +189,17 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         button.addTarget(self, action: #selector(handleCancel), for: .touchUpInside)
         return button
     }()
-    
-    /*func setupClassTableViewController() {
-        classTableView
-    }*/
+
     
     func setupFacultyTableView() {
+        facultyTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        facultyTableView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -35).isActive = true
+        facultyTableView.heightAnchor.constraint(equalToConstant: 185).isActive = true
+        facultyTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 145).isActive = true
+        
+    }
+    
+    func setupClassesTableView() {
         facultyTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         facultyTableView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -35).isActive = true
         facultyTableView.heightAnchor.constraint(equalToConstant: 185).isActive = true
@@ -223,4 +257,23 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         cancelButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 25).isActive = true
     }
     
+}
+
+class UserCell: UITableViewCell {
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
+        //let registerController = RegisterController()
+        //present(registerController, animated: true, completion: nil)
+        
+        //self.present
+        
+    }
 }
