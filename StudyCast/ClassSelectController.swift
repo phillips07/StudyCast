@@ -175,14 +175,14 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
     
     func setupUserClassesTableView() {
         userClassesTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        userClassesTableView.widthAnchor.constraint(equalTo: classTableView.widthAnchor).isActive = true
-        userClassesTableView.heightAnchor.constraint(equalTo: classTableView.heightAnchor).isActive = true
-        userClassesTableView.topAnchor.constraint(equalTo: classTableView.bottomAnchor, constant: 40).isActive = true
+        userClassesTableView.widthAnchor.constraint(equalTo: facultyTableView.widthAnchor).isActive = true
+        userClassesTableView.heightAnchor.constraint(equalTo: facultyTableView.heightAnchor).isActive = true
+        userClassesTableView.topAnchor.constraint(equalTo: facultyTableView.bottomAnchor, constant: 40).isActive = true
     }
     
     func setupUserClassLabel() {
-        userClassLabel.leftAnchor.constraint(equalTo: userTableView.leftAnchor).isActive = true
-        userClassLabel.bottomAnchor.constraint(equalTo: userTableView.topAnchor, constant: -5).isActive = true
+        userClassLabel.leftAnchor.constraint(equalTo: userClassesTableView.leftAnchor).isActive = true
+        userClassLabel.bottomAnchor.constraint(equalTo: userClassesTableView.topAnchor, constant: -5).isActive = true
     }
     
     /*func setupDoneButton(){
@@ -195,15 +195,15 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
     
     func setupDoneButton(){
         doneButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        doneButton.topAnchor.constraint(equalTo: userTableView.bottomAnchor, constant: 30).isActive = true
-        doneButton.widthAnchor.constraint(equalTo: userTableView.widthAnchor).isActive = true
+        doneButton.topAnchor.constraint(equalTo: userClassesTableView.bottomAnchor, constant: 30).isActive = true
+        doneButton.widthAnchor.constraint(equalTo: userClassesTableView.widthAnchor).isActive = true
         doneButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
     
     func setupClassSearchBar(){
         classSearchBar.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        classSearchBar.bottomAnchor.constraint(equalTo: classTableView.topAnchor, constant: -8).isActive = true
-        classSearchBar.widthAnchor.constraint(equalTo: classTableView.widthAnchor, multiplier: 1.045).isActive = true
+        classSearchBar.bottomAnchor.constraint(equalTo: facultyTableView.topAnchor, constant: -8).isActive = true
+        classSearchBar.widthAnchor.constraint(equalTo: facultyTableView.widthAnchor, multiplier: 1.045).isActive = true
         classSearchBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
