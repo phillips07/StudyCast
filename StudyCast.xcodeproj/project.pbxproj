@@ -90,8 +90,8 @@
 			children = (
 				D9E66C721DC1A8DF00579C88 /* AppDelegate.swift */,
 				D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */,
-				D9C06CA01DCED29B00D264B4 /* RestAPIManager.swift */,
 				D9158CAD1DCE56AE002E1122 /* ClassSelectController+handlers.swift */,
+				D9C06CA01DCED29B00D264B4 /* RestAPIManager.swift */,
 				D9158CAE1DCE56AE002E1122 /* LoginController.swift */,
 				D9158CAF1DCE56AE002E1122 /* LoginController+handlers.swift */,
 				D9158CB01DCE56AE002E1122 /* RegisterController.swift */,
