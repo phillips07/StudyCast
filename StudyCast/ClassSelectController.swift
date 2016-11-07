@@ -28,7 +28,7 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         view.addSubview(classSearchBar)
         //view.addSubview(navBar)
         view.addSubview(viewLabel)
-        view.addSubview(cancelButton)
+        //view.addSubview(backButton)
         
         setupUserClassesTableView()
         setupClassesTableView()
@@ -38,7 +38,7 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         setupClassSearchBar()
         //setupNavBar()
         setupViewLabel()
-        setupCancelButton()
+        //setupBackButton()
         
         //UITableView
         //UITableView.register(UserCell.self, forCellReuseIdentifier: "cellId")
@@ -189,15 +189,15 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         return ul
     }()
     
-    lazy var cancelButton: UIButton = {
+    /*lazy var backButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Cancel", for: UIControlState())
+        button.setTitle("Back", for: UIControlState())
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: UIControlState())
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.addTarget(self, action: #selector(handleCancel), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
         return button
-    }()
+    }()*/
 
     
     func setupFacultyTableView() {
@@ -261,10 +261,10 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         viewLabel.bottomAnchor.constraint(equalTo: classSearchBar.topAnchor, constant: -15).isActive = true
     }
     
-    func setupCancelButton(){
-        cancelButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
-        cancelButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 25).isActive = true
-    }
+    /*func setupBackButton(){
+        backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 25).isActive = true
+    }*/
     
 }
 
@@ -293,6 +293,12 @@ class UserCell: UITableViewCell {
      
         CS.handleTap(text: (self.textLabel?.text)!)
     }*/
-    
-    
+}
+
+extension Array  {
+    var indexedDictionary: [String : AnyObject] {
+        var result: [String : AnyObject] = [:]
+        enumerated().forEach({ result["\($0.offset)"] = "\($0.element)" as AnyObject? })
+        return result
+    }
 }

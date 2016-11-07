@@ -13,11 +13,32 @@ import Firebase
 extension ClassSelectController {
     
     func handleDone() {
-    
+        if let user = FIRAuth.auth()?.currentUser {
+            let uid = user.uid
+            self.addUserCourses(uid, values: pickedClassesDataSet.indexedDictionary)
+        } else {
+            print("User is not currently signed in")
+        }
     }
     
-    func handleCancel(){
+    /*func handleBack(){
+        let registerController = RegisterController()
+        present(registerController, animated: true, completion: nil)
+    }*/
     
+    fileprivate func addUserCourses(_ uid: String, values: [String : AnyObject]) {
+        
+        let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
+        let coursesReference = ref.child("users").child(uid).child("courses")
+        print(coursesReference)
+        coursesReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
+            if err != nil{
+                print(err)
+                return
+            } else {
+                self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+            }
+        })
     }
     
     func handleTap(recognizer: UITapGestureRecognizer){
@@ -38,21 +59,19 @@ extension ClassSelectController {
                     }
                     
                     if !added {
-                        print("****************************")
+                        //print("****************************")
                     
                         numCells += 1
-                        print(numCells)
-                        print((tappedCell.textLabel?.text)!)
+                        //print(numCells)
+                        //print((tappedCell.textLabel?.text)!)
                         pickedClassesDataSet.append((tappedCell.textLabel?.text)!)
                     
-                        print(pickedClassesDataSet)
+                        //print(pickedClassesDataSet)
                         userClassesTableView.reloadData()
                         
                     }
                 }
             }
         }
-        
     }
-    
 }
