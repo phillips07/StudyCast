@@ -9,7 +9,7 @@
 import UIKit
 
 class RegisterController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -22,7 +22,7 @@ class RegisterController: UIViewController {
         view.addSubview(passwordImageView)
         view.addSubview(emailImageView)
         view.addSubview(nameImageView)
-        view.addSubview(getSartedButton)
+        view.addSubview(registerButton)
         view.addSubview(cancelButton)
         view.addSubview(termsAndConditionsLabel)
         
@@ -33,7 +33,7 @@ class RegisterController: UIViewController {
         setupPasswordImageView()
         setupEmailImageView()
         setupNameImageView()
-        setupGetStartedButton()
+        setupRegisterButton()
         setupBackButton()
         setupTermsAndConditionsLabel()
     }
@@ -97,10 +97,10 @@ class RegisterController: UIViewController {
         return imageView
     }()
     
-    lazy var getSartedButton: UIButton = {
+    lazy var registerButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = UIColor(r: 80, g: 101, b: 161)
-        button.setTitle("Get Started", for: UIControlState())
+        button.setTitle("Register", for: UIControlState())
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: UIControlState())
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
@@ -197,11 +197,11 @@ class RegisterController: UIViewController {
         getSartedButton.heightAnchor.constraintEqualToConstant(75).active = true
     }*/
     
-    func setupGetStartedButton(){
-        getSartedButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        getSartedButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20).isActive = true
-        getSartedButton.widthAnchor.constraint(equalTo: passwordTextField.widthAnchor).isActive = true
-        getSartedButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+    func setupRegisterButton(){
+        registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        registerButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20).isActive = true
+        registerButton.widthAnchor.constraint(equalTo: passwordTextField.widthAnchor).isActive = true
+        registerButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
     
     func setupBackButton(){
