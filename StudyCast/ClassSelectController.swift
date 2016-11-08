@@ -55,7 +55,7 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         } else if tableView == classesTableView {
             return numCells
         } else if tableView == userClassesTableView {
-            return busDataSet.count
+            return pickedClassesDataSet.count
         } else {
             return 1
         }
