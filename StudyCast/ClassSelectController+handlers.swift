@@ -36,7 +36,7 @@ extension ClassSelectController {
                 print(err)
                 return
             } else {
-                self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+                self.view.window!.rootViewController?.dismiss(animated: true, completion: nil)
             }
         })
     }
@@ -60,15 +60,12 @@ extension ClassSelectController {
                     
                     if !added {
                         //print("****************************")
-                    
                         numCells += 1
                         //print(numCells)
                         //print((tappedCell.textLabel?.text)!)
                         pickedClassesDataSet.append((tappedCell.textLabel?.text)!)
-                    
                         //print(pickedClassesDataSet)
                         userClassesTableView.reloadData()
-                        
                     }
                 }
             }
