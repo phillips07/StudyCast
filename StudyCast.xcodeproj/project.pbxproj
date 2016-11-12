@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6A7B23C8DBBFEF791442A1AD /* Pods_StudyCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1CAC1376E446AF50FF75B6 /* Pods_StudyCast.framework */; };
+		95182D001DD6903300904E0E /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95182CFF1DD6903300904E0E /* SettingsController.swift */; };
 		952773051DD67C5100931E5F /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952773041DD67C5100931E5F /* CustomTabBarController.swift */; };
 		D9158CB31DCE56AE002E1122 /* ClassSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */; };
 		D9158CB41DCE56AE002E1122 /* ClassSelectController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAD1DCE56AE002E1122 /* ClassSelectController+handlers.swift */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		5420768FA31978EBF637DD89 /* Pods-StudyCast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyCast.release.xcconfig"; path = "Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast.release.xcconfig"; sourceTree = "<group>"; };
+		95182CFF1DD6903300904E0E /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		952773041DD67C5100931E5F /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		AE1CAC1376E446AF50FF75B6 /* Pods_StudyCast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StudyCast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassSelectController.swift; sourceTree = "<group>"; };
@@ -76,6 +78,8 @@
 				D9158CB01DCE56AE002E1122 /* RegisterController.swift */,
 				D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */,
 				D9158CAE1DCE56AE002E1122 /* LoginController.swift */,
+				95182CFF1DD6903300904E0E /* SettingsController.swift */,
+				952773041DD67C5100931E5F /* CustomTabBarController.swift */,
 			);
 			name = UIControllers;
 			sourceTree = "<group>";
@@ -115,7 +119,6 @@
 				952773021DD65A9F00931E5F /* UIControllers */,
 				D9E66C721DC1A8DF00579C88 /* AppDelegate.swift */,
 				D9C06CA01DCED29B00D264B4 /* RestAPIManager.swift */,
-				952773041DD67C5100931E5F /* CustomTabBarController.swift */,
 				D9158CC41DCE5C3A002E1122 /* Assets.xcassets */,
 				D9E66C781DC1A8DF00579C88 /* Main.storyboard */,
 				D9E66C7D1DC1A8DF00579C88 /* LaunchScreen.storyboard */,
@@ -260,6 +263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95182D001DD6903300904E0E /* SettingsController.swift in Sources */,
 				D9158CB61DCE56AE002E1122 /* LoginController+handlers.swift in Sources */,
 				D9C06CA11DCED29B00D264B4 /* RestAPIManager.swift in Sources */,
 				D9E66C731DC1A8DF00579C88 /* AppDelegate.swift in Sources */,
