@@ -20,13 +20,11 @@ extension LoginController {
         
         FIRAuth.auth()?.signIn(withEmail: email, password: password, completion: { (user, error) in
             if error != nil{
-                print(error)
+                print(error!)
                 return
             }
-            
             self.dismiss(animated: true, completion: nil)
         })
-        
     }
     
     func handlePasswordReset() {

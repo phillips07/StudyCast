@@ -26,9 +26,7 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         view.addSubview(userClassLabel)
         view.addSubview(doneButton)
         view.addSubview(classSearchBar)
-        //view.addSubview(navBar)
         view.addSubview(viewLabel)
-        //view.addSubview(backButton)
         
         setupUserClassesTableView()
         setupClassesTableView()
@@ -36,9 +34,7 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         setupUserClassLabel()
         setupDoneButton()
         setupClassSearchBar()
-        //setupNavBar()
         setupViewLabel()
-        //setupBackButton()
         
         //UITableView
         //UITableView.register(UserCell.self, forCellReuseIdentifier: "cellId")
@@ -163,23 +159,6 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         return cs
     }()
     
-    /*class facultyTableViewController: UITableViewController {
-        
-       override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return facultyDataSet.count
-        }
-        
-        
-    }*/
-    
-    /*lazy var navBar: UINavigationBar = {
-        let nb = UINavigationBar()
-        nb.translatesAutoresizingMaskIntoConstraints = false
-        nb.barTintColor = UIColor(r: 61, g: 91, b: 151)
-        nb.tintColor = UIColor.whiteColor()
-        return nb
-    }()*/
-    
     let viewLabel: UILabel = {
         let ul = UILabel()
         ul.translatesAutoresizingMaskIntoConstraints = false
@@ -188,18 +167,7 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         ul.font = UIFont.boldSystemFont(ofSize: 18)
         return ul
     }()
-    
-    /*lazy var backButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Back", for: UIControlState())
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitleColor(UIColor.white, for: UIControlState())
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.addTarget(self, action: #selector(handleBack), for: .touchUpInside)
-        return button
-    }()*/
 
-    
     func setupFacultyTableView() {
         facultyTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         facultyTableView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -35).isActive = true
@@ -228,14 +196,6 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         userClassLabel.bottomAnchor.constraint(equalTo: userClassesTableView.topAnchor, constant: -5).isActive = true
     }
     
-    /*func setupDoneButton(){
-        //need x, y, width, height constraints
-        doneButton.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-        doneButton.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
-        doneButton.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
-        doneButton.heightAnchor.constraintEqualToConstant(75).active = true
-    }*/
-    
     func setupDoneButton(){
         doneButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         doneButton.topAnchor.constraint(equalTo: userClassesTableView.bottomAnchor, constant: 30).isActive = true
@@ -250,22 +210,10 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         classSearchBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
-    /*func setupNavBar(){
-        navBar.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-        navBar.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
-        navBar.heightAnchor.constraintEqualToConstant(70).active = true
-    }*/
-    
     func setupViewLabel() {
         viewLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         viewLabel.bottomAnchor.constraint(equalTo: classSearchBar.topAnchor, constant: -15).isActive = true
     }
-    
-    /*func setupBackButton(){
-        backButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
-        backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 25).isActive = true
-    }*/
-    
 }
 
 class UserCell: UITableViewCell {
@@ -286,13 +234,6 @@ class UserCell: UITableViewCell {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(CS.handleTap(recognizer:)))
         addGestureRecognizer(tapGesture)
     }
-    
-
-    
-    /*override func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
-     
-        CS.handleTap(text: (self.textLabel?.text)!)
-    }*/
 }
 
 extension Array  {

@@ -21,11 +21,6 @@ extension ClassSelectController {
         }
     }
     
-    /*func handleBack(){
-        let registerController = RegisterController()
-        present(registerController, animated: true, completion: nil)
-    }*/
-    
     fileprivate func addUserCourses(_ uid: String, values: [String : AnyObject]) {
         
         let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
@@ -33,7 +28,7 @@ extension ClassSelectController {
         print(coursesReference)
         coursesReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
             if err != nil{
-                print(err)
+                print(err!)
                 return
             } else {
                 self.view.window!.rootViewController?.dismiss(animated: true, completion: nil)
@@ -57,14 +52,9 @@ extension ClassSelectController {
                         }
                         i -= 1
                     }
-                    
                     if !added {
-                        //print("****************************")
                         numCells += 1
-                        //print(numCells)
-                        //print((tappedCell.textLabel?.text)!)
                         pickedClassesDataSet.append((tappedCell.textLabel?.text)!)
-                        //print(pickedClassesDataSet)
                         userClassesTableView.reloadData()
                     }
                 }

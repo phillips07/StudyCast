@@ -189,14 +189,6 @@ class RegisterController: UIViewController {
         passwordImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
-    /*func setupGetStartedButton(){
-        //need x, y, width, height constraints
-        getSartedButton.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-        getSartedButton.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor).active = true
-        getSartedButton.widthAnchor.constraintEqualToAnchor(view.widthAnchor).active = true
-        getSartedButton.heightAnchor.constraintEqualToConstant(75).active = true
-    }*/
-    
     func setupRegisterButton(){
         registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         registerButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20).isActive = true

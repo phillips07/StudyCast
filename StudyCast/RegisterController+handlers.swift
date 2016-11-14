@@ -58,7 +58,7 @@ extension RegisterController: UIImagePickerControllerDelegate, UINavigationContr
         
         FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user: FIRUser?, error) in
             if error != nil {
-                print(error)
+                print(error!)
                 return
             }
             
@@ -67,11 +67,11 @@ extension RegisterController: UIImagePickerControllerDelegate, UINavigationContr
             }
             
             let profileImageName = UUID().uuidString
-            let storage = FIRStorage.storage().reference().child("profileImages").child("\(profileImageName).png")
-            if let imageToUpload = UIImagePNGRepresentation(self.profileImageView.image!) {
+            let storage = FIRStorage.storage().reference().child("profileImages").child("\(profileImageName).jpg")
+            if let imageToUpload = UIImageJPEGRepresentation(self.profileImageView.image!, 0.1) {
                 storage.put(imageToUpload, metadata: nil, completion: { (metadata, error) in
                     if error != nil {
-                        print(error)
+                        print(error!)
                         return
                     }
                     
@@ -90,7 +90,7 @@ extension RegisterController: UIImagePickerControllerDelegate, UINavigationContr
         let usersReference = ref.child("users").child(uid)
         usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
             if err != nil{
-                print(err)
+                print(err!)
                 return
             } else {
                 let classSelectController = ClassSelectController()
