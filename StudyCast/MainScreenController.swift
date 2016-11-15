@@ -21,7 +21,8 @@ class MainScreenController: UITableViewController {
         self.tabBarController?.tabBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
         if FIRAuth.auth()?.currentUser?.uid == nil {
             perform(#selector(handleLogout), with: nil, afterDelay: 0)
-        } else {
+        }
+        else {
             fetchNameSetupNavBar()
         }
         userCourses.removeAll()
@@ -39,7 +40,6 @@ class MainScreenController: UITableViewController {
             fetchNameSetupNavBar()
             fetchClasses()
         }
-        
     }
     
     func fetchNameSetupNavBar() {
@@ -48,12 +48,52 @@ class MainScreenController: UITableViewController {
         }
         FIRDatabase.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
             
-            if let userDictionary = snapshot.value as?[String: AnyObject] {
-                self.navigationItem.title = userDictionary["name"] as? String
-                let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]
-                self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [String : Any]
+            if let userDictionary = snapshot.value as? [String: AnyObject] {
+                //self.navigationItem.title = userDictionary["name"] as? String
+                //let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]
+                //self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [String : Any]
                 self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
                 self.navigationItem.leftBarButtonItem?.tintColor = UIColor.white
+                
+                let titleView = UIView()
+                titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+                //titleView.backgroundColor = UIColor.red
+                
+                let containerView = UIView()
+                containerView.translatesAutoresizingMaskIntoConstraints = false
+                titleView.addSubview(containerView)
+                
+                let profileImageView = UIImageView()
+                profileImageView.translatesAutoresizingMaskIntoConstraints = false
+                profileImageView.contentMode = .scaleAspectFill
+                profileImageView.layer.cornerRadius = 20
+                profileImageView.clipsToBounds = true
+                
+                if let profileImageUrl = userDictionary["profileImage"] as? String{
+                    profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl)
+                }
+                containerView.addSubview(profileImageView)
+                
+                profileImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
+                profileImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+                profileImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+                profileImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+                
+                let nameLabel = UILabel()
+                containerView.addSubview(nameLabel)
+                nameLabel.text = userDictionary["name"] as? String
+                nameLabel.translatesAutoresizingMaskIntoConstraints = false
+                nameLabel.leftAnchor.constraint(equalTo: profileImageView.rightAnchor, constant: 8).isActive = true
+                nameLabel.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor).isActive = true
+                nameLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
+                nameLabel.heightAnchor.constraint(equalTo: profileImageView.heightAnchor).isActive = true
+                
+                nameLabel.textColor = UIColor.white
+                
+                containerView.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
+                containerView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+                
+                self.navigationItem.titleView = titleView
             }
         }, withCancel: nil)
     }
