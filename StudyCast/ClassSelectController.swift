@@ -11,45 +11,91 @@ import Firebase
 
 class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
 
+    //data for tables
     var numCells = 0
     
+    //Updated with user input, selecting classes
+    //feeds bottom tableView
     var pickedClassesDataSet: [String] = []
+    
+    //updated by parsing JSON data from SFU API
+    //feeds top tableView
+    var facultyDataSet: [Class]?
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(r: 61, g: 91, b: 151)
         
+        
+        //called to fetch JSON data from SFU API
+        fetchClasses()
+        
+        
+        //creating subviews
         view.addSubview(facultyTableView)
         view.addSubview(userClassesTableView)
-        view.addSubview(classesTableView)
         view.addSubview(userClassLabel)
         view.addSubview(doneButton)
         view.addSubview(classSearchBar)
         view.addSubview(viewLabel)
         
+        //give functionality to each subview
         setupUserClassesTableView()
-        setupClassesTableView()
         setupFacultyTableView()
         setupUserClassLabel()
         setupDoneButton()
         setupClassSearchBar()
         setupViewLabel()
         
-        //UITableView
-        //UITableView.register(UserCell.self, forCellReuseIdentifier: "cellId")
         
         self.facultyTableView.register(UserCell.self, forCellReuseIdentifier: "cell")
         self.userClassesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell2")
-        self.classesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell3")
     }
+    
+    func fetchClasses() {
+        let url = URL(string: "http://www.sfu.ca/bin/wcm/course-outlines?2015/fall/ensc")
+        
+        URLSession.shared.dataTask(with: url!) { (data, response, error) in
+            //check if an error is returned form the server
+            if error != nil {
+                print(error)
+                return
+            }
+            
+            
+            
+            do {
+                let jsonData = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                
+                self.facultyDataSet = [Class]()
+                
+                for dictionary in jsonData as! [[String:AnyObject]] {
+                    print(dictionary["text"]!)
+                    
+                    //had to use "clss" as "class" is obviously used as an identifier for other stuff
+                    let clss = Class()
+                    clss.number = dictionary["text"] as! String?
+                    self.facultyDataSet?.append(clss)
+                
+                }
+            
+                self.facultyTableView.reloadData()
+            
+            } catch let error {
+                print(error)
+            }
+ 
+        
+        }.resume()
+        
 
+    
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == facultyTableView {
-            return facultyDataSet.count
-        } else if tableView == classesTableView {
-            return numCells
+            return facultyDataSet?.count ?? 0
         } else if tableView == userClassesTableView {
             return pickedClassesDataSet.count
         } else {
@@ -64,18 +110,16 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == facultyTableView {
             let cell:UITableViewCell = self.facultyTableView.dequeueReusableCell(withIdentifier: "cell")! as     UITableViewCell
-            cell.textLabel?.text = String(self.facultyDataSet[indexPath.row])
+            //facultyDataSet contains "Class" objects with "number" and "name" attributes, so setting the title of the cell to => "(facultyDataSet?[indexPath.row].number)!" is putting the course number from our JSON, into our cell
+            cell.textLabel?.text = String(describing: (self.facultyDataSet?[indexPath.row].number)!)
+            
+            //cell.
             return cell
         } else if ((tableView == userClassesTableView) && (indexPath.row < numCells)) {
             let cell2:UITableViewCell = self.userClassesTableView.dequeueReusableCell(withIdentifier: "cell2")! as UITableViewCell
             cell2.textLabel?.text = String(self.pickedClassesDataSet[indexPath.row])
             return cell2
-        } else if tableView == classesTableView {
-            let cell3:UITableViewCell = self.classesTableView.dequeueReusableCell(withIdentifier: "cell3")! as UITableViewCell
-            cell3.textLabel?.text = String(self.enscDataSet[indexPath.row])
-            return cell3
-        }
-        else {
+        } else {
             let cell = UITableViewCell (style: .subtitle, reuseIdentifier: "default")
             
             return cell
@@ -87,16 +131,6 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
      Dummy data for Tableviews
      ***** Remember that the dummy data was placed in the faculty data set to be used in the top table view, however to impliment the actual idea, the classes should be in something like classDataSet and the rest of the code will need to be updated to support.
     */
-    let facultyDataSet = ["ENSC 100W", "ENSC 105", "ENSC 252", "ENSC 254", "ENSC 351", "ENSC 424","BUS 100W", "BUS 105", "BUS 252", "BUS 254", "BUS 351", "BUS 424","ARCH 100W", "ARCH 105", "ARCH 252", "ARCH 254", "ARCH 351", "ARCH 424","CMPS 100W", "CMPS 105", "CMPS 252", "CMPS 254", "CMPS 351", "CMPS 424"]
-    
-    let enscDataSet = ["ENSC 100W", "ENSC 105", "ENSC 252", "ENSC 254", "ENSC 351", "ENSC 424"]
-    
-    let busDataSet = ["BUS 100W", "BUS 105", "BUS 252", "BUS 254", "BUS 351", "BUS 424"]
-    
-    let archDataSet = ["ARCH 100W", "ARCH 105", "ARCH 252", "ARCH 254", "ARCH 351", "ARCH 424"]
-    
-    let cmpsDataSet = ["CMPS 100W", "CMPS 105", "CMPS 252", "CMPS 254", "CMPS 351", "CMPS 424"]
-    
     
     lazy var facultyTableView: UITableView = {
         let tv = UITableView()
@@ -105,20 +139,11 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         tv.dataSource = self
         let backButton = UIBarButtonItem(title: "back", style: .plain, target: self, action: #selector(handleTap))
         self.navigationItem.leftBarButtonItem = backButton
-        //UINavigationItem.setLeftBarButton(UINavigationItem(UITabBarSystemItem: .Stop, target: self, action: nil), animated: true)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         tv.addGestureRecognizer(tapGesture)
         tapGesture.delegate = self
         
-        return tv
-    }()
-    
-    lazy var classesTableView: UITableView = {
-        let tv = UITableView()
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.layer.cornerRadius = 6
-        tv.dataSource = self
         return tv
     }()
     
@@ -169,14 +194,6 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
     }()
 
     func setupFacultyTableView() {
-        facultyTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        facultyTableView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -35).isActive = true
-        facultyTableView.heightAnchor.constraint(equalToConstant: 185).isActive = true
-        facultyTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 145).isActive = true
-        
-    }
-    
-    func setupClassesTableView() {
         facultyTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         facultyTableView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -35).isActive = true
         facultyTableView.heightAnchor.constraint(equalToConstant: 185).isActive = true
@@ -243,3 +260,13 @@ extension Array  {
         return result
     }
 }
+
+class Class: NSObject {
+    
+    var number: String?
+    var name: String?
+    
+    
+}
+
+
