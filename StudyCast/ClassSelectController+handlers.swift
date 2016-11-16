@@ -54,10 +54,23 @@ extension ClassSelectController {
                     }
                     if !added {
                         numCells += 1
-                        pickedClassesDataSet.append((tappedCell.textLabel?.text)!)
+                        pickedClassesDataSet.append("\(self.currentFaculty.uppercased()) \((tappedCell.textLabel?.text)!)")
                         userClassesTableView.reloadData()
                     }
                 }
+            }
+        }
+    }
+    
+    func handleTapBottom(recognizer: UITapGestureRecognizer){
+        
+        if recognizer.state == UIGestureRecognizerState.ended {
+            let tapLocation = recognizer.location(in: self.userClassesTableView)
+            if let tapIndexPath = self.userClassesTableView.indexPathForRow(at: tapLocation) {
+                
+                pickedClassesDataSet.remove(at: tapIndexPath.row)
+                numCells -= 1
+                userClassesTableView.reloadData()
             }
         }
     }
