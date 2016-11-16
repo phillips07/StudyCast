@@ -114,8 +114,8 @@ class MainScreenController: UITableViewController {
         } catch let logoutError {
             print(logoutError)
         }
-        //let loginController = LoginController()
-        let loginController = ClassSelectController()
+        let loginController = LoginController()
+        //let loginController = ClassSelectController()
         present(loginController, animated: false, completion: nil)
     }
     

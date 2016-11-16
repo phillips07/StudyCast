@@ -9,9 +9,11 @@
 import UIKit
 import Firebase
 
-class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
+class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    //the righteous axe used used to bring justice upon multi-threading issues
+    var currentFaculty: String = "ensc"
+    
+    //the righteous weapons used used to exact justice upon multi-threading issues
     var facultiesDone: Bool = false
     var classesDone: Bool = false
     
@@ -37,8 +39,9 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         view.backgroundColor = UIColor(r: 61, g: 91, b: 151)
         
         
+     
         //called to fetch JSON data from SFU API
-        fetchFaculties(semester: "2015/fall/")
+        fetchFaculties(semester: "2016/fall/")
         
         
         //vanquishing the slobbering beast of multi-threading issues
@@ -46,11 +49,17 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
             sleep(UInt32(0.1))
         }
         
-        //more vanquishing
+        
         fetchClasses()
+        //more vanquishing
         while !(self.classesDone) {
             sleep(UInt32(0.1))
         }
+        
+        //getting the correct value in currentFaculty
+        setCurrentFaculty(row: 0)
+        //called to populate the upper tableView
+        loadClassesToTable(key: currentFaculty.lowercased())
 
 
    
@@ -60,16 +69,16 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         view.addSubview(userClassesTableView)
         view.addSubview(userClassLabel)
         view.addSubview(doneButton)
-        view.addSubview(classSearchBar)
+        view.addSubview(facultyPicker)
         view.addSubview(viewLabel)
         
-        //give functionality to each subview
+        //give qualities to each subview
         setupUserClassesTableView()
         setupFacultyTableView()
         setupUserClassLabel()
         setupDoneButton()
-        setupClassSearchBar()
         setupViewLabel()
+        setupPickerView()
         
         
 
@@ -80,18 +89,38 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     
+    func setCurrentFaculty(row: Int) {
+        self.currentFaculty = (self.faculties?[row].code)!
+    }
+    
+    func loadClassesToTable(key: String) {
+        let newSet = self.hashTable![key]
+        self.facultyDataSet = newSet
+        self.facultyTableView.reloadData()
+    }
+    
     
     //to be implimented in a loop to run for each faculty in faculties array
     func fetchClasses() {
         
+        //prepares my hashTable for storing the data gathered from the API
+        //its keys are faculty names, values are an array of classes within that faculty
         self.hashTable = HashTable<String, [Class]>(capacity: 333)
         
+        //loop through every faculty, make API calls for each one by updating the URL to use the facutlty's respective name
         for fac in self.faculties! {
             
+            //2 minutes for hacking #yoloswag #figureItOutInAnotherLife
+            if (fac.name! == "expl") || (fac.name! == "fnlg") || (fac.name! == "lang") {
+                continue
+            }
+            
+            //set current URL
             let urlString = "http://www.sfu.ca/bin/wcm/course-outlines?2015/fall/\(fac.name!)"
             let url = URL(string: urlString)
             var loopDone = false
             
+            //get JSON from API
             URLSession.shared.dataTask(with: url!) { (data, response, error) in
                 //check if an error is returned form the server
                 if error != nil {
@@ -99,24 +128,25 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
                     return
                 }
                 
-                
-                
+                //parse JSON
                 do {
                     let jsonData = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
                     
-                    
-                    
+                    //create an array to hold the classes to be added to the hashTable
                     var classArr = [Class]()
                     
-                    for dictionary in jsonData as! [[String:AnyObject]] {
+                    //********** THIS LINE RANDOMLY CAUSES ERRORS ******************
+                    //sometimes gets completey or nearly through jsonData, other times breaks almost immediately
+                    for dictionary in jsonData as! [[String:AnyObject]]{
                         
-                        //had to use "clss" as "class" is obviously used as an identifier for other stuff
-                        let clss = Class()
-                        clss.number = dictionary["text"] as! String?
-                        classArr.append(clss)
+                        //add each class inthe JSON data to the array
+                        let new = Class()
+                        new.number = dictionary["text"] as! String?
+                        classArr.append(new)
                         
                     }
                     
+                    //add the array to the hashTable
                     self.hashTable!["\(fac.name!)"] = classArr
                     
 
@@ -124,12 +154,16 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
                 } catch let error {
                     print(error)
                 }
+                //set to true when thread parsing the JSON data is done
                 loopDone = true
             }.resume()
+            
+            //makes main thread wait until parsing is complete to go to the next itertion of the loop
             while !loopDone {
                 sleep(UInt32(0.1))
             }
         }
+        //Set to true when the hashTable is finished populating and other functions that rely on it can continue
         self.classesDone = true
     }
     
@@ -150,9 +184,8 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 self.faculties = [Faculty]()
                 
-                for dictionary in jsonData as! [[String:AnyObject]] {
+                for dictionary in jsonData  as! [[String:AnyObject]] {
                     
-                    //had to use "clss" as "class" is obviously used as an identifier for other stuff
                     let faculty = Faculty()
                     faculty.code = dictionary["text"] as! String?
                     faculty.name = dictionary["value"] as! String?
@@ -203,6 +236,28 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return (self.faculties?.count)!
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let tl = (self.faculties?[row].code)!
+        return tl
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+        return 20
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let key = (self.faculties?[row].code)!.lowercased()
+        loadClassesToTable(key: key)
+        setCurrentFaculty(row: row)
+    }
     
     
     lazy var facultyTableView: UITableView = {
@@ -210,8 +265,6 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.layer.cornerRadius = 6
         tv.dataSource = self
-        let backButton = UIBarButtonItem(title: "back", style: .plain, target: self, action: #selector(handleTap))
-        self.navigationItem.leftBarButtonItem = backButton
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         tv.addGestureRecognizer(tapGesture)
@@ -225,6 +278,11 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.layer.cornerRadius = 6
         tv.dataSource = self
+        
+        let tapGestureBottom = UITapGestureRecognizer(target: self, action: #selector(handleTapBottom))
+        tv.addGestureRecognizer(tapGestureBottom)
+        tapGestureBottom.delegate = self
+        
         return tv
     }()
     
@@ -248,13 +306,14 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         return button
     }()
     
-    let classSearchBar: UISearchBar = {
-        let cs = UISearchBar()
-        cs.translatesAutoresizingMaskIntoConstraints = false
-        var textFieldSearchBar = cs.value(forKey: "searchField") as? UITextField
-        textFieldSearchBar?.textColor = UIColor.white
-        cs.searchBarStyle = UISearchBarStyle.minimal
-        return cs
+    lazy var facultyPicker: UIPickerView = {
+        let pv = UIPickerView()
+        pv.backgroundColor = UIColor.white
+        pv.layer.cornerRadius = 6
+        pv.translatesAutoresizingMaskIntoConstraints = false
+        pv.dataSource = self
+        pv.delegate = self
+        return pv
     }()
     
     let viewLabel: UILabel = {
@@ -293,16 +352,16 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         doneButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
     
-    func setupClassSearchBar(){
-        classSearchBar.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        classSearchBar.bottomAnchor.constraint(equalTo: facultyTableView.topAnchor, constant: -8).isActive = true
-        classSearchBar.widthAnchor.constraint(equalTo: facultyTableView.widthAnchor, multiplier: 1.045).isActive = true
-        classSearchBar.heightAnchor.constraint(equalToConstant: 50).isActive = true
+    func setupPickerView(){
+        facultyPicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        facultyPicker.bottomAnchor.constraint(equalTo: facultyTableView.topAnchor, constant: -8).isActive = true
+        facultyPicker.widthAnchor.constraint(equalTo: facultyTableView.widthAnchor, multiplier: 1.045).isActive = true
+        facultyPicker.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
     func setupViewLabel() {
         viewLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        viewLabel.bottomAnchor.constraint(equalTo: classSearchBar.topAnchor, constant: -15).isActive = true
+        viewLabel.bottomAnchor.constraint(equalTo: facultyPicker.topAnchor, constant: -15).isActive = true
     }
 }
 
@@ -323,6 +382,9 @@ class UserCell: UITableViewCell {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(CS.handleTap(recognizer:)))
         addGestureRecognizer(tapGesture)
+        
+        let tapGestureBottom = UITapGestureRecognizer(target: self, action: #selector(CS.handleTapBottom(recognizer:)))
+        addGestureRecognizer(tapGestureBottom)
     }
 }
 
