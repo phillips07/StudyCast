@@ -10,17 +10,26 @@ import UIKit
 import Firebase
 
 class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
-
+    
+    //the righteous axe used used to bring justice upon multi-threading issues
+    var facultiesDone: Bool = false
+    var classesDone: Bool = false
+    
     //data for tables
     var numCells = 0
     
     //Updated with user input, selecting classes
-    //feeds bottom tableView
+    //populates the bottom tableView. Contains all the classes that have been selected from the top table view.
     var pickedClassesDataSet: [String] = []
     
-    //updated by parsing JSON data from SFU API
-    //feeds top tableView
+    
+    //these arrays are updated by parsing JSON data from SFU API
+    //"faculties' contains all of faculties with classes at SFU for a given semester
+    var faculties: [Faculty]?
+    //"facultyDataSet" populates the top tableView on the screen. It contains all the classes for a given faculty
     var facultyDataSet: [Class]?
+    //hash table to store all the classes
+    var hashTable: HashTable<String, [Class]>?
 
     
     override func viewDidLoad() {
@@ -29,8 +38,22 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         
         
         //called to fetch JSON data from SFU API
-        fetchClasses()
+        fetchFaculties(semester: "2015/fall/")
         
+        
+        //vanquishing the slobbering beast of multi-threading issues
+        while !(self.facultiesDone) {
+            sleep(UInt32(0.1))
+        }
+        
+        //more vanquishing
+        fetchClasses()
+        while !(self.classesDone) {
+            sleep(UInt32(0.1))
+        }
+
+
+   
         
         //creating subviews
         view.addSubview(facultyTableView)
@@ -49,17 +72,74 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         setupViewLabel()
         
         
+
+        
         self.facultyTableView.register(UserCell.self, forCellReuseIdentifier: "cell")
         self.userClassesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell2")
+        
+        
     }
     
+    
+    //to be implimented in a loop to run for each faculty in faculties array
     func fetchClasses() {
-        let url = URL(string: "http://www.sfu.ca/bin/wcm/course-outlines?2015/fall/ensc")
+        
+        self.hashTable = HashTable<String, [Class]>(capacity: 333)
+        
+        for fac in self.faculties! {
+            
+            let urlString = "http://www.sfu.ca/bin/wcm/course-outlines?2015/fall/\(fac.name!)"
+            let url = URL(string: urlString)
+            var loopDone = false
+            
+            URLSession.shared.dataTask(with: url!) { (data, response, error) in
+                //check if an error is returned form the server
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                
+                
+                
+                do {
+                    let jsonData = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                    
+                    
+                    
+                    var classArr = [Class]()
+                    
+                    for dictionary in jsonData as! [[String:AnyObject]] {
+                        
+                        //had to use "clss" as "class" is obviously used as an identifier for other stuff
+                        let clss = Class()
+                        clss.number = dictionary["text"] as! String?
+                        classArr.append(clss)
+                        
+                    }
+                    
+                    self.hashTable!["\(fac.name!)"] = classArr
+                    
+
+                    
+                } catch let error {
+                    print(error)
+                }
+                loopDone = true
+            }.resume()
+            while !loopDone {
+                sleep(UInt32(0.1))
+            }
+        }
+        self.classesDone = true
+    }
+    
+    func fetchFaculties(semester: String) {
+        let url = URL(string: "http://www.sfu.ca/bin/wcm/course-outlines?\(semester)")
         
         URLSession.shared.dataTask(with: url!) { (data, response, error) in
             //check if an error is returned form the server
             if error != nil {
-                print(error)
+                print(error!)
                 return
             }
             
@@ -68,30 +148,29 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
             do {
                 let jsonData = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
                 
-                self.facultyDataSet = [Class]()
+                self.faculties = [Faculty]()
                 
                 for dictionary in jsonData as! [[String:AnyObject]] {
-                    print(dictionary["text"]!)
                     
                     //had to use "clss" as "class" is obviously used as an identifier for other stuff
-                    let clss = Class()
-                    clss.number = dictionary["text"] as! String?
-                    self.facultyDataSet?.append(clss)
-                
+                    let faculty = Faculty()
+                    faculty.code = dictionary["text"] as! String?
+                    faculty.name = dictionary["value"] as! String?
+                    self.faculties?.append(faculty)
+                    
                 }
-            
-                self.facultyTableView.reloadData()
-            
+                
+                self.facultiesDone = true
+                
             } catch let error {
                 print(error)
             }
- 
+            
+            
+            }.resume()
         
-        }.resume()
-        
-
-    
     }
+
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == facultyTableView {
@@ -112,8 +191,6 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
             let cell:UITableViewCell = self.facultyTableView.dequeueReusableCell(withIdentifier: "cell")! as     UITableViewCell
             //facultyDataSet contains "Class" objects with "number" and "name" attributes, so setting the title of the cell to => "(facultyDataSet?[indexPath.row].number)!" is putting the course number from our JSON, into our cell
             cell.textLabel?.text = String(describing: (self.facultyDataSet?[indexPath.row].number)!)
-            
-            //cell.
             return cell
         } else if ((tableView == userClassesTableView) && (indexPath.row < numCells)) {
             let cell2:UITableViewCell = self.userClassesTableView.dequeueReusableCell(withIdentifier: "cell2")! as UITableViewCell
@@ -127,10 +204,6 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     
-    /*
-     Dummy data for Tableviews
-     ***** Remember that the dummy data was placed in the faculty data set to be used in the top table view, however to impliment the actual idea, the classes should be in something like classDataSet and the rest of the code will need to be updated to support.
-    */
     
     lazy var facultyTableView: UITableView = {
         let tv = UITableView()
@@ -269,4 +342,10 @@ class Class: NSObject {
     
 }
 
+class Faculty: NSObject {
+    
+    var code: String?
+    var name: String?
+    
+}
 
