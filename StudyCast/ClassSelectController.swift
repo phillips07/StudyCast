@@ -329,8 +329,7 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         facultyTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         facultyTableView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -35).isActive = true
         facultyTableView.heightAnchor.constraint(equalToConstant: 185).isActive = true
-        facultyTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 145).isActive = true
-        
+        facultyTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 165).isActive = true
     }
     
     func setupUserClassesTableView() {
@@ -347,15 +346,15 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
     
     func setupDoneButton(){
         doneButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        doneButton.topAnchor.constraint(equalTo: userClassesTableView.bottomAnchor, constant: 30).isActive = true
+        doneButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
         doneButton.widthAnchor.constraint(equalTo: userClassesTableView.widthAnchor).isActive = true
-        doneButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        doneButton.heightAnchor.constraint(equalToConstant: 55).isActive = true
     }
     
     func setupPickerView(){
         facultyPicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        facultyPicker.bottomAnchor.constraint(equalTo: facultyTableView.topAnchor, constant: -8).isActive = true
-        facultyPicker.widthAnchor.constraint(equalTo: facultyTableView.widthAnchor, multiplier: 1.045).isActive = true
+        facultyPicker.bottomAnchor.constraint(equalTo: facultyTableView.topAnchor, constant: -25).isActive = true
+        facultyPicker.widthAnchor.constraint(equalTo: facultyTableView.widthAnchor).isActive = true
         facultyPicker.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
