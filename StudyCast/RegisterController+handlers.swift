@@ -47,7 +47,6 @@ extension RegisterController: UIImagePickerControllerDelegate, UINavigationContr
         dismiss(animated: false, completion: nil)
     }
     
-    //var values2 : [Any]?
     
     func handleClassSelection() {
         guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
