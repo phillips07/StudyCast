@@ -11,6 +11,7 @@
 		95182D001DD6903300904E0E /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95182CFF1DD6903300904E0E /* SettingsController.swift */; };
 		952773051DD67C5100931E5F /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952773041DD67C5100931E5F /* CustomTabBarController.swift */; };
 		959C12521DD832A9004B3B6C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959C12511DD832A9004B3B6C /* Extensions.swift */; };
+		95EAFD691DDD9087005FB966 /* ModifyAccountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EAFD681DDD9087005FB966 /* ModifyAccountController.swift */; };
 		D9158CB31DCE56AE002E1122 /* ClassSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */; };
 		D9158CB41DCE56AE002E1122 /* ClassSelectController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAD1DCE56AE002E1122 /* ClassSelectController+handlers.swift */; };
 		D9158CB51DCE56AE002E1122 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAE1DCE56AE002E1122 /* LoginController.swift */; };
@@ -34,6 +35,7 @@
 		95182CFF1DD6903300904E0E /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		952773041DD67C5100931E5F /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		959C12511DD832A9004B3B6C /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		95EAFD681DDD9087005FB966 /* ModifyAccountController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyAccountController.swift; sourceTree = "<group>"; };
 		AE1CAC1376E446AF50FF75B6 /* Pods_StudyCast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StudyCast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassSelectController.swift; sourceTree = "<group>"; };
 		D9158CAD1DCE56AE002E1122 /* ClassSelectController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ClassSelectController+handlers.swift"; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 				D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */,
 				D9158CAE1DCE56AE002E1122 /* LoginController.swift */,
 				95182CFF1DD6903300904E0E /* SettingsController.swift */,
+				95EAFD681DDD9087005FB966 /* ModifyAccountController.swift */,
 				952773041DD67C5100931E5F /* CustomTabBarController.swift */,
 			);
 			name = UIControllers;
@@ -276,6 +279,7 @@
 				D9E66C731DC1A8DF00579C88 /* AppDelegate.swift in Sources */,
 				D9C06CA31DCED47D00D264B4 /* SwiftyJSON.swift in Sources */,
 				D9158CB91DCE56AE002E1122 /* MainScreenController.swift in Sources */,
+				95EAFD691DDD9087005FB966 /* ModifyAccountController.swift in Sources */,
 				952773051DD67C5100931E5F /* CustomTabBarController.swift in Sources */,
 				D9158CB31DCE56AE002E1122 /* ClassSelectController.swift in Sources */,
 				959C12521DD832A9004B3B6C /* Extensions.swift in Sources */,
