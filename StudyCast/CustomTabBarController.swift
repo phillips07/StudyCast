@@ -13,9 +13,9 @@ class CustomTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let friendsContoller = UIViewController()
-        let friendsNavigationController = UINavigationController(rootViewController: friendsContoller)
-        friendsNavigationController.title = "Friends"
+        let groupsContoller = UIViewController()
+        let groupsNavigationController = UINavigationController(rootViewController: groupsContoller)
+        groupsNavigationController.title = "Groups"
         //add icon for friends here
         //friendsNavigationController.tabBarItem.image = UIImage(named: "friends_icon")
         
@@ -33,6 +33,6 @@ class CustomTabBarController: UITabBarController {
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white], for: .normal)
         UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.lightGray], for: .selected)
         
-        viewControllers = [homeNavigationController, castNavigationController, friendsNavigationController]
+        viewControllers = [homeNavigationController, castNavigationController, groupsNavigationController]
     }
 }
