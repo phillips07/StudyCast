@@ -48,7 +48,6 @@ class SettingsController: UITableViewController {
         } else if indexPath.section == 2 {
             cell.nameLabel.text = settingItems[indexPath.row + settingItems.count - 1]
         }
-        
         return cell
     }
     
@@ -162,7 +161,7 @@ class MyCell: UITableViewCell {
     
     let nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "sample label"
+        label.text = "My Cell"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
