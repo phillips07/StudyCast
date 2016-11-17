@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ChangePasswordController: UIViewController {
 
@@ -117,7 +118,33 @@ class ChangePasswordController: UIViewController {
     }
     
     func handleConfirmation() {
-    
+        guard let currentPassword =  currentPasswordTextField.text, let newPassword = newPasswordTextField.text,
+            let confirmPassword = confirmNewPasswordTextField.text else {
+            print("Form is not valid")
+            return
+        }
+        
+        let user = FIRAuth.auth()?.currentUser
+        let credential = FIREmailPasswordAuthProvider.credential(withEmail: (user?.email)!, password: currentPassword)
+        
+        user?.reauthenticate(with: credential) { error in
+            if let error = error {
+                print(error)
+            } else {
+                if newPassword == confirmPassword {
+                    user?.updatePassword(newPassword, completion: { (error) in
+                        if let error = error {
+                            print(error)
+                        } else {
+                            //dismiss view, password has been updated
+                            self.dismiss(animated: true, completion: nil)
+                        }
+                    })
+                } else {
+                    print("Passwords do not match")
+                }
+            }
+        }
     }
 }
 

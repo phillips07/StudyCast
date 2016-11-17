@@ -143,13 +143,9 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
                         let new = Class()
                         new.number = dictionary["text"] as! String?
                         classArr.append(new)
-                        
                     }
-                    
                     //add the array to the hashTable
                     self.hashTable!["\(fac.name!)"] = classArr
-                    
-
                     
                 } catch let error {
                     print(error)
@@ -176,8 +172,6 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
                 print(error!)
                 return
             }
-            
-            
             
             do {
                 let jsonData = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
