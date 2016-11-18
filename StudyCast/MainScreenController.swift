@@ -62,6 +62,8 @@ class MainScreenController: UITableViewController {
                 profileImageView.layer.cornerRadius = 20
                 profileImageView.clipsToBounds = true
                 
+                //profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleSelectProfileImageView)))
+                
                 if let profileImageUrl = userDictionary["profileImage"] as? String{
                     profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl)
                 }

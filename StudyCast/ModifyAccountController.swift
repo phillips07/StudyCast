@@ -39,19 +39,12 @@ class ModifyAccountController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        /*if indexPath.section == 0
-        {
-            if indexPath.row == 0 {
-                let modifyAccountController = ModifyAccountController()
-                navigationController?.pushViewController(modifyAccountController, animated: true)
-            } else if indexPath.row == 1 {
-                let classSelectController = ClassSelectController()
-                navigationController?.pushViewController(classSelectController, animated: true)
-            }
-        }*/
         if indexPath.row == 0 {
             let changePasswordController = ChangePasswordController()
             navigationController?.pushViewController(changePasswordController, animated: true)
+        } else if indexPath.row == 1 {
+            let passwordResetController = PasswordResetController()
+            navigationController?.pushViewController(passwordResetController, animated: true)
         }
     }
 }
