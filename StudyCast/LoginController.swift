@@ -131,7 +131,6 @@ class LoginController: UIViewController {
         passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 15).isActive = true
         passwordTextField.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -140).isActive = true
         passwordTextField.heightAnchor.constraint(equalToConstant: 35).isActive = true
-        
         passwordTextField.backgroundColor = UIColor.white
         passwordTextField.layer.cornerRadius = 6.0
     }

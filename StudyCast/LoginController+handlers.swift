@@ -28,7 +28,8 @@ extension LoginController {
     }
     
     func handlePasswordReset() {
-    
+        let passwordResetControlelr = PasswordResetController()
+        present(passwordResetControlelr, animated: true, completion: nil)
     }
     
     func handleRegisterNewUser() {

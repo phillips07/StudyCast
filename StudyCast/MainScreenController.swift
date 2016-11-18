@@ -22,9 +22,6 @@ class MainScreenController: UITableViewController {
         if FIRAuth.auth()?.currentUser?.uid == nil {
             perform(#selector(handleLogout), with: nil, afterDelay: 0)
         }
-        else {
-            fetchNameSetupNavBar()
-        }
         userCourses.removeAll()
         self.tableView.reloadData()
     }
@@ -49,15 +46,11 @@ class MainScreenController: UITableViewController {
         FIRDatabase.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
             
             if let userDictionary = snapshot.value as? [String: AnyObject] {
-                //self.navigationItem.title = userDictionary["name"] as? String
-                //let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]
-                //self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [String : Any]
                 self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
                 self.navigationItem.leftBarButtonItem?.tintColor = UIColor.white
                 
                 let titleView = UIView()
                 titleView.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
-                //titleView.backgroundColor = UIColor.red
                 
                 let containerView = UIView()
                 containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -68,6 +61,8 @@ class MainScreenController: UITableViewController {
                 profileImageView.contentMode = .scaleAspectFill
                 profileImageView.layer.cornerRadius = 20
                 profileImageView.clipsToBounds = true
+                
+                //profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleSelectProfileImageView)))
                 
                 if let profileImageUrl = userDictionary["profileImage"] as? String{
                     profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl)
@@ -89,7 +84,7 @@ class MainScreenController: UITableViewController {
                 nameLabel.heightAnchor.constraint(equalTo: profileImageView.heightAnchor).isActive = true
                 
                 nameLabel.textColor = UIColor.white
-                
+        
                 containerView.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
                 containerView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
                 
@@ -114,8 +109,8 @@ class MainScreenController: UITableViewController {
         } catch let logoutError {
             print(logoutError)
         }
-        //let loginController = LoginController()
-        let loginController = ClassSelectController()
+        let loginController = LoginController()
+        //let loginController = ClassSelectController()
         present(loginController, animated: false, completion: nil)
     }
     
