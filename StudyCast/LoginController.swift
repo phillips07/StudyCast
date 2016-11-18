@@ -144,16 +144,16 @@ class LoginController: UIViewController {
     
     func setupEmailImageView(){
         emailImageView.centerXAnchor.constraint(equalTo: emailTextField.leftAnchor, constant: -20).isActive = true
-        emailImageView.centerYAnchor.constraint(equalTo: emailTextField.centerYAnchor, constant: 3).isActive = true
-        emailImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        emailImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        emailImageView.centerYAnchor.constraint(equalTo: emailTextField.centerYAnchor, constant: 2).isActive = true
+        emailImageView.widthAnchor.constraint(equalToConstant: 35).isActive = true
+        emailImageView.heightAnchor.constraint(equalToConstant: 35).isActive = true
     }
     
     func setupPasswordImageView(){
         passwordImageView.centerXAnchor.constraint(equalTo: passwordTextField.leftAnchor, constant: -20).isActive = true
-        passwordImageView.centerYAnchor.constraint(equalTo: passwordTextField.centerYAnchor, constant: 3).isActive = true
-        passwordImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        passwordImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        passwordImageView.centerYAnchor.constraint(equalTo: passwordTextField.centerYAnchor, constant: 2).isActive = true
+        passwordImageView.widthAnchor.constraint(equalToConstant: 33).isActive = true
+        passwordImageView.heightAnchor.constraint(equalToConstant: 33).isActive = true
     }
     
     func setupLoginButton(){
