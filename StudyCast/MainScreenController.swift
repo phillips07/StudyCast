@@ -15,8 +15,6 @@ class MainScreenController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
-        //self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Settings", style: .plain, target: self, action: #selector(handleSettings))
         let image = UIImage(named: "SettingsIcon")
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(handleSettings))
         
@@ -59,6 +57,7 @@ class MainScreenController: UITableViewController {
             if let userDictionary = snapshot.value as? [String: AnyObject] {
                 self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
                 self.navigationItem.leftBarButtonItem?.tintColor = UIColor.white
+                
                 let titleView = UIView()
                 titleView.frame = CGRect(x: 0, y: 0, width: 5, height: 40)
                 

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		09554FD1B465B434BBDA59DC /* Pods_StudyCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83728B8438FD9DB7C5551786 /* Pods_StudyCast.framework */; };
+		950DCDEF1DE02BD800FF7D96 /* GroupsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDEE1DE02BD800FF7D96 /* GroupsController.swift */; };
+		950DCDF11DE02CA100FF7D96 /* GroupController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDF01DE02CA100FF7D96 /* GroupController+handlers.swift */; };
+		950DCDF31DE0377300FF7D96 /* AddGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDF21DE0377300FF7D96 /* AddGroupController.swift */; };
 		95182D001DD6903300904E0E /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95182CFF1DD6903300904E0E /* SettingsController.swift */; };
 		952773051DD67C5100931E5F /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952773041DD67C5100931E5F /* CustomTabBarController.swift */; };
 		959C12521DD832A9004B3B6C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959C12511DD832A9004B3B6C /* Extensions.swift */; };
@@ -32,6 +35,10 @@
 /* Begin PBXFileReference section */
 		250B21402ACAE98181279FF0 /* Pods-StudyCast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyCast.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast.debug.xcconfig"; sourceTree = "<group>"; };
 		83728B8438FD9DB7C5551786 /* Pods_StudyCast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StudyCast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		950DCDED1DE01C8000FF7D96 /* StudyCast.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StudyCast.entitlements; sourceTree = "<group>"; };
+		950DCDEE1DE02BD800FF7D96 /* GroupsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsController.swift; sourceTree = "<group>"; };
+		950DCDF01DE02CA100FF7D96 /* GroupController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GroupController+handlers.swift"; sourceTree = "<group>"; };
+		950DCDF21DE0377300FF7D96 /* AddGroupController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddGroupController.swift; sourceTree = "<group>"; };
 		95182CFF1DD6903300904E0E /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		952773041DD67C5100931E5F /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		959C12511DD832A9004B3B6C /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -68,16 +75,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		950DCDF41DE0378600FF7D96 /* Groups */ = {
+			isa = PBXGroup;
+			children = (
+				950DCDEE1DE02BD800FF7D96 /* GroupsController.swift */,
+				950DCDF21DE0377300FF7D96 /* AddGroupController.swift */,
+			);
+			name = Groups;
+			sourceTree = "<group>";
+		};
 		952773021DD65A9F00931E5F /* UIControllers */ = {
 			isa = PBXGroup;
 			children = (
-				D9158CB21DCE56AE002E1122 /* MainScreenController.swift */,
+				95EAFD6C1DDDA33F005FB966 /* SettingsControllers */,
+				950DCDF41DE0378600FF7D96 /* Groups */,
 				D9158CB01DCE56AE002E1122 /* RegisterController.swift */,
+				D9158CB21DCE56AE002E1122 /* MainScreenController.swift */,
 				D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */,
 				D9158CAE1DCE56AE002E1122 /* LoginController.swift */,
-				952773041DD67C5100931E5F /* CustomTabBarController.swift */,
 				95C1747B1DDEC1F700F1C606 /* PasswordResetController.swift */,
-				95EAFD6C1DDDA33F005FB966 /* SettingsControllers */,
+				952773041DD67C5100931E5F /* CustomTabBarController.swift */,
 			);
 			name = UIControllers;
 			sourceTree = "<group>";
@@ -90,6 +107,7 @@
 				D9158CB11DCE56AE002E1122 /* RegisterController+handlers.swift */,
 				D95A8E621DDBB16F000FCED7 /* ClassTable.swift */,
 				95C1747F1DDEE45D00F1C606 /* MainScreenController+handlers.swift */,
+				950DCDF01DE02CA100FF7D96 /* GroupController+handlers.swift */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -142,6 +160,7 @@
 		D9E66C711DC1A8DF00579C88 /* StudyCast */ = {
 			isa = PBXGroup;
 			children = (
+				950DCDED1DE01C8000FF7D96 /* StudyCast.entitlements */,
 				952773031DD65AC900931E5F /* Handlers */,
 				952773021DD65A9F00931E5F /* UIControllers */,
 				D9E66C721DC1A8DF00579C88 /* AppDelegate.swift */,
@@ -189,7 +208,13 @@
 				TargetAttributes = {
 					D9E66C6E1DC1A8DF00579C88 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = GW38N9B259;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -277,12 +302,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				95182D001DD6903300904E0E /* SettingsController.swift in Sources */,
+				950DCDF31DE0377300FF7D96 /* AddGroupController.swift in Sources */,
 				D95A8E631DDBB16F000FCED7 /* ClassTable.swift in Sources */,
 				D9158CB61DCE56AE002E1122 /* LoginController+handlers.swift in Sources */,
 				D9C06CA11DCED29B00D264B4 /* RestAPIManager.swift in Sources */,
 				D9E66C731DC1A8DF00579C88 /* AppDelegate.swift in Sources */,
 				95C174801DDEE45D00F1C606 /* MainScreenController+handlers.swift in Sources */,
 				95EAFD6B1DDD99B9005FB966 /* ChangePasswordController.swift in Sources */,
+				950DCDEF1DE02BD800FF7D96 /* GroupsController.swift in Sources */,
 				D9158CB91DCE56AE002E1122 /* MainScreenController.swift in Sources */,
 				95EAFD691DDD9087005FB966 /* ModifyAccountController.swift in Sources */,
 				952773051DD67C5100931E5F /* CustomTabBarController.swift in Sources */,
@@ -293,6 +320,7 @@
 				D9158CB51DCE56AE002E1122 /* LoginController.swift in Sources */,
 				D9158CB71DCE56AE002E1122 /* RegisterController.swift in Sources */,
 				D9158CB81DCE56AE002E1122 /* RegisterController+handlers.swift in Sources */,
+				950DCDF11DE02CA100FF7D96 /* GroupController+handlers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -397,6 +425,8 @@
 			baseConfigurationReference = 250B21402ACAE98181279FF0 /* Pods-StudyCast.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = StudyCast/StudyCast.entitlements;
+				DEVELOPMENT_TEAM = GW38N9B259;
 				INFOPLIST_FILE = StudyCast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -411,6 +441,8 @@
 			baseConfigurationReference = DC95B50B8349718F63BF534D /* Pods-StudyCast.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = StudyCast/StudyCast.entitlements;
+				DEVELOPMENT_TEAM = GW38N9B259;
 				INFOPLIST_FILE = StudyCast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

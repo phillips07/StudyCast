@@ -13,7 +13,7 @@ class CustomTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let groupsContoller = UIViewController()
+        let groupsContoller = GroupsController()
         let groupsNavigationController = UINavigationController(rootViewController: groupsContoller)
         groupsNavigationController.title = "Groups"
         groupsNavigationController.tabBarItem.image = UIImage(named: "GroupsIcon")
