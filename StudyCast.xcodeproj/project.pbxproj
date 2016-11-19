@@ -11,6 +11,7 @@
 		950DCDEF1DE02BD800FF7D96 /* GroupsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDEE1DE02BD800FF7D96 /* GroupsController.swift */; };
 		950DCDF11DE02CA100FF7D96 /* GroupController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDF01DE02CA100FF7D96 /* GroupController+handlers.swift */; };
 		950DCDF31DE0377300FF7D96 /* AddGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDF21DE0377300FF7D96 /* AddGroupController.swift */; };
+		950DCDF71DE039C400FF7D96 /* AddGroupController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDF61DE039C400FF7D96 /* AddGroupController+handlers.swift */; };
 		95182D001DD6903300904E0E /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95182CFF1DD6903300904E0E /* SettingsController.swift */; };
 		952773051DD67C5100931E5F /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952773041DD67C5100931E5F /* CustomTabBarController.swift */; };
 		959C12521DD832A9004B3B6C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959C12511DD832A9004B3B6C /* Extensions.swift */; };
@@ -39,6 +40,7 @@
 		950DCDEE1DE02BD800FF7D96 /* GroupsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsController.swift; sourceTree = "<group>"; };
 		950DCDF01DE02CA100FF7D96 /* GroupController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GroupController+handlers.swift"; sourceTree = "<group>"; };
 		950DCDF21DE0377300FF7D96 /* AddGroupController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddGroupController.swift; sourceTree = "<group>"; };
+		950DCDF61DE039C400FF7D96 /* AddGroupController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AddGroupController+handlers.swift"; sourceTree = "<group>"; };
 		95182CFF1DD6903300904E0E /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		952773041DD67C5100931E5F /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		959C12511DD832A9004B3B6C /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				D95A8E621DDBB16F000FCED7 /* ClassTable.swift */,
 				95C1747F1DDEE45D00F1C606 /* MainScreenController+handlers.swift */,
 				950DCDF01DE02CA100FF7D96 /* GroupController+handlers.swift */,
+				950DCDF61DE039C400FF7D96 /* AddGroupController+handlers.swift */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				D9158CB41DCE56AE002E1122 /* ClassSelectController+handlers.swift in Sources */,
 				D9158CB51DCE56AE002E1122 /* LoginController.swift in Sources */,
 				D9158CB71DCE56AE002E1122 /* RegisterController.swift in Sources */,
+				950DCDF71DE039C400FF7D96 /* AddGroupController+handlers.swift in Sources */,
 				D9158CB81DCE56AE002E1122 /* RegisterController+handlers.swift in Sources */,
 				950DCDF11DE02CA100FF7D96 /* GroupController+handlers.swift in Sources */,
 			);

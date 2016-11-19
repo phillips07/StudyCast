@@ -88,7 +88,6 @@ class SettingsController: UITableViewController {
     func handleCancel() {
         self.dismiss(animated: true, completion: nil)
     }
-
 }
 
 
