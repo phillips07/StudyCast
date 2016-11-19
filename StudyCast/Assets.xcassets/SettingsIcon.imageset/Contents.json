@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "HomeIcon_grey.png",
+      "filename" : "SettingsIcon.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "SettingsIcon_2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "SettingsIcon_3x.png",
       "scale" : "3x"
     }
   ],

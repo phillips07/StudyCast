@@ -9,6 +9,5 @@ target 'StudyCast' do
 pod 'Firebase/Auth'
 pod 'Firebase/Storage'
 pod 'Firebase/Database'
-pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
 
 end
