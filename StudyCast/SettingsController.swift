@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import Firebase
 
 class SettingsController: UITableViewController {
 
-    var headerTitles = ["Profile","Cast","About"]
-    var numberOfRowsInSection = [3,3,1]
+    var headerTitles = ["Profile","Cast","About","Other"]
+    var numberOfRowsInSection = [3,3,1,1]
     var settingItems = ["Change your Password","Select Different Classes", "Edit your Name",
-                        "In Development", "In Development", "In Development", "Version 1.0.2"]
+                        "In Development", "In Development", "In Development", "Version 1.0.2", "Log out"]
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleCancel))
@@ -46,6 +47,9 @@ class SettingsController: UITableViewController {
         } else if indexPath.section == 1 {
             cell.nameLabel.text = settingItems[indexPath.row + 3]
         } else if indexPath.section == 2 {
+            cell.nameLabel.text = settingItems[indexPath.row + settingItems.count - 2]
+        }
+        else if indexPath.section == 3 {
             cell.nameLabel.text = settingItems[indexPath.row + settingItems.count - 1]
         }
         return cell
@@ -67,6 +71,16 @@ class SettingsController: UITableViewController {
             } else if indexPath.row == 1 {
                 let classSelectController = ClassSelectController()
                 navigationController?.pushViewController(classSelectController, animated: true)
+            }
+        } else if indexPath.section == 3 {
+            
+            if indexPath.row == 0 {
+                do {
+                    try FIRAuth.auth()?.signOut()
+                } catch let logoutError {
+                    print(logoutError)
+                }
+                self.dismiss(animated: false, completion: nil)
             }
         }
     }
