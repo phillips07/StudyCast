@@ -10,7 +10,8 @@ import UIKit
 
 class AddGroupController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-
+    var userCourses = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(r: 61, g: 91, b: 151)
@@ -30,6 +31,8 @@ class AddGroupController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         setupClassLabel()
         setupUserClassPicker()
         setupCreateGroupButton()
+        
+        fetchClasses()
     }
     
     let cancelButton: UIButton = {
@@ -40,6 +43,7 @@ class AddGroupController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         //this line causes some weird swift compiler crash...
         //button.addTarget(self, action: #selector(handleDone), for: .touchUpInside)
+    
         return button
     }()
     
@@ -75,7 +79,7 @@ class AddGroupController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     
     let classLabel: UILabel = {
         let label = UILabel()
-        label.text = "Group Class"
+        label.text = "Select Group Class"
         label.textColor = UIColor.white
         label.font = UIFont.boldSystemFont(ofSize: 14)
         label.textAlignment = NSTextAlignment.center
@@ -124,7 +128,7 @@ class AddGroupController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         userClassPicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         userClassPicker.topAnchor.constraint(equalTo: classLabel.bottomAnchor, constant: 8).isActive = true
         userClassPicker.widthAnchor.constraint(equalTo: nameTextField.widthAnchor).isActive = true
-        userClassPicker.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        userClassPicker.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     func setupCreateGroupButton() {
@@ -133,6 +137,4 @@ class AddGroupController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         createGroupButton.widthAnchor.constraint(equalTo: nameTextField.widthAnchor).isActive = true
         createGroupButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
     }
-    
-    
 }

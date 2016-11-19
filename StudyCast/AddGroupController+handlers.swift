@@ -40,20 +40,25 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
         dismiss(animated: true, completion: nil)
     }
     
-    func handleCancel() {
-        self.dismiss(animated: true, completion: nil)
+    func fetchClasses() {
+        userCourses.removeAll()
+        let uid = FIRAuth.auth()?.currentUser?.uid
+        FIRDatabase.database().reference().child("users").child(uid!).child("courses").observe(.childAdded, with: { (snapshot) in
+            self.userCourses.append(snapshot.value as! String)
+        })
     }
+    
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 1
+        return userCourses.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return "HELLO"
+        return userCourses[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
@@ -65,6 +70,31 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
     }
     
     func handleDone() {
+    
+        /*guard let groupName = nameTextField.text else {
+            print("Form is not valid")
+            return
+        }
+        
+        let gid = UUID().uuidString
+        let user = FIRAuth.auth()?.currentUser
+        let uid = user?.uid
+        let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
+        let groupUsersRef = ref.child("groups").child(gid).child("users")
+        groupUsersRef.updateChildValues([uid! : user?.displayName as Any])
+        
+        
+        let groupImageName = UUID().uuidString
+        let storage = FIRStorage.storage().reference().child("groupImages").child("\(groupImageName).jpg")
+        if let imageToUpload = UIImageJPEGRepresentation(self.groupImageView.image!, 0.1) {
+            storage.put(imageToUpload, metadata: nil, completion: { (metadata, error) in
+                if error != nil {
+                    print(error!)
+                    return
+                }
+            })
+        }*/
+        
         dismiss(animated: true, completion: nil)
     }
 }

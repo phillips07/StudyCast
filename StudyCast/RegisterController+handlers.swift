@@ -54,7 +54,6 @@ extension RegisterController: UIImagePickerControllerDelegate, UINavigationContr
             return
         }
         
-        
         FIRAuth.auth()?.createUser(withEmail: email, password: password, completion: { (user: FIRUser?, error) in
             if error != nil {
                 print(error!)

@@ -106,10 +106,10 @@
 			children = (
 				D9158CAD1DCE56AE002E1122 /* ClassSelectController+handlers.swift */,
 				D9158CAF1DCE56AE002E1122 /* LoginController+handlers.swift */,
-				D9158CB11DCE56AE002E1122 /* RegisterController+handlers.swift */,
 				D95A8E621DDBB16F000FCED7 /* ClassTable.swift */,
 				95C1747F1DDEE45D00F1C606 /* MainScreenController+handlers.swift */,
 				950DCDF01DE02CA100FF7D96 /* GroupController+handlers.swift */,
+				D9158CB11DCE56AE002E1122 /* RegisterController+handlers.swift */,
 				950DCDF61DE039C400FF7D96 /* AddGroupController+handlers.swift */,
 			);
 			name = Handlers;
