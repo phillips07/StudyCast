@@ -48,6 +48,15 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
         })
     }
     
+    func fetchUserName( closure:((String) -> Void)?) -> Void {
+        let uid = FIRAuth.auth()?.currentUser?.uid
+        let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
+        ref.child("users").child(uid!).child("name").observe(.value, with: { (snapshot) in
+            self.userName = snapshot.value as! String
+            closure!(self.userName)
+        })
+    }
+    
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -66,24 +75,40 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
+        groupClass = userCourses[row]
     }
     
-    func handleDone() {
+    func handleCreateGroup() {
     
-        /*guard let groupName = nameTextField.text else {
+        guard let groupName = nameTextField.text else {
             print("Form is not valid")
             return
         }
         
+        //getting all references to the DB
         let gid = UUID().uuidString
         let user = FIRAuth.auth()?.currentUser
         let uid = user?.uid
         let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
-        let groupUsersRef = ref.child("groups").child(gid).child("users")
-        groupUsersRef.updateChildValues([uid! : user?.displayName as Any])
+        let groupUsersRef = ref.child("groups").child(gid).child("members")
+        let groupRef = ref.child("groups").child(gid)
+        let userRef = ref.child("users").child(uid!).child("groups")
         
-        
+        if groupName != "" {
+            groupRef.updateChildValues(["groupName" : groupName])
+            userRef.updateChildValues([gid : groupName])
+        } else {
+            let alert = UIAlertController(title: "Group Name", message: "Must enter a Group Name.",
+                                          preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        fetchUserName( closure: {(name) in
+            groupUsersRef.updateChildValues([uid! : name])
+        })
+
+        //storage of group image
         let groupImageName = UUID().uuidString
         let storage = FIRStorage.storage().reference().child("groupImages").child("\(groupImageName).jpg")
         if let imageToUpload = UIImageJPEGRepresentation(self.groupImageView.image!, 0.1) {
@@ -92,9 +117,16 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
                     print(error!)
                     return
                 }
+                if let groupImage = metadata?.downloadURL()?.absoluteString {
+                    groupRef.updateChildValues(["groupPictureURL" : groupImage])
+                }
             })
-        }*/
-        
+        }
+        groupRef.updateChildValues(["groupClass" : groupClass])
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func handleCancel() {
         dismiss(animated: true, completion: nil)
     }
 }
