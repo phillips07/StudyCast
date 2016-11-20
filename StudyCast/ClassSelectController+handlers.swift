@@ -15,6 +15,13 @@ extension ClassSelectController {
     func handleDone() {
         if let user = FIRAuth.auth()?.currentUser {
             let uid = user.uid
+            let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
+            var classRef = ref
+            for pickedClass in pickedClassesDataSet {
+                classRef = ref.child(pickedClass)
+                classRef.updateChildValues([uid : uid])
+            }
+            
             self.addUserCourses(uid, values: pickedClassesDataSet.indexedDictionary)
         } else {
             print("User is not currently signed in")

@@ -12,6 +12,8 @@ import Firebase
 class UserListController: UITableViewController {
 
     var users = [ChatUser]()
+    let cellId = "cellId"
+    var userId = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,24 +24,25 @@ class UserListController: UITableViewController {
     }
     
     func fetchUser() {
-        FIRDatabase.database().reference().child("users").observe(.childAdded, with: { (snapshot) in
+        var i = 0
+        let ref = FIRDatabase.database().reference()//.child("users")
+        ref.observe(.value, with: { (snapshot) in
+            if let userDictionary = snapshot.value as? [String: AnyObject]{
+                if let userID = userDictionary["users"] as? String {
+                    self.userId[i] = userID
+                    print(userID)
+                    
+                    i += 1
+                }
+                
+                //print(userDictionary)
+            }
             
-            //if let dictionary = snapshot.value as? [String: AnyObject] {
-                //let user = User()
-                
-                //if you use this setter, your app will crash if your class properties don't exactly match up with the firebase dictionary keys
-                //user.setValuesForKeysWithDictionary(dictionary)
-                //self.users.append(user)
-                
-                //this will crash because of background thread, so lets use dispatch_async to fix
-                //DispatchQueue.main.asynchronously(execute: {
-                self.tableView.reloadData()
-                //})
-                
-                //                user.name = dictionary["name"]
-            //}
-            
-        }, withCancel: nil)
+            //print(snapshot)
+        })
+        
+        //print(self.userId)
+        
     }
     
     func handleBack() {
@@ -50,11 +53,11 @@ class UserListController: UITableViewController {
         return 5
     }
     
-    //override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        
-        
-    //}
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellId)
+        cell.textLabel?.text = "asdafasf"
+        return cell
+    }
 }
 
 class ChatUser: NSObject {
