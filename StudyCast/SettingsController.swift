@@ -71,7 +71,11 @@ class SettingsController: UITableViewController {
             } else if indexPath.row == 1 {
                 let classSelectController = ClassSelectController()
                 navigationController?.pushViewController(classSelectController, animated: true)
+            } else if indexPath.row == 2 {
+                let changenamecontroller = ChangeNameController()
+                navigationController?.pushViewController(changenamecontroller, animated: true)
             }
+            
         } else if indexPath.section == 3 {
             
             if indexPath.row == 0 {

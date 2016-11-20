@@ -19,6 +19,7 @@
 		95C174801DDEE45D00F1C606 /* MainScreenController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1747F1DDEE45D00F1C606 /* MainScreenController+handlers.swift */; };
 		95EAFD691DDD9087005FB966 /* ModifyAccountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EAFD681DDD9087005FB966 /* ModifyAccountController.swift */; };
 		95EAFD6B1DDD99B9005FB966 /* ChangePasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EAFD6A1DDD99B9005FB966 /* ChangePasswordController.swift */; };
+		B9D7C8271DE114430043B38C /* ChangeNameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7C8261DE114430043B38C /* ChangeNameController.swift */; };
 		D9158CB31DCE56AE002E1122 /* ClassSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */; };
 		D9158CB41DCE56AE002E1122 /* ClassSelectController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAD1DCE56AE002E1122 /* ClassSelectController+handlers.swift */; };
 		D9158CB51DCE56AE002E1122 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAE1DCE56AE002E1122 /* LoginController.swift */; };
@@ -48,6 +49,7 @@
 		95C1747F1DDEE45D00F1C606 /* MainScreenController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainScreenController+handlers.swift"; sourceTree = "<group>"; };
 		95EAFD681DDD9087005FB966 /* ModifyAccountController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyAccountController.swift; sourceTree = "<group>"; };
 		95EAFD6A1DDD99B9005FB966 /* ChangePasswordController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordController.swift; sourceTree = "<group>"; };
+		B9D7C8261DE114430043B38C /* ChangeNameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeNameController.swift; sourceTree = "<group>"; };
 		D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassSelectController.swift; sourceTree = "<group>"; };
 		D9158CAD1DCE56AE002E1122 /* ClassSelectController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ClassSelectController+handlers.swift"; sourceTree = "<group>"; };
 		D9158CAE1DCE56AE002E1122 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			children = (
 				95182CFF1DD6903300904E0E /* SettingsController.swift */,
 				95EAFD6A1DDD99B9005FB966 /* ChangePasswordController.swift */,
+				B9D7C8261DE114430043B38C /* ChangeNameController.swift */,
 				95EAFD681DDD9087005FB966 /* ModifyAccountController.swift */,
 			);
 			name = SettingsControllers;
@@ -304,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9D7C8271DE114430043B38C /* ChangeNameController.swift in Sources */,
 				95182D001DD6903300904E0E /* SettingsController.swift in Sources */,
 				950DCDF31DE0377300FF7D96 /* AddGroupController.swift in Sources */,
 				D95A8E631DDBB16F000FCED7 /* ClassTable.swift in Sources */,
