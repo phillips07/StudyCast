@@ -92,11 +92,11 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
         let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
         let groupUsersRef = ref.child("groups").child(gid).child("members")
         let groupRef = ref.child("groups").child(gid)
-        let userRef = ref.child("users").child(uid!).child("groups")
+        let userRef = ref.child("users").child(uid!).child("groups").child(gid)
         
         if groupName != "" {
             groupRef.updateChildValues(["groupName" : groupName])
-            userRef.updateChildValues([gid : groupName])
+            userRef.updateChildValues(["groupName" : groupName])
         } else {
             let alert = UIAlertController(title: "Group Name", message: "Must enter a Group Name.",
                                           preferredStyle: UIAlertControllerStyle.alert)
@@ -119,10 +119,12 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
                 }
                 if let groupImage = metadata?.downloadURL()?.absoluteString {
                     groupRef.updateChildValues(["groupPictureURL" : groupImage])
+                    userRef.updateChildValues(["groupPictureURL" : groupImage])
                 }
             })
         }
         groupRef.updateChildValues(["groupClass" : groupClass])
+        userRef.updateChildValues(["groupClass" : groupClass])
         dismiss(animated: true, completion: nil)
     }
     

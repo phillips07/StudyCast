@@ -14,6 +14,7 @@
 		950DCDF71DE039C400FF7D96 /* AddGroupController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDF61DE039C400FF7D96 /* AddGroupController+handlers.swift */; };
 		95182D001DD6903300904E0E /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95182CFF1DD6903300904E0E /* SettingsController.swift */; };
 		952773051DD67C5100931E5F /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952773041DD67C5100931E5F /* CustomTabBarController.swift */; };
+		95778B8B1DE1611E002942AA /* UserListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95778B8A1DE1611E002942AA /* UserListController.swift */; };
 		959C12521DD832A9004B3B6C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959C12511DD832A9004B3B6C /* Extensions.swift */; };
 		95C1747C1DDEC1F700F1C606 /* PasswordResetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1747B1DDEC1F700F1C606 /* PasswordResetController.swift */; };
 		95C174801DDEE45D00F1C606 /* MainScreenController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1747F1DDEE45D00F1C606 /* MainScreenController+handlers.swift */; };
@@ -44,6 +45,7 @@
 		950DCDF61DE039C400FF7D96 /* AddGroupController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AddGroupController+handlers.swift"; sourceTree = "<group>"; };
 		95182CFF1DD6903300904E0E /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		952773041DD67C5100931E5F /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
+		95778B8A1DE1611E002942AA /* UserListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListController.swift; sourceTree = "<group>"; };
 		959C12511DD832A9004B3B6C /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		95C1747B1DDEC1F700F1C606 /* PasswordResetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetController.swift; sourceTree = "<group>"; };
 		95C1747F1DDEE45D00F1C606 /* MainScreenController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainScreenController+handlers.swift"; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 				D9158CAE1DCE56AE002E1122 /* LoginController.swift */,
 				95C1747B1DDEC1F700F1C606 /* PasswordResetController.swift */,
 				952773041DD67C5100931E5F /* CustomTabBarController.swift */,
+				95778B8A1DE1611E002942AA /* UserListController.swift */,
 			);
 			name = UIControllers;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95778B8B1DE1611E002942AA /* UserListController.swift in Sources */,
 				B9D7C8271DE114430043B38C /* ChangeNameController.swift in Sources */,
 				95182D001DD6903300904E0E /* SettingsController.swift in Sources */,
 				950DCDF31DE0377300FF7D96 /* AddGroupController.swift in Sources */,
