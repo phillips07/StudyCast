@@ -46,7 +46,7 @@ class GroupsTableViewController: UITableViewController {
         
         initalizeTestingData()
         setGroupsForClassSection()
-        setGroupArrays()
+        //setGroupArrays()
         
         tableView.register(Header.self, forHeaderFooterViewReuseIdentifier: "headerId")
         tableView.register(GroupCell.self, forCellReuseIdentifier: "groupCell")
@@ -56,16 +56,16 @@ class GroupsTableViewController: UITableViewController {
         
     }
     
-    func setGroupArrays() {
-        var i = 0
-        var i2 = 0
-        for name in classSectionHeaders {
-            i2 = 0
-            for group in groupsList {
-                
-            }
-        }
-    }
+//    func setGroupArrays() {
+//        var i = 0
+//        var i2 = 0
+//        for name in classSectionHeaders {
+//            i2 = 0
+//            for group in groupsList {
+//                
+//            }
+//        }
+//    }
     
     func setGroupsForClassSection() {
         var numGroups  = 0
@@ -73,7 +73,7 @@ class GroupsTableViewController: UITableViewController {
         for userClass in currentUser!.classes! {
             numGroups = 0
             //for each of those classes, checks against the User's list of groups
-            for group in groupsList! {
+            for group in groupsList {
                 //every time a group is found for that class add to the number of groups
                 if userClass == group.groupClass {
                    numGroups += 1
@@ -87,6 +87,7 @@ class GroupsTableViewController: UITableViewController {
         }
 
         print("The section headers are: \(classSectionHeaders)")
+        
     }
     
     func initalizeTestingData() {
@@ -158,7 +159,9 @@ class GroupsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-       let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as! GroupCell
+        
+        let cell = UITableViewCell()
+        //let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as! GroupCell
         
         //if indexPath.section
         cell.textLabel?.text = "working cell mf"
