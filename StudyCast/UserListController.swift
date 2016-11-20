@@ -13,7 +13,10 @@ class UserListController: UITableViewController {
 
     var users = [ChatUser]()
     let cellId = "cellId"
-    var userId = [String]()
+    var userNames = [String]()
+    var className = String()
+    //bool finished = false
+    var finished = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,29 +24,82 @@ class UserListController: UITableViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
         
         fetchUser()
+        while !(finished) {
+            sleep(UInt32(0.1))
+        }
+        print(self.userNames)
     }
     
     func fetchUser() {
-        var i = 0
-        let ref = FIRDatabase.database().reference()//.child("users")
+        self.className = "ENSC 351"
+        var userIds = [String]()
+        
+        //var finished2 = false
+        
+        //var localNames = [String]()
+        let ref = FIRDatabase.database().reference().child(self.className)
+        var userRef = FIRDatabase.database().reference().child(self.className).child("users")
         ref.observe(.value, with: { (snapshot) in
             if let userDictionary = snapshot.value as? [String: AnyObject]{
-                if let userID = userDictionary["users"] as? String {
-                    self.userId[i] = userID
-                    print(userID)
-                    
-                    i += 1
-                }
+                userIds = Array(userDictionary.keys)
+                //self.userNames = self.storeUsersInArray(uids: userIds)
                 
-                //print(userDictionary)
+                //print(userIds)
+                for uid in userIds {
+                    //print(uid)
+                    userRef = FIRDatabase.database().reference().child("users").child(uid)
+                    userRef.observe(.value, with: { (snapshot) in
+                        
+                        //print(snapshot)
+                        if let nameDictionary = snapshot.value as? [String: AnyObject]{
+                            self.userNames.append(nameDictionary["name"] as! String)
+                            //let test = self.userNames
+                            //print(self.userNames)
+                        }
+                        print(self.userNames)
+                        
+                        if self.userNames.count == userIds.count{
+                            self.finished = true
+                        }
+                    })
+                }
+                /*self.storeUsersInArray(uids: userIds, completion: {success in
+                    //if success {
+                        localNames = success
+                        print(localNames)
+                    //}
+                })*/
             }
-            
-            //print(snapshot)
         })
-        
-        //print(self.userId)
-        
+        while !finished{
+            sleep(UInt32(0.1))
+        }
+        //finished = true
     }
+    
+    
+    /*func storeUsersInArray(uids: [String], completion: ([String]) -> ()) {
+        //userIds = Array(userDictionary.keys)
+        //print(userIds)
+        var local = [String]()
+        var userRef = FIRDatabase.database().reference().child(self.className).child("users")
+        for uid in uids {
+            //print(uid)
+            userRef = FIRDatabase.database().reference().child("users").child(uid)
+            userRef.observe(.value, with: { (snapshot) in
+                
+                //print(snapshot)
+                if let nameDictionary = snapshot.value as? [String: AnyObject]{
+                    local.append(nameDictionary["name"] as! String)
+                    //let test = self.userNames
+                    //print(self.userNames)
+                }
+                //print(local)
+            })
+        }
+        completion(local)
+    }*/
+    
     
     func handleBack() {
         dismiss(animated: true, completion: nil)
@@ -64,4 +120,5 @@ class ChatUser: NSObject {
     var name: String?
     var email: String?
     var courses: [String]?
+    var uid: String?
 }
