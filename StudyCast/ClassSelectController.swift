@@ -62,8 +62,6 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         loadClassesToTable(key: currentFaculty.lowercased())
 
 
-   
-        
         //creating subviews
         view.addSubview(facultyTableView)
         view.addSubview(userClassesTableView)
@@ -81,11 +79,8 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         setupPickerView()
         
         
-
-        
         self.facultyTableView.register(UserCell.self, forCellReuseIdentifier: "cell")
         self.userClassesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell2")
-        
         
     }
     

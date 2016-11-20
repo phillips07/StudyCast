@@ -11,6 +11,8 @@ import UIKit
 class AddGroupController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     var userCourses = [String]()
+    var userName = String()
+    var groupClass = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +35,7 @@ class AddGroupController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         setupCreateGroupButton()
         
         fetchClasses()
+        //setCurrentClass(row: 0)
     }
     
     let cancelButton: UIButton = {
@@ -42,8 +45,7 @@ class AddGroupController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         button.setTitleColor(UIColor.white, for: UIControlState())
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
         //this line causes some weird swift compiler crash...
-        //button.addTarget(self, action: #selector(handleDone), for: .touchUpInside)
-    
+        //button.addTarget(self, action: #selector(handleCancel), for: .touchUpInside)
         return button
     }()
     
@@ -94,7 +96,7 @@ class AddGroupController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: UIControlState())
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.addTarget(self, action: #selector(handleDone), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleCreateGroup), for: .touchUpInside)
         return button
     }()
     
