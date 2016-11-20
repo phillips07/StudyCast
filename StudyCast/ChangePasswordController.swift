@@ -130,11 +130,17 @@ class ChangePasswordController: UIViewController {
         user?.reauthenticate(with: credential) { error in
             if let error = error {
                 print(error)
+                let alertController = UIAlertController(title: "Wrong Password", message:
+                    "Please Try Again", preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                
+                self.present(alertController, animated: true, completion: nil)
             } else {
                 if newPassword == confirmPassword {
                     user?.updatePassword(newPassword, completion: { (error) in
                         if let error = error {
                             print(error)
+                            
                         } else {
                             //dismiss view, password has been updated
                             self.dismiss(animated: true, completion: nil)
@@ -142,6 +148,11 @@ class ChangePasswordController: UIViewController {
                     })
                 } else {
                     print("Passwords do not match")
+                    let alertController = UIAlertController(title: "Passwords Do Not Match", message:
+                        "Please Try Again", preferredStyle: UIAlertControllerStyle.alert)
+                    alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                    
+                    self.present(alertController, animated: true, completion: nil)
                 }
             }
         }
