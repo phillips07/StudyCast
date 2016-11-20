@@ -126,7 +126,8 @@ class MainScreenController: UITableViewController {
     }
     
     func handleSettings(){
-        let settingsController = SettingsController()
+        //let settingsController = SettingsController()
+        let settingsController = UserListController()
         let settingsNavController = UINavigationController(rootViewController: settingsController)
         present(settingsNavController, animated: true, completion: nil)
     }
