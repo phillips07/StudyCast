@@ -36,6 +36,8 @@ class GroupsTableViewController: UITableViewController {
     var group2: Group?
     var group3: Group?
     
+    var testingList: [Group] = []
+    
     var groupsList: [Group] = []
     
     var groupsDataSet: [[Group]] = [[]]
@@ -46,7 +48,7 @@ class GroupsTableViewController: UITableViewController {
         
         initalizeTestingData()
         setGroupsForClassSection()
-        //setGroupArrays()
+        setGroupArrays()
         
         tableView.register(Header.self, forHeaderFooterViewReuseIdentifier: "headerId")
         tableView.register(GroupCell.self, forCellReuseIdentifier: "groupCell")
@@ -56,16 +58,39 @@ class GroupsTableViewController: UITableViewController {
         
     }
     
-//    func setGroupArrays() {
-//        var i = 0
-//        var i2 = 0
-//        for name in classSectionHeaders {
-//            i2 = 0
-//            for group in groupsList {
-//                
-//            }
-//        }
-//    }
+    
+    func setGroupArrays() {
+        
+        let uid = FIRAuth.auth()?.currentUser?.uid
+        FIRDatabase.database().reference().child("users").child(uid!).child("groups").observe(.childAdded, with: { (snapshot) in
+            let group = snapshot.key 
+            
+            print(group)
+            
+            //self.userCourses.append(snapshot.value as! String)
+            //self.tableView.reloadData()
+        })
+        
+        //declaring iterator
+        var i = 0
+        //iterates through the classes that have been determined to have groups
+        for name in classSectionHeaders {
+            //places each group its respective array
+            for group in groupsList {
+                //checks if the current group needs to be added to this list
+                if group.groupClass == name {
+                    //creates new array index if necessary , or just appends the group to a prexisting list
+                    if !(groupsDataSet.indices.contains(i)){
+                        groupsDataSet.append([group])
+                    }
+                    else {
+                        groupsDataSet[i].append(group)
+                    }
+                }
+            }
+            i += 1
+        }
+    }
     
     func setGroupsForClassSection() {
         var numGroups  = 0
@@ -85,8 +110,6 @@ class GroupsTableViewController: UITableViewController {
                 self.classSectionHeaders.append(userClass)
             }
         }
-
-        print("The section headers are: \(classSectionHeaders)")
         
     }
     
@@ -101,7 +124,7 @@ class GroupsTableViewController: UITableViewController {
         
         self.group1 = Group(id: nil, name: "group1", photo: nil, users: users, groupClass: "ENSC 380")
         self.group2 = Group(id: nil, name: "group2", photo: nil, users: users, groupClass: "CMPT 275")
-        self.group3 = Group(id: nil, name: "group3", photo: nil, users: users, groupClass: "CMPT 275")
+        self.group3 = Group(id: nil, name: "group3", photo: nil, users: users, groupClass: "ENSC 380")
         
         groupsList = [group1!, group2!, group3!]
         
@@ -160,11 +183,11 @@ class GroupsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         
-        let cell = UITableViewCell()
-        //let cell = tableView.dequeueReusableCell(withIdentifier: "GroupCell", for: indexPath) as! GroupCell
+        //let cell = UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as! GroupCell
         
         //if indexPath.section
-        cell.textLabel?.text = "working cell mf"
+        cell.nameLabel.text = groupsDataSet[indexPath.section][indexPath.row].name
 
         return cell
     }
@@ -271,6 +294,7 @@ class GroupCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
     
 //    let groupImage: UIImage = {
 //        let image = UIImage()
