@@ -13,42 +13,18 @@ import Foundation
 
 
 class GroupsTableViewController: UITableViewController {
-
-    //let userClassesDataSet: [String]?
-    //let groupsDataSet: [Group]?
     
-
-    //Dummy data for this page, all to be pulled from db later.
-    let userClassesDataSet = ["ENSC 380", "CMPT 275", "ENSC 252", "MACM 201"]
-    
-    var groupsForClassSection: [Int] = []
     var classSectionHeaders: [String] = []
     
-    var Dennis: User?
-    var Austin: User?
-    var Roy: User?
-    
-    var currentUser: User?
-    
-    var users: [User]?
-    
-    var group1: Group?
-    var group2: Group?
-    var group3: Group?
-    
-    var testingList: [Group] = []
-    
-    var groupsList: [Group] = []
     
     var groupsDataSet: [[Group]] = [[]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
-        
-        initalizeTestingData()
-        setGroupsForClassSection()
-        setGroupArrays()
+
+        fetchGroups()
+
         
         tableView.register(Header.self, forHeaderFooterViewReuseIdentifier: "headerId")
         tableView.register(GroupCell.self, forCellReuseIdentifier: "groupCell")
@@ -58,78 +34,56 @@ class GroupsTableViewController: UITableViewController {
         
     }
     
-    
-    func setGroupArrays() {
+    func fetchGroups () {
         
         let uid = FIRAuth.auth()?.currentUser?.uid
+        
         FIRDatabase.database().reference().child("users").child(uid!).child("groups").observe(.childAdded, with: { (snapshot) in
-            let group = snapshot.key 
+            //iterator for setting up arrays
+
+            let numClassSections = self.classSectionHeaders.count
             
-            print(group)
+            var group = Group()
             
-            //self.userCourses.append(snapshot.value as! String)
-            //self.tableView.reloadData()
+            if let groupDictionary = snapshot.value as? [String: AnyObject] {
+                let name = groupDictionary["groupName"] as? String
+                let groupClass = groupDictionary["groupClass"] as? String
+                let imgUrl = groupDictionary["groupPictureURL"] as? String
+                
+                group = Group(id: nil, name: name, photoUrl: imgUrl, users: nil, groupClass: groupClass)
+                
+            }
+            
+            if group.groupClass == nil {
+            }
+            else {
+                //Set up all Data for TableView
+                if numClassSections == 0 {
+                    self.classSectionHeaders.append(group.groupClass!)
+                    self.groupsDataSet[0] = [group]
+                }
+                else {
+                    var i = 0
+                    var added = false
+                    for g in self.classSectionHeaders {
+                        if (group.groupClass)! == g {
+                            self.groupsDataSet[i].append(group)
+                            added = true
+                        }
+                        i += 1
+                    }
+                    if !added {
+                        self.classSectionHeaders.append(group.groupClass!)
+                        self.groupsDataSet.append([group])
+                    }
+                    
+                }
+                self.tableView.reloadData()
+            }
         })
         
-        //declaring iterator
-        var i = 0
-        //iterates through the classes that have been determined to have groups
-        for name in classSectionHeaders {
-            //places each group its respective array
-            for group in groupsList {
-                //checks if the current group needs to be added to this list
-                if group.groupClass == name {
-                    //creates new array index if necessary , or just appends the group to a prexisting list
-                    if !(groupsDataSet.indices.contains(i)){
-                        groupsDataSet.append([group])
-                    }
-                    else {
-                        groupsDataSet[i].append(group)
-                    }
-                }
-            }
-            i += 1
-        }
     }
     
-    func setGroupsForClassSection() {
-        var numGroups  = 0
-        //increments through list of current User's classes
-        for userClass in currentUser!.classes! {
-            numGroups = 0
-            //for each of those classes, checks against the User's list of groups
-            for group in groupsList {
-                //every time a group is found for that class add to the number of groups
-                if userClass == group.groupClass {
-                   numGroups += 1
-                }
-            }
-            // if groups are found for that class, append the amount to the array
-            if numGroups != 0 {
-                self.groupsForClassSection.append(numGroups)
-                self.classSectionHeaders.append(userClass)
-            }
-        }
-        
-    }
-    
-    func initalizeTestingData() {
-        self.Dennis = User(id: nil, name: "Dennis", photo: nil, email: "Dennis@gmail.com", classes: userClassesDataSet)
-        self.Austin = User(id: nil, name: "Austin", photo: nil, email: "Austin@gmail.com", classes: userClassesDataSet)
-        self.Roy = User(id: nil, name: "Roy", photo: nil, email: "Roy@gmail.com", classes: userClassesDataSet)
-        
-        self.currentUser = Austin
-        
-        self.users = [Dennis!, Austin!, Roy!]
-        
-        self.group1 = Group(id: nil, name: "group1", photo: nil, users: users, groupClass: "ENSC 380")
-        self.group2 = Group(id: nil, name: "group2", photo: nil, users: users, groupClass: "CMPT 275")
-        self.group3 = Group(id: nil, name: "group3", photo: nil, users: users, groupClass: "ENSC 380")
-        
-        groupsList = [group1!, group2!, group3!]
-        
-    
-    }
     
     func setupNavBar() {
         let image = UIImage(named: "GroupAddIcon")
@@ -171,12 +125,12 @@ class GroupsTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         
-        return groupsForClassSection.count
+        return classSectionHeaders.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return groupsForClassSection[section]
+        return groupsDataSet[section].count
     }
 
     
@@ -243,19 +197,27 @@ class GroupsTableViewController: UITableViewController {
 class Group: NSObject {
     
     
-    init(id: String?, name: String?, photo: UIImage?, users: [User]?, groupClass: String?) {
-        self.id   = id
+    init(id: String?, name: String?, photoUrl: String?, users: [User]?, groupClass: String?) {
+        self.id = id
         self.name = name
-        self.photo  = photo
+        self.photoUrl = photoUrl
         self.users = users
         self.groupClass = groupClass
     }
     
-    let id: String?
-    let name: String?
-    let photo: UIImage?
-    let users: [User]?
-    let groupClass: String?
+    override init () {
+        self.id = nil
+        self.name = nil
+        self.photoUrl = nil
+        self.users = nil
+        self.groupClass = nil
+    }
+    
+    var id: String?
+    var name: String?
+    var photoUrl: String?
+    var users: [User]?
+    var groupClass: String?
 
 }
 
@@ -268,6 +230,14 @@ class User: NSObject {
         self.email = email
         self.classes = classes
         
+    }
+    
+    override init () {
+        self.id   = nil
+        self.name =  nil
+        self.photo  =  nil
+        self.email =  nil
+        self.classes =  nil
     }
     
     let id: String?
