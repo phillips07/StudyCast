@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		09554FD1B465B434BBDA59DC /* Pods_StudyCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83728B8438FD9DB7C5551786 /* Pods_StudyCast.framework */; };
-		950DCDEF1DE02BD800FF7D96 /* GroupsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDEE1DE02BD800FF7D96 /* GroupsController.swift */; };
-		950DCDF11DE02CA100FF7D96 /* GroupController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDF01DE02CA100FF7D96 /* GroupController+handlers.swift */; };
+		950DCDEF1DE02BD800FF7D96 /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDEE1DE02BD800FF7D96 /* GroupsTableViewController.swift */; };
+		950DCDF11DE02CA100FF7D96 /* GroupsTableViewController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDF01DE02CA100FF7D96 /* GroupsTableViewController+handlers.swift */; };
 		950DCDF31DE0377300FF7D96 /* AddGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDF21DE0377300FF7D96 /* AddGroupController.swift */; };
 		950DCDF71DE039C400FF7D96 /* AddGroupController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDF61DE039C400FF7D96 /* AddGroupController+handlers.swift */; };
 		95182D001DD6903300904E0E /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95182CFF1DD6903300904E0E /* SettingsController.swift */; };
@@ -38,8 +38,8 @@
 		250B21402ACAE98181279FF0 /* Pods-StudyCast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyCast.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast.debug.xcconfig"; sourceTree = "<group>"; };
 		83728B8438FD9DB7C5551786 /* Pods_StudyCast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StudyCast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		950DCDED1DE01C8000FF7D96 /* StudyCast.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StudyCast.entitlements; sourceTree = "<group>"; };
-		950DCDEE1DE02BD800FF7D96 /* GroupsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsController.swift; sourceTree = "<group>"; };
-		950DCDF01DE02CA100FF7D96 /* GroupController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GroupController+handlers.swift"; sourceTree = "<group>"; };
+		950DCDEE1DE02BD800FF7D96 /* GroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
+		950DCDF01DE02CA100FF7D96 /* GroupsTableViewController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GroupsTableViewController+handlers.swift"; sourceTree = "<group>"; };
 		950DCDF21DE0377300FF7D96 /* AddGroupController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddGroupController.swift; sourceTree = "<group>"; };
 		950DCDF61DE039C400FF7D96 /* AddGroupController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AddGroupController+handlers.swift"; sourceTree = "<group>"; };
 		95182CFF1DD6903300904E0E /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
@@ -82,7 +82,7 @@
 		950DCDF41DE0378600FF7D96 /* Groups */ = {
 			isa = PBXGroup;
 			children = (
-				950DCDEE1DE02BD800FF7D96 /* GroupsController.swift */,
+				950DCDEE1DE02BD800FF7D96 /* GroupsTableViewController.swift */,
 				950DCDF21DE0377300FF7D96 /* AddGroupController.swift */,
 			);
 			name = Groups;
@@ -110,7 +110,7 @@
 				D9158CAF1DCE56AE002E1122 /* LoginController+handlers.swift */,
 				D95A8E621DDBB16F000FCED7 /* ClassTable.swift */,
 				95C1747F1DDEE45D00F1C606 /* MainScreenController+handlers.swift */,
-				950DCDF01DE02CA100FF7D96 /* GroupController+handlers.swift */,
+				950DCDF01DE02CA100FF7D96 /* GroupsTableViewController+handlers.swift */,
 				D9158CB11DCE56AE002E1122 /* RegisterController+handlers.swift */,
 				950DCDF61DE039C400FF7D96 /* AddGroupController+handlers.swift */,
 			);
@@ -316,7 +316,7 @@
 				D9E66C731DC1A8DF00579C88 /* AppDelegate.swift in Sources */,
 				95C174801DDEE45D00F1C606 /* MainScreenController+handlers.swift in Sources */,
 				95EAFD6B1DDD99B9005FB966 /* ChangePasswordController.swift in Sources */,
-				950DCDEF1DE02BD800FF7D96 /* GroupsController.swift in Sources */,
+				950DCDEF1DE02BD800FF7D96 /* GroupsTableViewController.swift in Sources */,
 				D9158CB91DCE56AE002E1122 /* MainScreenController.swift in Sources */,
 				95EAFD691DDD9087005FB966 /* ModifyAccountController.swift in Sources */,
 				952773051DD67C5100931E5F /* CustomTabBarController.swift in Sources */,
@@ -328,7 +328,7 @@
 				D9158CB71DCE56AE002E1122 /* RegisterController.swift in Sources */,
 				950DCDF71DE039C400FF7D96 /* AddGroupController+handlers.swift in Sources */,
 				D9158CB81DCE56AE002E1122 /* RegisterController+handlers.swift in Sources */,
-				950DCDF11DE02CA100FF7D96 /* GroupController+handlers.swift in Sources */,
+				950DCDF11DE02CA100FF7D96 /* GroupsTableViewController+handlers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

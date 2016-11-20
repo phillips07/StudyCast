@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-extension GroupsController {
+extension GroupsTableViewController {
 
     func handleAddGroup() {
         let addGroupController = AddGroupController()
