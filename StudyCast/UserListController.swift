@@ -13,68 +13,42 @@ class UserListController: UITableViewController {
 
     //var usersInClass = [ChatUser]()
     var usersInClass: [ChatUser] = []
-    let cellId = "cellId"
-    var userNames = [String]()
     var className = String()
-    let group = DispatchGroup()
-    let queue = DispatchQueue(label: "com.allaboutswift.dispatchgroup", attributes: .concurrent, target: .main)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-       // self.group.enter()
-        //queue.async (group: self.group) {
-            fetchUser()
-        //    self.group.leave()
-       // }
-        
+
+        fetchUser()
+
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
-        tableView.register(GroupCell.self, forCellReuseIdentifier: "groupCell")
+        tableView.register(GroupCell.self, forCellReuseIdentifier: "userCell")
         
-        /*/group.notify(queue: DispatchQueue.main) {
-            self.tableView.reloadData()
-        }*/
     }
-    
     
     func fetchUser() {
         self.className = "ENSC 351"
         var userIds = [String]()
-
         let ref = FIRDatabase.database().reference().child(self.className)
         var userRef = FIRDatabase.database().reference().child(self.className).child("users")
         ref.observe(.value, with: { (snapshot) in
             if let userDictionary = snapshot.value as? [String: AnyObject]{
                 userIds = Array(userDictionary.keys)
-                //self.userNames = self.storeUsersInArray(uids: userIds)
-                
-                //print(userIds)
                 for uid in userIds {
                     userRef = FIRDatabase.database().reference().child("users").child(uid)
                     userRef.observe(.value, with: { (snapshot) in
-                        //print(snapshot)
                         if let nameDictionary = snapshot.value as? [String: AnyObject]{
-                            self.userNames.append(nameDictionary["name"] as! String)
                             let userInClass = ChatUser()
                             userInClass.name = nameDictionary["name"] as? String
                             userInClass.uid = uid
                             userInClass.profileURL = nameDictionary["profileImage"] as? String
                             self.usersInClass.append(userInClass)
-                            //self.tableView.reloadData()
+                            self.tableView.reloadData()
                         }
-                        print(self.userNames)
                     })
-                    //print(self.userNames)
-
                 }
-                self.tableView.reloadData()
             }
         })
     }
-    
-    /*override func viewWillAppear(_ animated: Bool) {
-        fetchUser()
-    }*/
     
     func handleBack() {
         dismiss(animated: true, completion: nil)
