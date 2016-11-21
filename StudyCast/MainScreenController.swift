@@ -12,12 +12,18 @@ import Firebase
 class MainScreenController: UITableViewController {
 
     var userCourses = [String]()
+    var userNotifications = [[String]]()
+    var notificationSectionHeaders = [String]()
+    var notificationSender = NotificationSender()
+    var userName = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let image = UIImage(named: "SettingsIcon")
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(handleSettings))
-        
+        tableView.register(GroupCell.self, forCellReuseIdentifier: "userCell")
+        tableView.register(Header.self, forHeaderFooterViewReuseIdentifier: "headerId")
+        tableView.sectionHeaderHeight = 50
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
         self.tabBarController?.tabBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
         
@@ -32,6 +38,8 @@ class MainScreenController: UITableViewController {
             perform(#selector(handleLogout), with: nil, afterDelay: 0)
         }
         userCourses.removeAll()
+        fetchNotifications()
+        fetchCurrentName()
         self.tableView.reloadData()
     }
     
@@ -45,6 +53,8 @@ class MainScreenController: UITableViewController {
         } else {
             fetchNameSetupNavBar()
             fetchClasses()
+            fetchNotifications()
+            fetchCurrentName()
         }
     }
     
@@ -102,6 +112,33 @@ class MainScreenController: UITableViewController {
         }, withCancel: nil)
     }
     
+    
+    func fetchNotifications() {
+        let uid = FIRAuth.auth()?.currentUser?.uid
+        FIRDatabase.database().reference().child("users").child(uid!).child("notifications").child("0").observe(.value, with: { (snapshot) in
+            print(snapshot)
+            //notificationSectionHeaders.append()
+            
+            if let notificationsDictionary = snapshot.value as? [String: AnyObject] {
+                self.notificationSender.senderName = notificationsDictionary["senderName"] as? String
+                self.notificationSender.groupName = notificationsDictionary["groupName"] as? String
+                self.notificationSender.gid = notificationsDictionary["gid"] as? String
+                self.notificationSender.senderName = notificationsDictionary["senderName"] as? String
+                self.notificationSender.className = notificationsDictionary["class"] as? String
+                self.notificationSender.groupPictureURL = notificationsDictionary["groupPictureURL"] as? String
+            } else {
+                self.notificationSender.senderName = nil
+                self.notificationSender.groupName = nil
+                self.notificationSender.gid = nil
+                self.notificationSender.senderName = nil
+                self.notificationSender.className = nil
+                self.notificationSender.groupPictureURL = nil
+            }
+            self.tableView.reloadData()
+        })
+    }
+    
+
     func fetchClasses() {
         userCourses.removeAll()
         let uid = FIRAuth.auth()?.currentUser?.uid
@@ -110,6 +147,14 @@ class MainScreenController: UITableViewController {
             
             self.userCourses.append(snapshot.value as! String)
             self.tableView.reloadData()
+        })
+    }
+    
+    
+    func fetchCurrentName() {
+        let uid = FIRAuth.auth()?.currentUser?.uid
+        FIRDatabase.database().reference().child("users").child(uid!).child("name").observe(.value, with: { (snapshot) in
+            self.userName = snapshot.value as! String
         })
     }
     
@@ -134,16 +179,85 @@ class MainScreenController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection
         section: Int) -> Int {
-        return userCourses.count
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cellId")
-        if(userCourses.count > 0) {
-            let course = userCourses[indexPath.row]
-            cell.textLabel?.text = course
+        let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! GroupCell
+        if notificationSender.senderName != nil && notificationSender.groupName != nil {
+            cell.nameLabel.numberOfLines = 2
+            cell.nameLabel.text = notificationSender.senderName! + " has invited you to group \n" + notificationSender.groupName!
+            return cell
         }
+        cell.nameLabel.text = ""
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "headerId") as! Header
+        header.nameLabel.text = notificationSender.className
+        return header
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        if notificationSender.className != nil {
+            return 1
+        } else {
+            return 0
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let uid = FIRAuth.auth()?.currentUser?.uid
+        if notificationSender.className != nil {
+            let alertController = UIAlertController(title: "Group Invite", message: self.notificationSender.senderName! + " would like to invite you to group "
+                + self.notificationSender.groupName!, preferredStyle: .alert)
+            
+            let noteRef = FIRDatabase.database().reference().child("users").child(uid!).child("notifications")
+            
+            let okAction = UIAlertAction(title: "Accept", style: UIAlertActionStyle.default) {
+                UIAlertAction in
+                let groupRef = FIRDatabase.database().reference().child("groups").child(self.notificationSender.gid!).child("members")
+                let userRef = FIRDatabase.database().reference().child("users").child(uid!).child("groups").child(self.notificationSender.gid!)
+                
+                groupRef.updateChildValues([uid! : self.userName])
+                userRef.updateChildValues(["gid" : self.notificationSender.gid!])
+                userRef.updateChildValues(["groupClass" : self.notificationSender.className!])
+                userRef.updateChildValues(["groupName" : self.notificationSender.groupName!])
+                userRef.updateChildValues(["groupPictureURL" : self.notificationSender.groupPictureURL!])
+                
+                self.notificationSender.senderName = nil
+                self.notificationSender.groupName = nil
+                self.notificationSender.gid = nil
+                self.notificationSender.senderName = nil
+                self.notificationSender.className = nil
+                self.notificationSender.groupPictureURL = nil
+                
+                noteRef.removeValue()
+                self.tableView.reloadData()
+                NSLog("OK Pressed")
+            }
+            
+            let cancelAction = UIAlertAction(title: "Decline", style: UIAlertActionStyle.cancel) {
+                UIAlertAction in
+                
+                self.notificationSender.senderName = nil
+                self.notificationSender.groupName = nil
+                self.notificationSender.gid = nil
+                self.notificationSender.senderName = nil
+                self.notificationSender.className = nil
+                self.notificationSender.groupPictureURL = nil
+                noteRef.removeValue()
+                
+                self.tableView.reloadData()
+                NSLog("Cancel Pressed")
+            }
+            
+            alertController.addAction(okAction)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
 }
 
