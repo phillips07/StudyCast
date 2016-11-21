@@ -11,20 +11,31 @@ import Firebase
 
 class UserListController: UITableViewController {
 
-    var users = [ChatUser]()
+    //var usersInClass = [ChatUser]()
+    var usersInClass: [ChatUser] = []
     let cellId = "cellId"
     var userNames = [String]()
     var className = String()
-
+    let group = DispatchGroup()
+    let queue = DispatchQueue(label: "com.allaboutswift.dispatchgroup", attributes: .concurrent, target: .main)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+       // self.group.enter()
+        //queue.async (group: self.group) {
+            fetchUser()
+        //    self.group.leave()
+       // }
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
+        tableView.register(GroupCell.self, forCellReuseIdentifier: "groupCell")
         
-        fetchUser()
-        
+        /*/group.notify(queue: DispatchQueue.main) {
+            self.tableView.reloadData()
+        }*/
     }
+    
     
     func fetchUser() {
         self.className = "ENSC 351"
@@ -39,41 +50,55 @@ class UserListController: UITableViewController {
                 
                 //print(userIds)
                 for uid in userIds {
-                    //print(uid)
                     userRef = FIRDatabase.database().reference().child("users").child(uid)
                     userRef.observe(.value, with: { (snapshot) in
-                        
                         //print(snapshot)
                         if let nameDictionary = snapshot.value as? [String: AnyObject]{
                             self.userNames.append(nameDictionary["name"] as! String)
-                            //let test = self.userNames
-                            //print(self.userNames)
+                            let userInClass = ChatUser()
+                            userInClass.name = nameDictionary["name"] as? String
+                            userInClass.uid = uid
+                            userInClass.profileURL = nameDictionary["profileImage"] as? String
+                            self.usersInClass.append(userInClass)
+                            //self.tableView.reloadData()
                         }
                         print(self.userNames)
                     })
+                    //print(self.userNames)
+
                 }
+                self.tableView.reloadData()
             }
         })
     }
+    
+    /*override func viewWillAppear(_ animated: Bool) {
+        fetchUser()
+    }*/
     
     func handleBack() {
         dismiss(animated: true, completion: nil)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        let numRows = usersInClass.count
+        
+        return numRows
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellId)
-        cell.textLabel?.text = "asdafasf"
+        let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! GroupCell
+        cell.nameLabel.text = usersInClass[indexPath.row].name
         return cell
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
     }
 }
 
 class ChatUser: NSObject {
     var name: String?
-    var email: String?
-    var courses: [String]?
     var uid: String?
+    var profileURL: String?
 }
