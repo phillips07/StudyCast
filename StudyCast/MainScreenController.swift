@@ -125,12 +125,14 @@ class MainScreenController: UITableViewController {
                 self.notificationSender.gid = notificationsDictionary["gid"] as? String
                 self.notificationSender.senderName = notificationsDictionary["senderName"] as? String
                 self.notificationSender.className = notificationsDictionary["class"] as? String
+                self.notificationSender.groupPictureURL = notificationsDictionary["groupPictureURL"] as? String
             } else {
                 self.notificationSender.senderName = nil
                 self.notificationSender.groupName = nil
                 self.notificationSender.gid = nil
                 self.notificationSender.senderName = nil
                 self.notificationSender.className = nil
+                self.notificationSender.groupPictureURL = nil
             }
             self.tableView.reloadData()
         })
@@ -151,7 +153,7 @@ class MainScreenController: UITableViewController {
     
     func fetchCurrentName() {
         let uid = FIRAuth.auth()?.currentUser?.uid
-        FIRDatabase.database().reference().child("users").child(uid!).child("name").observe(.childAdded, with: { (snapshot) in
+        FIRDatabase.database().reference().child("users").child(uid!).child("name").observe(.value, with: { (snapshot) in
             self.userName = snapshot.value as! String
         })
     }
@@ -207,24 +209,48 @@ class MainScreenController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        //let cell = tableView.cellForRow(at: indexPath)
-        //let user = usersInClass[indexPath.row]
-        //user.selected = !user.selected
         let uid = FIRAuth.auth()?.currentUser?.uid
         if notificationSender.className != nil {
             let alertController = UIAlertController(title: "Group Invite", message: self.notificationSender.senderName! + " would like to invite you to group "
                 + self.notificationSender.groupName!, preferredStyle: .alert)
             
+            let noteRef = FIRDatabase.database().reference().child("users").child(uid!).child("notifications")
+            
             let okAction = UIAlertAction(title: "Accept", style: UIAlertActionStyle.default) {
                 UIAlertAction in
                 let groupRef = FIRDatabase.database().reference().child("groups").child(self.notificationSender.gid!).child("members")
-                let userRef = FIRDatabase.database().reference().child("users").child(uid!)
+                let userRef = FIRDatabase.database().reference().child("users").child(uid!).child("groups").child(self.notificationSender.gid!)
+                
                 groupRef.updateChildValues([uid! : self.userName])
+                userRef.updateChildValues(["gid" : self.notificationSender.gid!])
+                userRef.updateChildValues(["groupClass" : self.notificationSender.className!])
+                userRef.updateChildValues(["groupName" : self.notificationSender.groupName!])
+                userRef.updateChildValues(["groupPictureURL" : self.notificationSender.groupPictureURL!])
+                
+                self.notificationSender.senderName = nil
+                self.notificationSender.groupName = nil
+                self.notificationSender.gid = nil
+                self.notificationSender.senderName = nil
+                self.notificationSender.className = nil
+                self.notificationSender.groupPictureURL = nil
+                
+                noteRef.removeValue()
+                self.tableView.reloadData()
                 NSLog("OK Pressed")
             }
             
-            let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
+            let cancelAction = UIAlertAction(title: "Decline", style: UIAlertActionStyle.cancel) {
                 UIAlertAction in
+                
+                self.notificationSender.senderName = nil
+                self.notificationSender.groupName = nil
+                self.notificationSender.gid = nil
+                self.notificationSender.senderName = nil
+                self.notificationSender.className = nil
+                self.notificationSender.groupPictureURL = nil
+                noteRef.removeValue()
+                
+                self.tableView.reloadData()
                 NSLog("Cancel Pressed")
             }
             

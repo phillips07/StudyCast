@@ -73,6 +73,9 @@ class UserListController: UITableViewController {
         notificationSender.gid = "123123"
         notificationSender.groupName = "Test Group"
         notificationSender.senderName = "John Smith"
+        notificationSender.groupPictureURL = "https://firebasestorage.googleapis.com/v0/b/studycast-11ca5.appspot.com/o/groupImages%2FD3DA43C3-4083-490B-B38D-4CF454927569.jpg?alt=media&token=6548ff25-aa55-4ce4-8547-6db319263c67"
+        
+        
         let i: UInt = 0
         
         
@@ -92,9 +95,9 @@ class UserListController: UITableViewController {
                 notificationsRef.updateChildValues(["class" : self.className])
                 notificationsRef.updateChildValues(["accepted" : "false"])
                 notificationsRef.updateChildValues(["SenderUid" : loggedInUserUid!])
+                notificationsRef.updateChildValues(["groupPictureURL" : self.notificationSender.groupPictureURL!])
                 userRef = FIRDatabase.database().reference().child("users")
                 notificationsRef = userRef
-                
             }
             dismiss(animated: true, completion: nil)
         }
@@ -150,5 +153,6 @@ class NotificationSender: NSObject {
     var accepted: String?
     var senderName: String?
     var senderUid: String?
+    var groupPictureURL: String?
 }
 
