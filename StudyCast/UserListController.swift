@@ -14,8 +14,9 @@ class UserListController: UITableViewController {
     //var usersInClass = [ChatUser]()
     var usersInClass: [ChatUser] = []
     var selectedUsers: [ChatUser] = []
-    var className = String()
+    var className = "ENSC 351"
     var notificationSender = NotificationSender()
+    var i = 0
     
     
     override func viewDidLoad() {
@@ -71,6 +72,9 @@ class UserListController: UITableViewController {
         //Dummy data for testing
         notificationSender.gid = "123123"
         notificationSender.groupName = "Test Group"
+        notificationSender.senderName = "John Smith"
+        let i: UInt = 0
+        
         
         let loggedInUser = FIRAuth.auth()?.currentUser
         let loggedInUserUid = loggedInUser?.uid
@@ -80,14 +84,17 @@ class UserListController: UITableViewController {
             for user in selectedUsers{
                 userRef = userRef.child(user.uid!)
                 notificationsRef = userRef.child("notifications")
-                notificationsRef.updateChildValues(["gid": notificationSender.gid!])
-                notificationsRef.updateChildValues(["groupName" : notificationSender.groupName!])
-                notificationsRef.updateChildValues(["accepted" : "false"])
-                notificationsRef = notificationsRef.child("sender")
-                notificationsRef.updateChildValues(["uid" : loggedInUserUid!])
                 
+                notificationsRef = notificationsRef.child("\(i)")
+                notificationsRef.updateChildValues(["gid": self.notificationSender.gid!])
+                notificationsRef.updateChildValues(["senderName" : self.notificationSender.senderName!])
+                notificationsRef.updateChildValues(["groupName" : self.notificationSender.groupName!])
+                notificationsRef.updateChildValues(["class" : self.className])
+                notificationsRef.updateChildValues(["accepted" : "false"])
+                notificationsRef.updateChildValues(["SenderUid" : loggedInUserUid!])
                 userRef = FIRDatabase.database().reference().child("users")
                 notificationsRef = userRef
+                
             }
             dismiss(animated: true, completion: nil)
         }
@@ -137,6 +144,7 @@ class ChatUser: NSObject {
 }
 
 class NotificationSender: NSObject {
+    var className: String?
     var gid: String?
     var groupName: String?
     var accepted: String?
