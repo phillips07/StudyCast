@@ -34,6 +34,10 @@ class GroupsTableViewController: UITableViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        fetchGroups()
+    }
+    
     func fetchGroups () {
         
         let uid = FIRAuth.auth()?.currentUser?.uid
@@ -44,6 +48,7 @@ class GroupsTableViewController: UITableViewController {
             let numClassSections = self.classSectionHeaders.count
             
             var group = Group()
+            var duplicate = false
             
             if let groupDictionary = snapshot.value as? [String: AnyObject] {
                 let name = groupDictionary["groupName"] as? String
@@ -53,10 +58,18 @@ class GroupsTableViewController: UITableViewController {
                 group = Group(id: nil, name: name, photoUrl: imgUrl, users: nil, groupClass: groupClass)
                 
             }
+
+            for i in self.groupsDataSet {
+                for g in i {
+                    if g.name == group.name {
+                        duplicate = true
+                    }
+                }
+            }
             
             if group.groupClass == nil {
             }
-            else {
+            else if !duplicate {
                 //Set up all Data for TableView
                 if numClassSections == 0 {
                     self.classSectionHeaders.append(group.groupClass!)
