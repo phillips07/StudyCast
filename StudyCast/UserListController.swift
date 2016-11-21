@@ -62,7 +62,7 @@ class UserListController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! GroupCell
-        cell.nameLabel.text = usersInClass[indexPath.row].name
+        cell.textLabel?.text = usersInClass[indexPath.row].name
         return cell
     }
     

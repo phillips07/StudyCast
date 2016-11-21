@@ -94,6 +94,8 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
         let groupRef = ref.child("groups").child(gid)
         let userRef = ref.child("users").child(uid!).child("groups").child(gid)
         
+        userRef.updateChildValues(["gid" : gid])
+        
         if groupName != "" {
             groupRef.updateChildValues(["groupName" : groupName])
             userRef.updateChildValues(["groupName" : groupName])
