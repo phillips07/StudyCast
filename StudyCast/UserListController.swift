@@ -11,35 +11,43 @@ import Firebase
 
 class UserListController: UITableViewController {
 
-    var users = [ChatUser]()
+    //var usersInClass = [ChatUser]()
+    var usersInClass: [ChatUser] = []
+    var className = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
-        
+
         fetchUser()
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
+        tableView.register(GroupCell.self, forCellReuseIdentifier: "userCell")
+        
     }
     
     func fetchUser() {
-        FIRDatabase.database().reference().child("users").observe(.childAdded, with: { (snapshot) in
-            
-            //if let dictionary = snapshot.value as? [String: AnyObject] {
-                //let user = User()
-                
-                //if you use this setter, your app will crash if your class properties don't exactly match up with the firebase dictionary keys
-                //user.setValuesForKeysWithDictionary(dictionary)
-                //self.users.append(user)
-                
-                //this will crash because of background thread, so lets use dispatch_async to fix
-                //DispatchQueue.main.asynchronously(execute: {
-                self.tableView.reloadData()
-                //})
-                
-                //                user.name = dictionary["name"]
-            //}
-            
-        }, withCancel: nil)
+        self.className = "ENSC 351"
+        var userIds = [String]()
+        let ref = FIRDatabase.database().reference().child(self.className)
+        var userRef = FIRDatabase.database().reference().child(self.className).child("users")
+        ref.observe(.value, with: { (snapshot) in
+            if let userDictionary = snapshot.value as? [String: AnyObject]{
+                userIds = Array(userDictionary.keys)
+                for uid in userIds {
+                    userRef = FIRDatabase.database().reference().child("users").child(uid)
+                    userRef.observe(.value, with: { (snapshot) in
+                        if let nameDictionary = snapshot.value as? [String: AnyObject]{
+                            let userInClass = ChatUser()
+                            userInClass.name = nameDictionary["name"] as? String
+                            userInClass.uid = uid
+                            userInClass.profileURL = nameDictionary["profileImage"] as? String
+                            self.usersInClass.append(userInClass)
+                            self.tableView.reloadData()
+                        }
+                    })
+                }
+            }
+        })
     }
     
     func handleBack() {
@@ -47,18 +55,24 @@ class UserListController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        let numRows = usersInClass.count
+        
+        return numRows
     }
     
-    //override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        
-        
-    //}
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! GroupCell
+        cell.nameLabel.text = usersInClass[indexPath.row].name
+        return cell
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
 }
 
 class ChatUser: NSObject {
     var name: String?
-    var email: String?
-    var courses: [String]?
+    var uid: String?
+    var profileURL: String?
 }
