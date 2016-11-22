@@ -51,11 +51,12 @@ class GroupsTableViewController: UITableViewController {
             var duplicate = false
             
             if let groupDictionary = snapshot.value as? [String: AnyObject] {
+                let id = groupDictionary["gid"] as? String
                 let name = groupDictionary["groupName"] as? String
                 let groupClass = groupDictionary["groupClass"] as? String
                 let imgUrl = groupDictionary["groupPictureURL"] as? String
                 
-                group = Group(id: nil, name: name, photoUrl: imgUrl, users: nil, groupClass: groupClass)
+                group = Group(id: id, name: name, photoUrl: imgUrl, users: nil, groupClass: groupClass)
                 
             }
 
@@ -154,57 +155,36 @@ class GroupsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as! GroupCell
         
         //if indexPath.section
-        cell.nameLabel.text = groupsDataSet[indexPath.section][indexPath.row].name
+        cell.textLabel?.text = groupsDataSet[indexPath.section][indexPath.row].name
+    
+        
+        if let groupImageURL = groupsDataSet[indexPath.section][indexPath.row].photoUrl {
+            //cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: groupImageURL)
+            let url = NSURL(string: groupImageURL)
+            URLSession.shared.dataTask(with: url! as URL, completionHandler: { (data, response, error) in
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    cell.profileImageView.image = UIImage(data: data!)
+                }
+            }).resume()
+        }
+
 
         return cell
     }
     
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 56
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
 class Group: NSObject {
@@ -262,36 +242,40 @@ class User: NSObject {
 }
 
 class GroupCell: UITableViewCell {
+    
+    let profileImageView: UIImageView = {
+        
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.cornerRadius = 20
+        imageView.layer.masksToBounds = true
+        return imageView
+    
+    }()
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        textLabel?.frame = CGRect(x: 56, y: textLabel!.frame.origin.y, width: textLabel!.frame.width, height: textLabel!.frame.height)
+    }
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupViews()
+        
+        addSubview(profileImageView)
+        
+        profileImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
+        profileImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        profileImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        
     }
     
     required init?(coder aDecoder: NSCoder){
         fatalError("init(coder:) has not been implemented")
     }
     
-    let nameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "My Cell"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    
-//    let groupImage: UIImage = {
-//        let image = UIImage()
-//        image.translatesAutoresizingMaskIntoConstraints = false
-//        return image
-//    }()
-    
-    func setupViews(){
-        //addSubview(groupImage)
-        addSubview(nameLabel)
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": nameLabel]))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0": nameLabel]))
-        
-    }
 }
 
 

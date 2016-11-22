@@ -17,6 +17,8 @@ class UserListController: UITableViewController {
     var className = "ENSC 351"
     var notificationSender = NotificationSender()
     var i = 0
+    var groupInfo: Group = Group()
+    var senderName: String = ""
     
     
     override func viewDidLoad() {
@@ -28,13 +30,12 @@ class UserListController: UITableViewController {
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]
         self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [String : Any]
         self.navigationItem.title = "Select Users"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
+        //navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: .plain, target: self, action: #selector(handleSend))
         tableView.register(GroupCell.self, forCellReuseIdentifier: "userCell")
     }
     
     func fetchUser() {
-        self.className = "ENSC 351"
         var userIds = [String]()
         let ref = FIRDatabase.database().reference().child(self.className)
         var userRef = FIRDatabase.database().reference().child(self.className).child("users")
@@ -63,17 +64,25 @@ class UserListController: UITableViewController {
         })
     }
     
+    func setInfoForInvite(cn: String, group: Group, sn: String) {
+        self.className = cn
+        self.senderName = sn
+        self.groupInfo.name = group.name
+        self.groupInfo.id = group.id
+        self.groupInfo.photoUrl = group.photoUrl
+    }
+    
     func handleBack() {
         dismiss(animated: true, completion: nil)
     }
     
     func handleSend() {
         
-        //Dummy data for testing
-        notificationSender.gid = "123123"
-        notificationSender.groupName = "Test Group"
-        notificationSender.senderName = "John Smith"
-        notificationSender.groupPictureURL = "https://firebasestorage.googleapis.com/v0/b/studycast-11ca5.appspot.com/o/groupImages%2FD3DA43C3-4083-490B-B38D-4CF454927569.jpg?alt=media&token=6548ff25-aa55-4ce4-8547-6db319263c67"
+
+        notificationSender.gid = self.groupInfo.id
+        notificationSender.groupName = self.groupInfo.name
+        notificationSender.senderName = self.senderName
+        notificationSender.groupPictureURL = self.groupInfo.photoUrl
         
         
         let i: UInt = 0
@@ -95,11 +104,11 @@ class UserListController: UITableViewController {
                 notificationsRef.updateChildValues(["class" : self.className])
                 notificationsRef.updateChildValues(["accepted" : "false"])
                 notificationsRef.updateChildValues(["SenderUid" : loggedInUserUid!])
-                notificationsRef.updateChildValues(["groupPictureURL" : self.notificationSender.groupPictureURL!])
+                //notificationsRef.updateChildValues(["groupPictureURL" : self.notificationSender.groupPictureURL!])
                 userRef = FIRDatabase.database().reference().child("users")
                 notificationsRef = userRef
             }
-            dismiss(animated: true, completion: nil)
+             self.view.window!.rootViewController?.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -111,7 +120,7 @@ class UserListController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! GroupCell
-        cell.nameLabel.text = usersInClass[indexPath.row].name
+        cell.textLabel?.text = usersInClass[indexPath.row].name
         return cell
     }
     
