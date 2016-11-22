@@ -86,6 +86,7 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
         }
         
         //getting all references to the DB
+        var userName: String = ""
         let gid = UUID().uuidString
         let user = FIRAuth.auth()?.currentUser
         let uid = user?.uid
@@ -93,8 +94,16 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
         let groupUsersRef = ref.child("groups").child(gid).child("members")
         let groupRef = ref.child("groups").child(gid)
         let userRef = ref.child("users").child(uid!).child("groups").child(gid)
+        FIRDatabase.database().reference().child("users").child(uid!).observeSingleEvent(of: .value, with: { (snapshot) in
+            if let userDictionary = snapshot.value as? [String: AnyObject] {
+                userName = userDictionary["name"] as! String
+            }
+            
+            
+        })
         
         userRef.updateChildValues(["gid" : gid])
+        
         
         if groupName != "" {
             groupRef.updateChildValues(["groupName" : groupName])
@@ -127,9 +136,22 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
         }
         groupRef.updateChildValues(["groupClass" : groupClass])
         userRef.updateChildValues(["groupClass" : groupClass])
-        dismiss(animated: true, completion: nil)
+        //dismiss(animated: true, completion: nil)
+        
+        let groupForInvite = Group(id: gid, name: groupName, photoUrl: nil, users: nil, groupClass: groupClass)
+        
+        let inviteController = UserListController()
+        inviteController.setInfoForInvite(cn: groupClass, group: groupForInvite, sn: userName)
+        let inviteNavController = UINavigationController(rootViewController: inviteController)
+        present(inviteNavController, animated: true, completion: nil)
+        
+        
+
     }
     
+
+
+
     func handleCancel() {
         dismiss(animated: true, completion: nil)
     }

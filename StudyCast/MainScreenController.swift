@@ -154,7 +154,12 @@ class MainScreenController: UITableViewController {
     func fetchCurrentName() {
         let uid = FIRAuth.auth()?.currentUser?.uid
         FIRDatabase.database().reference().child("users").child(uid!).child("name").observe(.value, with: { (snapshot) in
-            self.userName = snapshot.value as! String
+            if let userN = snapshot.value as? String {
+                self.userName = userN
+            }
+            else {
+                self.handleLogout()
+            }
         })
     }
     
@@ -185,11 +190,11 @@ class MainScreenController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! GroupCell
         if notificationSender.senderName != nil && notificationSender.groupName != nil {
-            cell.nameLabel.numberOfLines = 2
-            cell.nameLabel.text = notificationSender.senderName! + " has invited you to group \n" + notificationSender.groupName!
+            cell.textLabel?.numberOfLines = 2
+            cell.textLabel?.text = notificationSender.senderName! + " has invited you to group \n" + notificationSender.groupName!
             return cell
         }
-        cell.nameLabel.text = ""
+        cell.textLabel?.text = ""
         return cell
     }
     
@@ -225,7 +230,7 @@ class MainScreenController: UITableViewController {
                 userRef.updateChildValues(["gid" : self.notificationSender.gid!])
                 userRef.updateChildValues(["groupClass" : self.notificationSender.className!])
                 userRef.updateChildValues(["groupName" : self.notificationSender.groupName!])
-                userRef.updateChildValues(["groupPictureURL" : self.notificationSender.groupPictureURL!])
+                //userRef.updateChildValues(["groupPictureURL" : self.notificationSender.groupPictureURL!])
                 
                 self.notificationSender.senderName = nil
                 self.notificationSender.groupName = nil
