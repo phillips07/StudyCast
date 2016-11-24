@@ -38,7 +38,7 @@ class MainScreenController: UITableViewController {
             perform(#selector(handleLogout), with: nil, afterDelay: 0)
         }
         userCourses.removeAll()
-        fetchNotifications()
+        //fetchNotifications()
         fetchCurrentName()
         self.tableView.reloadData()
     }
@@ -114,8 +114,10 @@ class MainScreenController: UITableViewController {
     
     
     func fetchNotifications() {
-        let uid = FIRAuth.auth()?.currentUser?.uid
-        FIRDatabase.database().reference().child("users").child(uid!).child("notifications").child("0").observe(.value, with: { (snapshot) in
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+            return
+        }
+        FIRDatabase.database().reference().child("users").child(uid).child("notifications").child("0").observe(.value, with: { (snapshot) in
             print(snapshot)
             //notificationSectionHeaders.append()
             
@@ -141,8 +143,10 @@ class MainScreenController: UITableViewController {
 
     func fetchClasses() {
         userCourses.removeAll()
-        let uid = FIRAuth.auth()?.currentUser?.uid
-        FIRDatabase.database().reference().child("users").child(uid!).child("courses").observe(.childAdded, with: { (snapshot) in
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+            return
+        }
+        FIRDatabase.database().reference().child("users").child(uid).child("courses").observe(.childAdded, with: { (snapshot) in
             print(snapshot.value as! String)
             
             self.userCourses.append(snapshot.value as! String)
@@ -152,8 +156,10 @@ class MainScreenController: UITableViewController {
     
     
     func fetchCurrentName() {
-        let uid = FIRAuth.auth()?.currentUser?.uid
-        FIRDatabase.database().reference().child("users").child(uid!).child("name").observe(.value, with: { (snapshot) in
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+            return
+        }
+        FIRDatabase.database().reference().child("users").child(uid).child("name").observe(.value, with: { (snapshot) in
             if let userN = snapshot.value as? String {
                 self.userName = userN
             }
@@ -214,19 +220,21 @@ class MainScreenController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let uid = FIRAuth.auth()?.currentUser?.uid
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+            return
+        }
         if notificationSender.className != nil {
             let alertController = UIAlertController(title: "Group Invite", message: self.notificationSender.senderName! + " would like to invite you to group "
                 + self.notificationSender.groupName!, preferredStyle: .alert)
             
-            let noteRef = FIRDatabase.database().reference().child("users").child(uid!).child("notifications")
+            let noteRef = FIRDatabase.database().reference().child("users").child(uid).child("notifications")
             
             let okAction = UIAlertAction(title: "Accept", style: UIAlertActionStyle.default) {
                 UIAlertAction in
                 let groupRef = FIRDatabase.database().reference().child("groups").child(self.notificationSender.gid!).child("members")
-                let userRef = FIRDatabase.database().reference().child("users").child(uid!).child("groups").child(self.notificationSender.gid!)
+                let userRef = FIRDatabase.database().reference().child("users").child(uid).child("groups").child(self.notificationSender.gid!)
                 
-                groupRef.updateChildValues([uid! : self.userName])
+                groupRef.updateChildValues([uid : self.userName])
                 userRef.updateChildValues(["gid" : self.notificationSender.gid!])
                 userRef.updateChildValues(["groupClass" : self.notificationSender.className!])
                 userRef.updateChildValues(["groupName" : self.notificationSender.groupName!])
