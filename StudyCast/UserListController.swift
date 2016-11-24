@@ -30,9 +30,10 @@ class UserListController: UITableViewController {
         self.navigationController?.navigationBar.tintColor = UIColor.white
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]
         self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [String : Any]
-        self.navigationItem.title = "Select Users"
+        self.navigationItem.title = "Invite Classmates"
         //navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: .plain, target: self, action: #selector(handleSend))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(handleSkip))
         tableView.register(GroupCell.self, forCellReuseIdentifier: "userCell")
     }
     
@@ -116,6 +117,10 @@ class UserListController: UITableViewController {
         }
     }
     
+    func handleSkip() {
+        self.view.window!.rootViewController?.dismiss(animated: true, completion: nil)
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let numRows = usersInClass.count
         
@@ -161,7 +166,6 @@ class UserListController: UITableViewController {
             }
         })
     }
-    
 }
 
 class ChatUser: NSObject {
