@@ -282,6 +282,7 @@ class MainScreenController: UITableViewController {
                 
                 noteRef.removeValue()
                 self.fetchNotifications()
+                tableView.reloadData()
                 NSLog("OK Pressed")
             }
             
@@ -290,6 +291,7 @@ class MainScreenController: UITableViewController {
                 
                 noteRef.removeValue()
                 self.fetchNotifications()
+                tableView.reloadData()
                 NSLog("OK Pressed")
             }
             
