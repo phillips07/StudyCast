@@ -14,7 +14,11 @@ class MainScreenController: UITableViewController {
     var userCourses = [String]()
     var userNotifications = [[String]]()
     var notificationSectionHeaders = [String]()
-    var notificationSender = NotificationSender()
+
+    var notificationDataSet: [[NotificationSender]] = [[]]
+    
+    var notificationSenders = [NotificationSender]()
+    
     var userName = String()
     
     override func viewDidLoad() {
@@ -38,7 +42,9 @@ class MainScreenController: UITableViewController {
             perform(#selector(handleLogout), with: nil, afterDelay: 0)
         }
         userCourses.removeAll()
-        //fetchNotifications()
+        notificationDataSet.removeAll()
+        notificationSectionHeaders.removeAll()
+        fetchNotifications()
         fetchCurrentName()
         self.tableView.reloadData()
     }
@@ -51,6 +57,8 @@ class MainScreenController: UITableViewController {
         if FIRAuth.auth()?.currentUser?.uid == nil {
             perform(#selector(handleLogout), with: nil, afterDelay: 0)
         } else {
+            //notificationDataSet.removeAll()
+            //notificationSectionHeaders.removeAll()
             fetchNameSetupNavBar()
             fetchClasses()
             fetchNotifications()
@@ -114,27 +122,47 @@ class MainScreenController: UITableViewController {
     
     
     func fetchNotifications() {
+        
+        notificationDataSet.removeAll()
+        notificationSectionHeaders.removeAll()
+        
         guard let uid = FIRAuth.auth()?.currentUser?.uid else {
             return
         }
-        FIRDatabase.database().reference().child("users").child(uid).child("notifications").child("0").observe(.value, with: { (snapshot) in
-            print(snapshot)
-            //notificationSectionHeaders.append()
+        FIRDatabase.database().reference().child("users").child(uid).child("notifications").observe(.childAdded, with: { (snapshot) in
+            let numClassSections = self.notificationSectionHeaders.count
+            let notificationSender = NotificationSender()
             
             if let notificationsDictionary = snapshot.value as? [String: AnyObject] {
-                self.notificationSender.senderName = notificationsDictionary["senderName"] as? String
-                self.notificationSender.groupName = notificationsDictionary["groupName"] as? String
-                self.notificationSender.gid = notificationsDictionary["gid"] as? String
-                self.notificationSender.senderName = notificationsDictionary["senderName"] as? String
-                self.notificationSender.className = notificationsDictionary["class"] as? String
-                self.notificationSender.groupPictureURL = notificationsDictionary["groupPictureURL"] as? String
-            } else {
-                self.notificationSender.senderName = nil
-                self.notificationSender.groupName = nil
-                self.notificationSender.gid = nil
-                self.notificationSender.senderName = nil
-                self.notificationSender.className = nil
-                self.notificationSender.groupPictureURL = nil
+                notificationSender.senderName = notificationsDictionary["senderName"] as? String
+                notificationSender.groupName = notificationsDictionary["groupName"] as? String
+                notificationSender.gid = notificationsDictionary["gid"] as? String
+                notificationSender.senderName = notificationsDictionary["senderName"] as? String
+                notificationSender.className = notificationsDictionary["class"] as? String
+                notificationSender.groupPictureURL = notificationsDictionary["groupPictureURL"] as? String
+                notificationSender.nid = notificationsDictionary["nid"] as? String
+            }
+            if notificationSender.className == nil {
+            }
+            else {
+                if numClassSections == 0 && self.notificationDataSet.count != 0{
+                    self.notificationSectionHeaders.append(notificationSender.className!)
+                    self.notificationDataSet[0] = [notificationSender]
+                } else {
+                    var i = 0
+                    var added = false
+                    for g in self.notificationSectionHeaders {
+                        if(notificationSender.className)! == g {
+                            self.notificationDataSet[i].append(notificationSender)
+                            added = true
+                        }
+                        i += 1
+                    }
+                    if !added {
+                        self.notificationSectionHeaders.append(notificationSender.className!)
+                        self.notificationDataSet.append([notificationSender])
+                    }
+                }
             }
             self.tableView.reloadData()
         })
@@ -194,28 +222,39 @@ class MainScreenController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! GroupCell
-        if notificationSender.senderName != nil && notificationSender.groupName != nil {
-            cell.textLabel?.numberOfLines = 2
-            cell.textLabel?.text = notificationSender.senderName! + " has invited you to group \n" + notificationSender.groupName!
-            return cell
+        
+        
+        if notificationDataSet.count != 0 {
+        cell.textLabel?.text = notificationDataSet[indexPath.section][indexPath.row].senderName! +
+            " has invited you to group \n" + notificationDataSet[indexPath.section][indexPath.row].groupName!
         }
-        cell.textLabel?.text = ""
+        
+        /*if let groupImageURL = notificationDataSet[indexPath.section][indexPath.row].groupPictureURL {
+            let url = NSURL(string: groupImageURL)
+            URLSession.shared.dataTask(with: url! as URL, completionHandler: { (data, response, error) in
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    cell.profileImageView.image = UIImage(data: data!)
+                }
+            }).resume()
+        }*/
         return cell
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "headerId") as! Header
-        header.nameLabel.text = notificationSender.className
+        header.nameLabel.text = notificationSectionHeaders[section]
         return header
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if notificationSender.className != nil {
-            return 1
-        } else {
-            return 0
-        }
+       return notificationSectionHeaders.count
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -223,11 +262,47 @@ class MainScreenController: UITableViewController {
         guard let uid = FIRAuth.auth()?.currentUser?.uid else {
             return
         }
-        if notificationSender.className != nil {
-            let alertController = UIAlertController(title: "Group Invite", message: self.notificationSender.senderName! + " would like to invite you to group "
-                + self.notificationSender.groupName!, preferredStyle: .alert)
+        
+        if notificationDataSet.count > 0 {
+            let alertController = UIAlertController(title: "Group Invite", message: self.notificationDataSet[indexPath.section][indexPath.row].senderName! + " would like to invite you to group " + self.self.notificationDataSet[indexPath.section][indexPath.row].groupName!, preferredStyle: .alert)
             
-            let noteRef = FIRDatabase.database().reference().child("users").child(uid).child("notifications")
+            let noteRef = FIRDatabase.database().reference().child("users").child(uid).child("notifications").child(self.notificationDataSet[indexPath.section][indexPath.row].nid!)
+            
+            let okAction = UIAlertAction(title: "Accept", style: UIAlertActionStyle.default) {
+                UIAlertAction in
+                
+                let groupRef = FIRDatabase.database().reference().child("groups").child(self.notificationDataSet[indexPath.section][indexPath.row].gid!).child("members")
+                let userRef = FIRDatabase.database().reference().child("users").child(uid).child("groups").child(self.notificationDataSet[indexPath.section][indexPath.row].gid!)
+                
+                groupRef.updateChildValues([uid : self.userName])
+                userRef.updateChildValues(["gid" : self.notificationDataSet[indexPath.section][indexPath.row].gid!])
+                userRef.updateChildValues(["groupClass" : self.notificationDataSet[indexPath.section][indexPath.row].className!])
+                userRef.updateChildValues(["groupName" : self.notificationDataSet[indexPath.section][indexPath.row].groupName!])
+                //userRef.updateChildValues(["groupPictureURL" : self.self.notificationDataSet[indexPath.section][indexPath.row].groupPictureURL!])
+                
+                noteRef.removeValue()
+                self.fetchNotifications()
+                NSLog("OK Pressed")
+            }
+            
+            let cancelAction = UIAlertAction(title: "Decline", style: UIAlertActionStyle.cancel) {
+                UIAlertAction in
+                
+                noteRef.removeValue()
+                self.fetchNotifications()
+                NSLog("OK Pressed")
+            }
+            
+            
+            alertController.addAction(okAction)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    
+            
+            /*let noteRef = FIRDatabase.database().reference().child("users").child(uid).child("notifications")
             
             let okAction = UIAlertAction(title: "Accept", style: UIAlertActionStyle.default) {
                 UIAlertAction in
@@ -240,13 +315,6 @@ class MainScreenController: UITableViewController {
                 userRef.updateChildValues(["groupName" : self.notificationSender.groupName!])
                 //userRef.updateChildValues(["groupPictureURL" : self.notificationSender.groupPictureURL!])
                 
-                self.notificationSender.senderName = nil
-                self.notificationSender.groupName = nil
-                self.notificationSender.gid = nil
-                self.notificationSender.senderName = nil
-                self.notificationSender.className = nil
-                self.notificationSender.groupPictureURL = nil
-                
                 noteRef.removeValue()
                 self.tableView.reloadData()
                 NSLog("OK Pressed")
@@ -255,12 +323,12 @@ class MainScreenController: UITableViewController {
             let cancelAction = UIAlertAction(title: "Decline", style: UIAlertActionStyle.cancel) {
                 UIAlertAction in
                 
-                self.notificationSender.senderName = nil
+                /*self.notificationSender.senderName = nil
                 self.notificationSender.groupName = nil
                 self.notificationSender.gid = nil
                 self.notificationSender.senderName = nil
                 self.notificationSender.className = nil
-                self.notificationSender.groupPictureURL = nil
+                self.notificationSender.groupPictureURL = nil*/
                 noteRef.removeValue()
                 
                 self.tableView.reloadData()
@@ -271,6 +339,6 @@ class MainScreenController: UITableViewController {
             alertController.addAction(cancelAction)
             self.present(alertController, animated: true, completion: nil)
         }
-    }
+    }*/
 }
 

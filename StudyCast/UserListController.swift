@@ -24,7 +24,8 @@ class UserListController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        fetchUser()
+        fetchUsers()
+        setName()
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
         self.navigationController?.navigationBar.tintColor = UIColor.white
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]
@@ -35,7 +36,7 @@ class UserListController: UITableViewController {
         tableView.register(GroupCell.self, forCellReuseIdentifier: "userCell")
     }
     
-    func fetchUser() {
+    func fetchUsers() {
         var userIds = [String]()
         let ref = FIRDatabase.database().reference().child(self.className)
         var userRef = FIRDatabase.database().reference().child(self.className).child("users")
@@ -85,7 +86,7 @@ class UserListController: UITableViewController {
         notificationSender.groupPictureURL = self.groupInfo.photoUrl
         
         
-        let i: UInt = 0
+        //let i: UInt = 0
         
         
         let loggedInUser = FIRAuth.auth()?.currentUser
@@ -97,7 +98,10 @@ class UserListController: UITableViewController {
                 userRef = userRef.child(user.uid!)
                 notificationsRef = userRef.child("notifications")
                 
-                notificationsRef = notificationsRef.child("\(i)")
+                //notificationsRef = notificationsRef.child("\(i)")
+                notificationsRef = notificationsRef.childByAutoId()
+                let nid = notificationsRef.key
+                notificationsRef.updateChildValues(["nid" : nid])
                 notificationsRef.updateChildValues(["gid": self.notificationSender.gid!])
                 notificationsRef.updateChildValues(["senderName" : self.notificationSender.senderName!])
                 notificationsRef.updateChildValues(["groupName" : self.notificationSender.groupName!])
@@ -146,6 +150,18 @@ class UserListController: UITableViewController {
             }
         }
     }
+    
+    func setName() {
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+            return
+        }
+        FIRDatabase.database().reference().child("users").child(uid).child("name").observe(.value, with: { (snapshot) in
+            if let userN = snapshot.value as? String {
+                self.senderName = userN
+            }
+        })
+    }
+    
 }
 
 class ChatUser: NSObject {
@@ -163,5 +179,6 @@ class NotificationSender: NSObject {
     var senderName: String?
     var senderUid: String?
     var groupPictureURL: String?
+    var nid: String?
 }
 
