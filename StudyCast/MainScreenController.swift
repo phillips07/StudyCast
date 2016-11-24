@@ -299,46 +299,5 @@ class MainScreenController: UITableViewController {
             self.present(alertController, animated: true, completion: nil)
         }
     }
-    
-    
-            
-            /*let noteRef = FIRDatabase.database().reference().child("users").child(uid).child("notifications")
-            
-            let okAction = UIAlertAction(title: "Accept", style: UIAlertActionStyle.default) {
-                UIAlertAction in
-                let groupRef = FIRDatabase.database().reference().child("groups").child(self.notificationSender.gid!).child("members")
-                let userRef = FIRDatabase.database().reference().child("users").child(uid).child("groups").child(self.notificationSender.gid!)
-                
-                groupRef.updateChildValues([uid : self.userName])
-                userRef.updateChildValues(["gid" : self.notificationSender.gid!])
-                userRef.updateChildValues(["groupClass" : self.notificationSender.className!])
-                userRef.updateChildValues(["groupName" : self.notificationSender.groupName!])
-                //userRef.updateChildValues(["groupPictureURL" : self.notificationSender.groupPictureURL!])
-                
-                noteRef.removeValue()
-                self.tableView.reloadData()
-                NSLog("OK Pressed")
-            }
-            
-            let cancelAction = UIAlertAction(title: "Decline", style: UIAlertActionStyle.cancel) {
-                UIAlertAction in
-                
-                /*self.notificationSender.senderName = nil
-                self.notificationSender.groupName = nil
-                self.notificationSender.gid = nil
-                self.notificationSender.senderName = nil
-                self.notificationSender.className = nil
-                self.notificationSender.groupPictureURL = nil*/
-                noteRef.removeValue()
-                
-                self.tableView.reloadData()
-                NSLog("Cancel Pressed")
-            }
-            
-            alertController.addAction(okAction)
-            alertController.addAction(cancelAction)
-            self.present(alertController, animated: true, completion: nil)
-        }
-    }*/
 }
 
