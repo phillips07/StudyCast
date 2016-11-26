@@ -16,6 +16,8 @@ class GroupsTableViewController: UITableViewController {
     
     var classSectionHeaders: [String] = []
     
+    var user = User()
+    
     
     var groupsDataSet: [[Group]] = [[]]
     
@@ -41,6 +43,14 @@ class GroupsTableViewController: UITableViewController {
     func fetchGroups () {
         
         let uid = FIRAuth.auth()?.currentUser?.uid
+        
+        FIRDatabase.database().reference().child("users").child(uid!).observe(.value, with: { (snapshot) in
+            if let userDictionary = snapshot.value as? [String: AnyObject] {
+                self.user.name = userDictionary["name"] as? String
+                self.user.photo = userDictionary["profileImage"] as? String
+            }
+        
+        })
         
         FIRDatabase.database().reference().child("users").child(uid!).child("groups").observe(.childAdded, with: { (snapshot) in
             //iterator for setting up arrays
@@ -173,8 +183,16 @@ class GroupsTableViewController: UITableViewController {
             }).resume()
         }
 
-
         return cell
+    }
+    
+    func showChatController(group: Group, user: User) {
+        let chatLogController = ChatLogController(collectionViewLayout: UICollectionViewFlowLayout())
+        chatLogController.setInfo(group: group, user: user)
+        
+        let chatLogNavController = UINavigationController(rootViewController: chatLogController)
+        present(chatLogNavController, animated: true, completion: nil)
+        
     }
     
 
@@ -183,7 +201,7 @@ class GroupsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        showChatController(group: groupsDataSet[indexPath.section][indexPath.row], user: user)
     }
 }
 
@@ -216,7 +234,7 @@ class Group: NSObject {
 
 class User: NSObject {
     
-    init(id: String?, name: String?, photo: UIImage?, email: String?, classes: [String]?) {
+    init(id: String?, name: String?, photo: String?, email: String?, classes: [String]?) {
         self.id   = id
         self.name = name
         self.photo  = photo
@@ -233,11 +251,11 @@ class User: NSObject {
         self.classes =  nil
     }
     
-    let id: String?
-    let name: String?
-    let photo: UIImage?
-    let email: String?
-    let classes: [String]?
+    var id: String?
+    var name: String?
+    var photo: String?
+    var email: String?
+    var classes: [String]?
     
 }
 

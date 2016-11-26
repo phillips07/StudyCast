@@ -30,8 +30,9 @@
 		D9158CB91DCE56AE002E1122 /* MainScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CB21DCE56AE002E1122 /* MainScreenController.swift */; };
 		D9158CC51DCE5C3A002E1122 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D9158CC41DCE5C3A002E1122 /* Assets.xcassets */; };
 		D9158CCB1DCE6B29002E1122 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9158CCA1DCE6B29002E1122 /* GoogleService-Info.plist */; };
-		D915A7671DE2F28B00899C18 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D915A7661DE2F28B00899C18 /* ChatViewController.swift */; };
 		D95A8E631DDBB16F000FCED7 /* ClassTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A8E621DDBB16F000FCED7 /* ClassTable.swift */; };
+		D96621811DE7E2E7007AA5C7 /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96621801DE7E2E7007AA5C7 /* ChatLogController.swift */; };
+		D96621831DE81DA4007AA5C7 /* MessageClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96621821DE81DA4007AA5C7 /* MessageClass.swift */; };
 		D9C06CA11DCED29B00D264B4 /* RestAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C06CA01DCED29B00D264B4 /* RestAPIManager.swift */; };
 		D9E66C731DC1A8DF00579C88 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E66C721DC1A8DF00579C88 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -63,8 +64,9 @@
 		D9158CC41DCE5C3A002E1122 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D9158CC81DCE6819002E1122 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9158CCA1DCE6B29002E1122 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		D915A7661DE2F28B00899C18 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		D95A8E621DDBB16F000FCED7 /* ClassTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassTable.swift; sourceTree = "<group>"; };
+		D96621801DE7E2E7007AA5C7 /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
+		D96621821DE81DA4007AA5C7 /* MessageClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageClass.swift; sourceTree = "<group>"; };
 		D9C06CA01DCED29B00D264B4 /* RestAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPIManager.swift; sourceTree = "<group>"; };
 		D9E66C6F1DC1A8DF00579C88 /* StudyCast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyCast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9E66C721DC1A8DF00579C88 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -104,7 +106,8 @@
 				95C1747B1DDEC1F700F1C606 /* PasswordResetController.swift */,
 				952773041DD67C5100931E5F /* CustomTabBarController.swift */,
 				95778B8A1DE1611E002942AA /* UserListController.swift */,
-				D915A7661DE2F28B00899C18 /* ChatViewController.swift */,
+				D96621821DE81DA4007AA5C7 /* MessageClass.swift */,
+				D96621801DE7E2E7007AA5C7 /* ChatLogController.swift */,
 			);
 			name = UIControllers;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D96621811DE7E2E7007AA5C7 /* ChatLogController.swift in Sources */,
 				95778B8B1DE1611E002942AA /* UserListController.swift in Sources */,
 				B9D7C8271DE114430043B38C /* ChangeNameController.swift in Sources */,
 				95182D001DD6903300904E0E /* SettingsController.swift in Sources */,
@@ -323,9 +327,9 @@
 				D9E66C731DC1A8DF00579C88 /* AppDelegate.swift in Sources */,
 				95C174801DDEE45D00F1C606 /* MainScreenController+handlers.swift in Sources */,
 				95EAFD6B1DDD99B9005FB966 /* ChangePasswordController.swift in Sources */,
-				D915A7671DE2F28B00899C18 /* ChatViewController.swift in Sources */,
 				950DCDEF1DE02BD800FF7D96 /* GroupsTableViewController.swift in Sources */,
 				D9158CB91DCE56AE002E1122 /* MainScreenController.swift in Sources */,
+				D96621831DE81DA4007AA5C7 /* MessageClass.swift in Sources */,
 				95EAFD691DDD9087005FB966 /* ModifyAccountController.swift in Sources */,
 				952773051DD67C5100931E5F /* CustomTabBarController.swift in Sources */,
 				D9158CB31DCE56AE002E1122 /* ClassSelectController.swift in Sources */,
