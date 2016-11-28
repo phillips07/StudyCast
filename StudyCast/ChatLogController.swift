@@ -70,7 +70,10 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
                 message.senderID = messageDictionary["senderID"] as? String
                 self.messages.append(message)
                 
-                self.collectionView?.reloadData()
+                
+                DispatchQueue.main.async {
+                    self.collectionView?.reloadData()
+                }
                 print(message.text!)
             }
             }, withCancel: nil)
