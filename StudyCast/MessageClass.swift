@@ -13,5 +13,6 @@ class Message: NSObject {
     var name: String?
     var text: String?
     var timeStamp: Int?
+    var senderID: String?
     
 }

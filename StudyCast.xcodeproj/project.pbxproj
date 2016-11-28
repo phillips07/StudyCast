@@ -33,6 +33,7 @@
 		D95A8E631DDBB16F000FCED7 /* ClassTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95A8E621DDBB16F000FCED7 /* ClassTable.swift */; };
 		D96621811DE7E2E7007AA5C7 /* ChatLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96621801DE7E2E7007AA5C7 /* ChatLogController.swift */; };
 		D96621831DE81DA4007AA5C7 /* MessageClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96621821DE81DA4007AA5C7 /* MessageClass.swift */; };
+		D96621851DECEFB7007AA5C7 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96621841DECEFB7007AA5C7 /* ChatMessageCell.swift */; };
 		D9C06CA11DCED29B00D264B4 /* RestAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9C06CA01DCED29B00D264B4 /* RestAPIManager.swift */; };
 		D9E66C731DC1A8DF00579C88 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E66C721DC1A8DF00579C88 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -67,6 +68,7 @@
 		D95A8E621DDBB16F000FCED7 /* ClassTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassTable.swift; sourceTree = "<group>"; };
 		D96621801DE7E2E7007AA5C7 /* ChatLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatLogController.swift; sourceTree = "<group>"; };
 		D96621821DE81DA4007AA5C7 /* MessageClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageClass.swift; sourceTree = "<group>"; };
+		D96621841DECEFB7007AA5C7 /* ChatMessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
 		D9C06CA01DCED29B00D264B4 /* RestAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPIManager.swift; sourceTree = "<group>"; };
 		D9E66C6F1DC1A8DF00579C88 /* StudyCast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyCast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9E66C721DC1A8DF00579C88 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				D9158CB21DCE56AE002E1122 /* MainScreenController.swift */,
 				D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */,
 				D9158CAE1DCE56AE002E1122 /* LoginController.swift */,
+				D96621841DECEFB7007AA5C7 /* ChatMessageCell.swift */,
 				95C1747B1DDEC1F700F1C606 /* PasswordResetController.swift */,
 				952773041DD67C5100931E5F /* CustomTabBarController.swift */,
 				95778B8A1DE1611E002942AA /* UserListController.swift */,
@@ -335,6 +338,7 @@
 				D9158CB31DCE56AE002E1122 /* ClassSelectController.swift in Sources */,
 				959C12521DD832A9004B3B6C /* Extensions.swift in Sources */,
 				95C1747C1DDEC1F700F1C606 /* PasswordResetController.swift in Sources */,
+				D96621851DECEFB7007AA5C7 /* ChatMessageCell.swift in Sources */,
 				D9158CB41DCE56AE002E1122 /* ClassSelectController+handlers.swift in Sources */,
 				D9158CB51DCE56AE002E1122 /* LoginController.swift in Sources */,
 				D9158CB71DCE56AE002E1122 /* RegisterController.swift in Sources */,

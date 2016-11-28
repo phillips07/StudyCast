@@ -48,6 +48,7 @@ class GroupsTableViewController: UITableViewController {
             if let userDictionary = snapshot.value as? [String: AnyObject] {
                 self.user.name = userDictionary["name"] as? String
                 self.user.photo = userDictionary["profileImage"] as? String
+                self.user.id = uid
             }
         
         })

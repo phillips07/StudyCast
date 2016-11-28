@@ -9,10 +9,11 @@
 import UIKit
 import Firebase
 
-class ChatLogController: UICollectionViewController {
+class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var group = Group()
     var sender = User()
+    var messages = [Message]()
     
     let inputTextField: UITextField = {
         
@@ -24,16 +25,21 @@ class ChatLogController: UICollectionViewController {
     
     }()
     
-
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: 80)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         navigationItem.title = group.name
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
         collectionView?.backgroundColor = UIColor.white
         
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cellId")
+        collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: "cellId")
         
         setupInputComponents()
         
@@ -41,13 +47,13 @@ class ChatLogController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return messages.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ChatMessageCell
         
-        cell.backgroundColor = UIColor.blue
+        cell.textView.text = messages[indexPath.row].text!
         
         return cell
     }
@@ -61,6 +67,11 @@ class ChatLogController: UICollectionViewController {
                 message.name = messageDictionary["name"] as? String
                 message.text = messageDictionary["text"] as? String
                 message.timeStamp = messageDictionary["timeStamp"] as? Int
+                message.senderID = messageDictionary["senderID"] as? String
+                self.messages.append(message)
+                
+                self.collectionView?.reloadData()
+                print(message.text!)
             }
             }, withCancel: nil)
     }
@@ -77,6 +88,7 @@ class ChatLogController: UICollectionViewController {
     func setupInputComponents() {
         //input area container
         let containerView = UIView()
+        containerView.backgroundColor = UIColor.white
         containerView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(containerView)
         
@@ -126,7 +138,7 @@ class ChatLogController: UICollectionViewController {
         
         let timeStamp = Int(NSDate().timeIntervalSince1970)
         
-        let value = ["text" : inputTextField.text!, "name" : sender.name!, "timeStamp" : timeStamp] as [String : Any]
+        let value = ["text" : inputTextField.text!, "name" : sender.name!, "timeStamp" : timeStamp, "senderID" : sender.id!] as [String : Any]
         childRef.updateChildValues(value)
     }
 }
