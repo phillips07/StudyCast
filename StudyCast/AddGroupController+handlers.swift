@@ -149,7 +149,9 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
 
     }
     
-
+    func handleBack() {
+        self.dismiss(animated: true, completion: nil)
+    }
 
 
     func handleCancel() {

@@ -55,8 +55,7 @@ class ChatMessageCell: UICollectionViewCell {
         
         senderNameView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
         senderNameView.topAnchor.constraint(equalTo: self.topAnchor, constant: 6).isActive = true
-        //senderNameView.bottomAnchor.constraint(equalTo: bubbleView.topAnchor).isActive = true
-        senderNameView.widthAnchor.constraint(equalTo: bubbleView.widthAnchor).isActive = true
+        senderNameView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         senderNameHeight = senderNameView.heightAnchor.constraint(equalToConstant: 20)
         senderNameHeight?.isActive = true
         

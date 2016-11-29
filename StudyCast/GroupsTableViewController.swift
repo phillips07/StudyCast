@@ -24,6 +24,7 @@ class GroupsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
+        
 
         fetchGroups()
 
@@ -33,10 +34,13 @@ class GroupsTableViewController: UITableViewController {
         
         tableView.sectionHeaderHeight = 50
         
+        self.tableView.reloadData()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        classSectionHeaders.removeAll()
+        groupsDataSet.removeAll()
         fetchGroups()
     }
     
@@ -85,7 +89,7 @@ class GroupsTableViewController: UITableViewController {
                 //Set up all Data for TableView
                 if numClassSections == 0 {
                     self.classSectionHeaders.append(group.groupClass!)
-                    self.groupsDataSet[0] = [group]
+                    self.groupsDataSet.append([group])
                 }
                 else {
                     var i = 0
@@ -116,28 +120,21 @@ class GroupsTableViewController: UITableViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
         self.tabBarController?.tabBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
+        //self.navigationItem.title = "Groups"
         
         let titleView = UIView()
         titleView.frame = CGRect(x: 0, y: 0, width: 5, height: 40)
         
-        let containerView = UIView()
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        titleView.addSubview(containerView)
-        
         let titleLabel = UILabel()
         titleLabel.text = "Groups"
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        containerView.addSubview(titleLabel)
-
-        titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: -175).isActive = true
-        titleLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-        titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor).isActive = true
-        titleLabel.heightAnchor.constraint(equalTo: containerView.heightAnchor).isActive = true
+        titleView.addSubview(titleLabel)
+        
+        titleLabel.centerXAnchor.constraint(equalTo: titleView.centerXAnchor).isActive = true
+        titleLabel.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         titleLabel.textColor = UIColor.white
-        
-        containerView.rightAnchor.constraint(equalTo: titleView.rightAnchor).isActive = true
-        containerView.centerYAnchor.constraint(equalTo: titleView.centerYAnchor).isActive = true
         
         self.navigationItem.titleView = titleView
     }
