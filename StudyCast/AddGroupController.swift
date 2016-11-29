@@ -44,8 +44,7 @@ class AddGroupController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.white, for: UIControlState())
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        //this line causes some weird swift compiler crash...
-        //button.addTarget(self, action: #selector(handleCancel), for: .touchUpInside)
+        button.addTarget(nil, action: #selector(handleBack), for: .touchUpInside)
         return button
     }()
     
