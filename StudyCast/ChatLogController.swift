@@ -25,25 +25,69 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     }()
     
-    
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 80)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         navigationItem.title = group.name
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]
+        self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [String : Any]
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
+        self.navigationItem.leftBarButtonItem?.tintColor = UIColor.white
+        self.navigationController?.navigationBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
         collectionView?.backgroundColor = UIColor.white
-        
+        collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 58, right: 0)
+        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
         collectionView?.register(ChatMessageCell.self, forCellWithReuseIdentifier: "cellId")
         
         setupInputComponents()
         
+        setupKeyboardObservers()
+        
         observeMessages()
+    }
+    
+    func setupKeyboardObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: .UIKeyboardWillShow, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: .UIKeyboardWillHide, object: nil)
+    }
+    
+    func handleKeyboardWillHide(notification: NSNotification) {
+         containerViewBottomAnchor?.constant = 0
+    }
+    
+    func handleKeyboardWillShow(notification: NSNotification) {
+        let keyboardFrame = (notification.userInfo? [UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
+        let keyboardDuration = (notification.userInfo? [UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
+        
+        containerViewBottomAnchor?.constant = -(keyboardFrame!.height)
+        UIView.animate(withDuration: keyboardDuration!, animations: {self.view.layoutIfNeeded()})
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        collectionView?.collectionViewLayout.invalidateLayout()
+    }
+    
+    private func estimatedFrameForText (string: String) -> CGRect {
+        let size = CGSize(width: 200, height: 1000)
+        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        
+        return NSString(string: string).boundingRect(with: size, options: options, attributes: [NSFontAttributeName: UIFont.systemFont(ofSize: 16)], context: nil)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var height: CGFloat = 80
+        
+        if let text = messages[indexPath.item].text {
+            if messages[indexPath.item].senderID == sender.id {
+                height = estimatedFrameForText(string: text).height + 20
+            } else {
+                height = estimatedFrameForText(string: text).height + 46
+            }
+                    }
+        
+        
+        return CGSize(width: view.frame.width, height: height)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -53,9 +97,35 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ChatMessageCell
         
-        cell.textView.text = messages[indexPath.row].text!
+        let message = messages[indexPath.item]
+        cell.textView.text = message.text!
+        
+        setUpCell(cell: cell, message: message)
+        
+        cell.bubbleWidthAnchor?.constant = estimatedFrameForText(string: messages[indexPath.item].text!).width + 32
+        cell.senderNameView.text = message.name
         
         return cell
+    }
+    
+    private func setUpCell(cell: ChatMessageCell, message: Message) {
+        if message.senderID == sender.id {
+            cell.bubbleView.backgroundColor = ChatMessageCell.blueColor
+            cell.textView.textColor = UIColor.white
+            cell.bubbleRightAnchor?.isActive = true
+            cell.bubbleLeftAnchor?.isActive = false
+            cell.senderNameView.isHidden = true
+            cell.senderNameHeight?.constant = 0
+            cell.bubbleHeight?.constant = 0
+        } else {
+            cell.bubbleView.backgroundColor = UIColor(r: 240, g: 240, b: 240)
+            cell.textView.textColor = UIColor.black
+            cell.bubbleRightAnchor?.isActive = false
+            cell.bubbleLeftAnchor?.isActive = true
+            cell.senderNameView.isHidden = false
+            cell.bubbleHeight?.constant = -20
+            cell.senderNameHeight?.constant = 20
+        }
     }
     
     func observeMessages() {
@@ -74,7 +144,6 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
                 }
-                print(message.text!)
             }
             }, withCancel: nil)
     }
@@ -88,6 +157,8 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         self.dismiss(animated: true, completion: nil)
     }
     
+    var containerViewBottomAnchor: NSLayoutConstraint?
+    
     func setupInputComponents() {
         //input area container
         let containerView = UIView()
@@ -96,7 +167,8 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         view.addSubview(containerView)
         
         containerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        containerViewBottomAnchor = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        containerViewBottomAnchor?.isActive = true
         containerView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         containerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
@@ -143,6 +215,8 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         let value = ["text" : inputTextField.text!, "name" : sender.name!, "timeStamp" : timeStamp, "senderID" : sender.id!] as [String : Any]
         childRef.updateChildValues(value)
+        
+        self.inputTextField.text = nil
     }
 }
 
