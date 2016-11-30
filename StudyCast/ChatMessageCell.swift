@@ -10,14 +10,33 @@ import UIKit
 
 class ChatMessageCell: UICollectionViewCell {
     
+    var chatLogController: ChatLogController?
+    
     let textView: UITextView = {
         let tv = UITextView()
         tv.font = UIFont.systemFont(ofSize: 16)
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.backgroundColor = UIColor.clear
         tv.textColor = .white
+        tv.isEditable = false
         return tv
     }()
+    
+    lazy var messageImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.layer.cornerRadius = 16
+        iv.layer.masksToBounds = true
+        iv.contentMode = .scaleAspectFill
+        iv.isUserInteractionEnabled = true
+        iv.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleZoomTap)))
+        return iv
+    }()
+    
+    func handleZoomTap(tapGestgure: UITapGestureRecognizer) {
+        let imageView = tapGestgure.view as! UIImageView
+        self.chatLogController?.performZoomInForStartingImageView(startingImageView: imageView)
+    }
     
     let senderNameView: UILabel = {
         let tv = UILabel()
@@ -52,6 +71,12 @@ class ChatMessageCell: UICollectionViewCell {
         addSubview(bubbleView)
         addSubview(textView)
         addSubview(senderNameView)
+        
+        bubbleView.addSubview(messageImageView)
+        messageImageView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor).isActive = true
+        messageImageView.topAnchor.constraint(equalTo: bubbleView.topAnchor).isActive = true
+        messageImageView.widthAnchor.constraint(equalTo: bubbleView.widthAnchor).isActive = true
+        messageImageView.heightAnchor.constraint(equalTo: bubbleView.heightAnchor).isActive = true
         
         senderNameView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8).isActive = true
         senderNameView.topAnchor.constraint(equalTo: self.topAnchor, constant: 6).isActive = true
