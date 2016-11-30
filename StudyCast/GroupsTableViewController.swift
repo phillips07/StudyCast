@@ -39,8 +39,9 @@ class GroupsTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        classSectionHeaders.removeAll()
-        groupsDataSet.removeAll()
+        classSectionHeaders = []
+        groupsDataSet = [[]]
+        self.tableView.reloadData()
         fetchGroups()
     }
     
@@ -89,7 +90,7 @@ class GroupsTableViewController: UITableViewController {
                 //Set up all Data for TableView
                 if numClassSections == 0 {
                     self.classSectionHeaders.append(group.groupClass!)
-                    self.groupsDataSet.append([group])
+                    self.groupsDataSet[0] = [group]
                 }
                 else {
                     var i = 0
@@ -120,7 +121,6 @@ class GroupsTableViewController: UITableViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
         self.tabBarController?.tabBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
-        //self.navigationItem.title = "Groups"
         
         let titleView = UIView()
         titleView.frame = CGRect(x: 0, y: 0, width: 5, height: 40)

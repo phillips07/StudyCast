@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
     
     var group = Group()
     var sender = User()
@@ -93,7 +93,59 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     }()
     
     func handleUploadTap() {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.allowsEditing = true
+        imagePickerController.delegate = self
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
+        var selectedImageFromPicker: UIImage?
+        
+        if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
+            selectedImageFromPicker = editedImage
+        } else if let origionalImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
+            selectedImageFromPicker = origionalImage
+        }
+        
+        if let pickedImage = selectedImageFromPicker {
+            uploadImageToFireBaseStorage(image: pickedImage)
+        }
+        
+        dismiss(animated: true, completion: nil)
+    
+    }
+    
+    func uploadImageToFireBaseStorage(image: UIImage) {
+        let imageName = NSUUID().uuidString
+        let ref = FIRStorage.storage().reference().child("message_images").child(imageName)
+        
+        if let uploadData = UIImageJPEGRepresentation(image, 0.5) {
+            ref.put(uploadData, metadata: nil, completion: { (metadata, error) in
+                if error != nil {
+                    print("Failed to upload image with error:", error!)
+                }
+                
+                if let imageURL = metadata?.downloadURL()?.absoluteString {
+                    self.sendMessageWithImageURL(imageURL: imageURL, image: image)
+                }
+            })
+        }
+    }
+    
+    private func sendMessageWithImageURL(imageURL: String, image: UIImage) {
+        let ref = FIRDatabase.database().reference().child("groups").child(group.id!).child("messages")
+        let childRef = ref.childByAutoId()
+        
+        let timeStamp = Int(NSDate().timeIntervalSince1970)
+        
+        let value = ["text" : "", "imageURL" : imageURL, "imageHeight" : image.size.height, "imageWidth" : image.size.width, "name" : sender.name!, "timeStamp" : timeStamp, "senderID" : sender.id!] as [String : Any]
+        childRef.updateChildValues(value)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
 
     override var inputAccessoryView: UIView? {
@@ -126,14 +178,20 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var height: CGFloat = 80
-        
-        if let text = messages[indexPath.item].text {
-            if messages[indexPath.item].senderID == sender.id {
-                height = estimatedFrameForText(string: text).height + 20
-            } else {
-                height = estimatedFrameForText(string: text).height + 46
+        let message = messages[indexPath.item]
+        if let text = message.text {
+            if text != "" {
+                if message.senderID == sender.id {
+                    height = estimatedFrameForText(string: text).height + 20
+                } else {
+                    height = estimatedFrameForText(string: text).height + 46
+                }
+            } else if let imageHeight = message.imageHeight?.floatValue, let imageWidth = message.imageWidth?.floatValue {
+               height = CGFloat(imageHeight / imageWidth * 200)
             }
-                    }
+            
+
+        }
         
         let width = UIScreen.main.bounds.width
         return CGSize(width: width, height: height)
@@ -147,17 +205,26 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! ChatMessageCell
         
         let message = messages[indexPath.item]
+        
+        cell.chatLogController = self
+
         cell.textView.text = message.text!
         
         setUpCell(cell: cell, message: message)
         
-        cell.bubbleWidthAnchor?.constant = estimatedFrameForText(string: messages[indexPath.item].text!).width + 32
+        if message.text != "" {
+            cell.bubbleWidthAnchor?.constant = estimatedFrameForText(string: messages[indexPath.item].text!).width + 32
+        } else if message.imageURL != nil {
+            cell.bubbleWidthAnchor?.constant = 200
+        }
         cell.senderNameView.text = message.name
-        
+
         return cell
     }
     
     private func setUpCell(cell: ChatMessageCell, message: Message) {
+        
+        
         if message.senderID == sender.id {
             cell.bubbleView.backgroundColor = ChatMessageCell.blueColor
             cell.textView.textColor = UIColor.white
@@ -175,6 +242,28 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
             cell.bubbleHeight?.constant = -20
             cell.senderNameHeight?.constant = 20
         }
+        
+        if let messageImageUrl = message.imageURL {
+            let url = NSURL(string: messageImageUrl)
+            URLSession.shared.dataTask(with: url! as URL, completionHandler: { (data, response, error) in
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    cell.messageImageView.image = UIImage(data: data!)
+                }
+            }).resume()
+            cell.textView.isHidden = true
+            cell.messageImageView.isHidden = false
+            cell.bubbleView.backgroundColor = UIColor.clear
+            
+        } else {
+            cell.messageImageView.isHidden = true
+            cell.textView.isHidden = false
+        }
+
     }
     
     func observeMessages() {
@@ -185,6 +274,11 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
                 let message = Message()
                 message.name = messageDictionary["name"] as? String
                 message.text = messageDictionary["text"] as? String
+                if message.text == "" {
+                    message.imageURL = messageDictionary["imageURL"] as? String
+                    message.imageHeight = messageDictionary["imageHeight"] as? NSNumber
+                    message.imageWidth = messageDictionary["imageWidth"] as? NSNumber
+                }
                 message.timeStamp = messageDictionary["timeStamp"] as? Int
                 message.senderID = messageDictionary["senderID"] as? String
                 self.messages.append(message)
@@ -192,6 +286,8 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
                 
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
+                    let indexPath = IndexPath(item: self.messages.count-1, section: 0)
+                    self.collectionView?.scrollToItem(at: indexPath, at: .bottom, animated: true)
                 }
             }
             }, withCancel: nil)
@@ -207,6 +303,10 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     }
     
     func handleSend() {
+        if self.inputTextField.text == "" {
+            return
+        }
+        
         let ref = FIRDatabase.database().reference().child("groups").child(group.id!).child("messages")
         let childRef = ref.childByAutoId()
         
@@ -216,6 +316,10 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         childRef.updateChildValues(value)
         
         self.inputTextField.text = nil
+    }
+    
+    func performZoomInForStartingImageView(startingImageView: UIImageView) {
+        
     }
 }
 

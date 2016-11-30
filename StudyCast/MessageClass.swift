@@ -14,5 +14,8 @@ class Message: NSObject {
     var text: String?
     var timeStamp: Int?
     var senderID: String?
+    var imageURL: String?
+    var imageHeight: NSNumber?
+    var imageWidth: NSNumber?
     
 }
