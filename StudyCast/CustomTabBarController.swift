@@ -18,8 +18,7 @@ class CustomTabBarController: UITabBarController {
         groupsNavigationController.title = "Groups"
         groupsNavigationController.tabBarItem.image = UIImage(named: "GroupsIcon")
         
-        //change castContoller to different view later
-        let castController = UIViewController()
+        let castController = CastMapController()
         let castNavigationController = UINavigationController(rootViewController: castController)
         castNavigationController.title = "Cast"
         castNavigationController.tabBarItem.image = UIImage(named: "CastIcon")
