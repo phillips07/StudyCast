@@ -237,7 +237,7 @@
 				TargetAttributes = {
 					D9E66C6E1DC1A8DF00579C88 = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = GW38N9B259;
+						DevelopmentTeam = 2CGD65JJB2;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -462,11 +462,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = StudyCast/StudyCast.entitlements;
-				DEVELOPMENT_TEAM = GW38N9B259;
+				DEVELOPMENT_TEAM = 2CGD65JJB2;
 				INFOPLIST_FILE = StudyCast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.phillips.StudyCast;
+				PRODUCT_BUNDLE_IDENTIFIER = com.StudyCast.phillips;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -478,11 +478,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = StudyCast/StudyCast.entitlements;
-				DEVELOPMENT_TEAM = GW38N9B259;
+				DEVELOPMENT_TEAM = 2CGD65JJB2;
 				INFOPLIST_FILE = StudyCast/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.phillips.StudyCast;
+				PRODUCT_BUNDLE_IDENTIFIER = com.StudyCast.phillips;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};

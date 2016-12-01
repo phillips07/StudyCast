@@ -52,9 +52,11 @@ class UserListController: UITableViewController {
                         if let nameDictionary = snapshot.value as? [String: AnyObject]{
                             let userInClass = ChatUser()
                             var added = false
-                            for user in self.groupInfo.users! {
-                                if user == uid {
-                                    added = true
+                            if self.groupInfo.users != nil {
+                                for user in self.groupInfo.users! {
+                                    if user == uid {
+                                        added = true
+                                    }
                                 }
                             }
                             if !added {
