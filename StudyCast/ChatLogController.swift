@@ -33,6 +33,9 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [String : Any]
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
         self.navigationItem.leftBarButtonItem?.tintColor = UIColor.white
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Invite", style: .plain, target: self, action: #selector(handleTapAddMembers))
+        self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
+
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
         collectionView?.backgroundColor = UIColor.white
         collectionView?.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
@@ -91,6 +94,13 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         return containerView
     }()
+    
+    func handleTapAddMembers () {
+        let inviteController = UserListController()
+        inviteController.setInfoForInvite(cn: self.group.groupClass!, group: group, sn: sender.name!)
+        let inviteNavController = UINavigationController(rootViewController: inviteController)
+        present(inviteNavController, animated: true, completion: nil)
+    }
     
     func handleUploadTap() {
         let imagePickerController = UIImagePickerController()

@@ -12,7 +12,7 @@ class AddGroupController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     
     var userCourses = [String]()
     var userName = String()
-    var groupClass = String()
+    var groupClass = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -94,6 +94,20 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         self.facultyTableView.reloadData()
     }
     
+    func initClassesForUser () {
+        let uid = FIRAuth.auth()?.currentUser?.uid
+        FIRDatabase.database().reference().child("users").child(uid!).child("courses").observe(.value, with: { (snapshot) in
+            if let courses = snapshot.value as? [String] {
+                self.pickedClassesDataSet = courses
+                self.numCells = self.pickedClassesDataSet.count
+                DispatchQueue.main.async {
+                   self.userClassesTableView.reloadData() 
+                }
+                
+            }
+        })
+    }
+    
     
     //to be implimented in a loop to run for each faculty in faculties array
     func fetchClasses() {
@@ -132,11 +146,11 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
                     
                     //********** THIS LINE RANDOMLY CAUSES ERRORS ******************
                     //sometimes gets completey or nearly through jsonData, other times breaks almost immediately
-                    for dictionary in jsonData as! [[String:AnyObject]]{
+                    for dict in jsonData as! [[String:AnyObject]]{
                         
                         //add each class inthe JSON data to the array
                         let new = Class()
-                        new.number = dictionary["text"] as! String?
+                        new.number = dict["text"] as! String?
                         classArr.append(new)
                     }
                     //add the array to the hashTable
@@ -173,11 +187,11 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
                 
                 self.faculties = [Faculty]()
                 
-                for dictionary in jsonData  as! [[String:AnyObject]] {
+                for dict in jsonData as! [[String:AnyObject]] {
                     
                     let faculty = Faculty()
-                    faculty.code = dictionary["text"] as! String?
-                    faculty.name = dictionary["value"] as! String?
+                    faculty.code = dict["text"] as! String?
+                    faculty.name = dict["value"] as! String?
                     self.faculties?.append(faculty)
                     
                 }
