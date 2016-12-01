@@ -70,6 +70,7 @@ class SettingsController: UITableViewController {
                 navigationController?.pushViewController(changePasswordController, animated: true)
             } else if indexPath.row == 1 {
                 let classSelectController = ClassSelectController()
+                classSelectController.initClassesForUser()
                 navigationController?.pushViewController(classSelectController, animated: true)
             } else if indexPath.row == 2 {
                 let changenamecontroller = ChangeNameController()

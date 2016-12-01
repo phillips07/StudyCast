@@ -85,6 +85,7 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
             return
         }
         
+        
         //getting all references to the DB
         var userName: String = ""
         let gid = UUID().uuidString
@@ -133,6 +134,9 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
                     userRef.updateChildValues(["groupPictureURL" : groupImage])
                 }
             })
+        }
+        if groupClass == "" {
+            groupClass = userCourses[0]
         }
         groupRef.updateChildValues(["groupClass" : groupClass])
         userRef.updateChildValues(["groupClass" : groupClass])

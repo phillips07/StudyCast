@@ -32,7 +32,14 @@ extension ClassSelectController {
         
         let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
         let coursesReference = ref.child("users").child(uid).child("courses")
-        print(coursesReference)
+        coursesReference.setValue(nil, withCompletionBlock: {(error, ref) in
+
+            if error != nil {
+                print(error!)
+            } else {
+
+            }
+        })
         coursesReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
             if err != nil{
                 print(err!)

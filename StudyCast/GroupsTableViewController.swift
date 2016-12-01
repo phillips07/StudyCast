@@ -58,10 +58,11 @@ class GroupsTableViewController: UITableViewController {
         
         })
         
-        FIRDatabase.database().reference().child("users").child(uid!).child("groups").observe(.childAdded, with: { (snapshot) in
+        let ref = FIRDatabase.database().reference().child("users").child(uid!).child("groups")
+        ref.observe(.childAdded, with: { (snapshot) in
             //iterator for setting up arrays
 
-            let numClassSections = self.classSectionHeaders.count
+ 
             
             var group = Group()
             var duplicate = false
@@ -72,44 +73,59 @@ class GroupsTableViewController: UITableViewController {
                 let groupClass = groupDictionary["groupClass"] as? String
                 let imgUrl = groupDictionary["groupPictureURL"] as? String
                 
-                group = Group(id: id, name: name, photoUrl: imgUrl, users: nil, groupClass: groupClass)
+                let groupRef = FIRDatabase.database().reference().child("groups").child(id!).child("members")
+                groupRef.observe(.value, with: { (snapshot) in
+                    if let membersDictionary = snapshot.value as? [String: AnyObject] {
+                        let membersArr = Array(membersDictionary.keys)
+                        
+                        
+                        group = Group(id: id, name: name, photoUrl: imgUrl, users: membersArr, groupClass: groupClass)
+                    }
+                    
+                    for i in self.groupsDataSet {
+                        for g in i {
+                            if g.name == group.name {
+                                duplicate = true
+                            }
+                        }
+                    }
+                    
+                    if group.groupClass == nil {
+                    }
+                    else if !duplicate {
+                        //Set up all Data for TableView
+                        if self.classSectionHeaders.count == 0 {
+                            self.classSectionHeaders.append(group.groupClass!)
+                            self.groupsDataSet[0] = [group]
+                        }
+                        else {
+                            var i = 0
+                            var added = false
+                            for g in self.classSectionHeaders {
+                                if (group.groupClass)! == g {
+                                    self.groupsDataSet[i].append(group)
+                                    added = true
+                                }
+                                i += 1
+                            }
+                            if !added {
+                                self.classSectionHeaders.append(group.groupClass!)
+                                self.groupsDataSet.append([group])
+                            }
+                            
+                        }
+                        self.tableView.reloadData()
+                    }
+
+                    
+                })
+                
+                //group = Group(id: id, name: name, photoUrl: imgUrl, users: nil, groupClass: groupClass)
+
                 
             }
 
-            for i in self.groupsDataSet {
-                for g in i {
-                    if g.name == group.name {
-                        duplicate = true
-                    }
-                }
-            }
-            
-            if group.groupClass == nil {
-            }
-            else if !duplicate {
-                //Set up all Data for TableView
-                if numClassSections == 0 {
-                    self.classSectionHeaders.append(group.groupClass!)
-                    self.groupsDataSet[0] = [group]
-                }
-                else {
-                    var i = 0
-                    var added = false
-                    for g in self.classSectionHeaders {
-                        if (group.groupClass)! == g {
-                            self.groupsDataSet[i].append(group)
-                            added = true
-                        }
-                        i += 1
-                    }
-                    if !added {
-                        self.classSectionHeaders.append(group.groupClass!)
-                        self.groupsDataSet.append([group])
-                    }
-                    
-                }
-                self.tableView.reloadData()
-            }
+
         })
         
     }
@@ -206,7 +222,7 @@ class GroupsTableViewController: UITableViewController {
 class Group: NSObject {
     
     
-    init(id: String?, name: String?, photoUrl: String?, users: [User]?, groupClass: String?) {
+    init(id: String?, name: String?, photoUrl: String?, users: [String]?, groupClass: String?) {
         self.id = id
         self.name = name
         self.photoUrl = photoUrl
@@ -225,7 +241,7 @@ class Group: NSObject {
     var id: String?
     var name: String?
     var photoUrl: String?
-    var users: [User]?
+    var users: [String]?
     var groupClass: String?
 
 }

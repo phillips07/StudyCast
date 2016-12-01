@@ -175,7 +175,6 @@ class MainScreenController: UITableViewController {
             return
         }
         FIRDatabase.database().reference().child("users").child(uid).child("courses").observe(.childAdded, with: { (snapshot) in
-            print(snapshot.value as! String)
             
             self.userCourses.append(snapshot.value as! String)
             self.tableView.reloadData()

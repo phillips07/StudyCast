@@ -51,14 +51,22 @@ class UserListController: UITableViewController {
                     userRef.observe(.value, with: { (snapshot) in
                         if let nameDictionary = snapshot.value as? [String: AnyObject]{
                             let userInClass = ChatUser()
-                            
-                            if loggedInUserUid != uid {
-                                userInClass.name = nameDictionary["name"] as? String
-                                userInClass.uid = uid
-                                userInClass.profileURL = nameDictionary["profileImage"] as? String
-                                self.usersInClass.append(userInClass)
+                            var added = false
+                            for user in self.groupInfo.users! {
+                                if user == uid {
+                                    added = true
+                                }
                             }
-                            self.tableView.reloadData()
+                            if !added {
+                                if loggedInUserUid != uid {
+                                    userInClass.name = nameDictionary["name"] as? String
+                                    userInClass.uid = uid
+                                    userInClass.profileURL = nameDictionary["profileImage"] as? String
+                                    self.usersInClass.append(userInClass)
+                                }
+                                self.tableView.reloadData()
+                            }
+
                         }
                     })
                 }
@@ -72,6 +80,7 @@ class UserListController: UITableViewController {
         self.groupInfo.name = group.name
         self.groupInfo.id = group.id
         self.groupInfo.photoUrl = group.photoUrl
+        self.groupInfo.users = group.users
     }
     
     func handleBack() {
