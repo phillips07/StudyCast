@@ -12,7 +12,7 @@ class LoginController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.hideKeyboardWhenTappedAround()
         view.backgroundColor = UIColor(r: 61, g: 91, b: 151)
         
         view.addSubview(emailTextField)
@@ -188,5 +188,16 @@ class LoginController: UIViewController {
 extension UIColor {
     convenience init(r: CGFloat, g: CGFloat, b: CGFloat) {
         self.init(red: r/255, green: g/255, blue: b/255, alpha: 1)
+    }
+}
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
