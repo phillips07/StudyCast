@@ -12,7 +12,7 @@ class RegisterController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        self.hideKeyboardWhenTappedAround()
         view.backgroundColor = UIColor(r: 61, g: 91, b: 151)
         
         view.addSubview(nameTextField)
