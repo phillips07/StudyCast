@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		09554FD1B465B434BBDA59DC /* Pods_StudyCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83728B8438FD9DB7C5551786 /* Pods_StudyCast.framework */; };
 		950DCDEF1DE02BD800FF7D96 /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDEE1DE02BD800FF7D96 /* GroupsTableViewController.swift */; };
 		950DCDF11DE02CA100FF7D96 /* GroupsTableViewController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDF01DE02CA100FF7D96 /* GroupsTableViewController+handlers.swift */; };
 		950DCDF31DE0377300FF7D96 /* AddGroupController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 950DCDF21DE0377300FF7D96 /* AddGroupController.swift */; };
@@ -20,6 +19,8 @@
 		95C174801DDEE45D00F1C606 /* MainScreenController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1747F1DDEE45D00F1C606 /* MainScreenController+handlers.swift */; };
 		95EAFD691DDD9087005FB966 /* ModifyAccountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EAFD681DDD9087005FB966 /* ModifyAccountController.swift */; };
 		95EAFD6B1DDD99B9005FB966 /* ChangePasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EAFD6A1DDD99B9005FB966 /* ChangePasswordController.swift */; };
+		95FDB77C1DEEAA9500252B65 /* CastMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FDB77B1DEEAA9500252B65 /* CastMapController.swift */; };
+		ACE7CAFE7E6161F8135B5191 /* Pods_StudyCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD4B076B9D45A92B99103F4F /* Pods_StudyCast.framework */; };
 		B9D7C8271DE114430043B38C /* ChangeNameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7C8261DE114430043B38C /* ChangeNameController.swift */; };
 		D9158CB31DCE56AE002E1122 /* ClassSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */; };
 		D9158CB41DCE56AE002E1122 /* ClassSelectController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAD1DCE56AE002E1122 /* ClassSelectController+handlers.swift */; };
@@ -39,8 +40,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		250B21402ACAE98181279FF0 /* Pods-StudyCast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyCast.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast.debug.xcconfig"; sourceTree = "<group>"; };
-		83728B8438FD9DB7C5551786 /* Pods_StudyCast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StudyCast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		34881E545BDDA734D52E18CB /* Pods-StudyCast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyCast.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast.debug.xcconfig"; sourceTree = "<group>"; };
+		3D48186610EAEB9992DEC01C /* Pods-StudyCast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyCast.release.xcconfig"; path = "Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast.release.xcconfig"; sourceTree = "<group>"; };
 		950DCDED1DE01C8000FF7D96 /* StudyCast.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StudyCast.entitlements; sourceTree = "<group>"; };
 		950DCDEE1DE02BD800FF7D96 /* GroupsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
 		950DCDF01DE02CA100FF7D96 /* GroupsTableViewController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GroupsTableViewController+handlers.swift"; sourceTree = "<group>"; };
@@ -54,7 +55,9 @@
 		95C1747F1DDEE45D00F1C606 /* MainScreenController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainScreenController+handlers.swift"; sourceTree = "<group>"; };
 		95EAFD681DDD9087005FB966 /* ModifyAccountController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyAccountController.swift; sourceTree = "<group>"; };
 		95EAFD6A1DDD99B9005FB966 /* ChangePasswordController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordController.swift; sourceTree = "<group>"; };
+		95FDB77B1DEEAA9500252B65 /* CastMapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CastMapController.swift; sourceTree = "<group>"; };
 		B9D7C8261DE114430043B38C /* ChangeNameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeNameController.swift; sourceTree = "<group>"; };
+		CD4B076B9D45A92B99103F4F /* Pods_StudyCast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StudyCast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassSelectController.swift; sourceTree = "<group>"; };
 		D9158CAD1DCE56AE002E1122 /* ClassSelectController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ClassSelectController+handlers.swift"; sourceTree = "<group>"; };
 		D9158CAE1DCE56AE002E1122 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -72,7 +75,6 @@
 		D9C06CA01DCED29B00D264B4 /* RestAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPIManager.swift; sourceTree = "<group>"; };
 		D9E66C6F1DC1A8DF00579C88 /* StudyCast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyCast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9E66C721DC1A8DF00579C88 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DC95B50B8349718F63BF534D /* Pods-StudyCast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StudyCast.release.xcconfig"; path = "Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09554FD1B465B434BBDA59DC /* Pods_StudyCast.framework in Frameworks */,
+				ACE7CAFE7E6161F8135B5191 /* Pods_StudyCast.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +101,7 @@
 		952773021DD65A9F00931E5F /* UIControllers */ = {
 			isa = PBXGroup;
 			children = (
+				95FDB77A1DEEAA5C00252B65 /* Cast */,
 				95EAFD6C1DDDA33F005FB966 /* SettingsControllers */,
 				950DCDF41DE0378600FF7D96 /* Groups */,
 				D9158CB01DCE56AE002E1122 /* RegisterController.swift */,
@@ -140,19 +143,19 @@
 			name = SettingsControllers;
 			sourceTree = "<group>";
 		};
-		A135C877BE9943957FAF869D /* Frameworks */ = {
+		95FDB77A1DEEAA5C00252B65 /* Cast */ = {
 			isa = PBXGroup;
 			children = (
-				83728B8438FD9DB7C5551786 /* Pods_StudyCast.framework */,
+				95FDB77B1DEEAA9500252B65 /* CastMapController.swift */,
 			);
-			name = Frameworks;
+			name = Cast;
 			sourceTree = "<group>";
 		};
-		B636B2A1CAAEAFB83FA98BCB /* Pods */ = {
+		AE8A460F1998F9A0348172AE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				250B21402ACAE98181279FF0 /* Pods-StudyCast.debug.xcconfig */,
-				DC95B50B8349718F63BF534D /* Pods-StudyCast.release.xcconfig */,
+				34881E545BDDA734D52E18CB /* Pods-StudyCast.debug.xcconfig */,
+				3D48186610EAEB9992DEC01C /* Pods-StudyCast.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -162,8 +165,8 @@
 			children = (
 				D9E66C711DC1A8DF00579C88 /* StudyCast */,
 				D9E66C701DC1A8DF00579C88 /* Products */,
-				B636B2A1CAAEAFB83FA98BCB /* Pods */,
-				A135C877BE9943957FAF869D /* Frameworks */,
+				AE8A460F1998F9A0348172AE /* Pods */,
+				E346E14D056826AEC12D034D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -191,6 +194,14 @@
 			path = StudyCast;
 			sourceTree = "<group>";
 		};
+		E346E14D056826AEC12D034D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CD4B076B9D45A92B99103F4F /* Pods_StudyCast.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -198,12 +209,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D9E66C831DC1A8DF00579C88 /* Build configuration list for PBXNativeTarget "StudyCast" */;
 			buildPhases = (
-				B21EA91C9079C2F88EFD23FF /* [CP] Check Pods Manifest.lock */,
+				0A54B1CBD0E52D964E7317F5 /* [CP] Check Pods Manifest.lock */,
 				D9E66C6B1DC1A8DF00579C88 /* Sources */,
 				D9E66C6C1DC1A8DF00579C88 /* Frameworks */,
 				D9E66C6D1DC1A8DF00579C88 /* Resources */,
-				A9EA0BE9CBD4EE1430893AC4 /* [CP] Embed Pods Frameworks */,
-				6DEF8E2259C2FAB9BE87EDC7 /* [CP] Copy Pods Resources */,
+				4F9B8FE5E82ADF534E6F0B80 /* [CP] Embed Pods Frameworks */,
+				9069CFB734A33B0FE9B0F26A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -267,37 +278,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6DEF8E2259C2FAB9BE87EDC7 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A9EA0BE9CBD4EE1430893AC4 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B21EA91C9079C2F88EFD23FF /* [CP] Check Pods Manifest.lock */ = {
+		0A54B1CBD0E52D964E7317F5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -312,6 +293,36 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		4F9B8FE5E82ADF534E6F0B80 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9069CFB734A33B0FE9B0F26A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StudyCast/Pods-StudyCast-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -321,6 +332,7 @@
 			files = (
 				D96621811DE7E2E7007AA5C7 /* ChatLogController.swift in Sources */,
 				95778B8B1DE1611E002942AA /* UserListController.swift in Sources */,
+				95FDB77C1DEEAA9500252B65 /* CastMapController.swift in Sources */,
 				B9D7C8271DE114430043B38C /* ChangeNameController.swift in Sources */,
 				95182D001DD6903300904E0E /* SettingsController.swift in Sources */,
 				950DCDF31DE0377300FF7D96 /* AddGroupController.swift in Sources */,
@@ -446,7 +458,7 @@
 		};
 		D9E66C841DC1A8DF00579C88 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 250B21402ACAE98181279FF0 /* Pods-StudyCast.debug.xcconfig */;
+			baseConfigurationReference = 34881E545BDDA734D52E18CB /* Pods-StudyCast.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = StudyCast/StudyCast.entitlements;
@@ -462,7 +474,7 @@
 		};
 		D9E66C851DC1A8DF00579C88 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DC95B50B8349718F63BF534D /* Pods-StudyCast.release.xcconfig */;
+			baseConfigurationReference = 3D48186610EAEB9992DEC01C /* Pods-StudyCast.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = StudyCast/StudyCast.entitlements;
