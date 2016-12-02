@@ -7,50 +7,75 @@
 //
 
 import UIKit
-import GoogleMaps
+//import GoogleMaps
+import MapKit
+import CoreLocation
 
-class CastMapController: UIViewController, CLLocationManagerDelegate {
-
-    var locationManager = CLLocationManager()
+class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
+    //google maps stuff commented for work with mapKit
+//    var locationManager = CLLocationManager()
+//    var firstLocationUpdate: Bool?
+//    var didFindMyLocation = false
+//    var mapView: GMSMapView?
+//    var myLocation: CLLocation?
     
-    var firstLocationUpdate: Bool?
-    
-    var didFindMyLocation = false
-    var mapView: GMSMapView?
+    var map: MKMapView?
+    let locationManager = CLLocationManager()
+    let c00 = CLLocation(latitude: 49.278773, longitude: -122.904642)
+    let c01 = CLLocation(latitude: 49.279267, longitude: -122.904727)
+    let c10 = CLLocation(latitude: 49.278691, longitude: -122.903508)
+    let c11 = CLLocation(latitude: 49.279231, longitude: -122.903533)
+    var region: Region?
     var myLocation: CLLocation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
+        self.region = Region(zz: c00, zo: c01, oz: c10, oo: c11)
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.startUpdatingLocation()
         
-        self.mapView?.settings.compassButton = true
-        self.mapView?.settings.myLocationButton = true
-
-        self.mapView?.addObserver(self, forKeyPath: "myLocation", options: .new, context: nil)
         
-        let camera = GMSCameraPosition.camera(withLatitude: 49.278084, longitude: -122.919879, zoom: 16)
-        self.mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
-        view = self.mapView
-        mapView?.isMyLocationEnabled = true
-        grabLocation()
+        
+        
+        
+        
+        self.map = MKMapView()
+        
+        self.map?.mapType = .standard
+        self.map?.frame = view.frame
+        self.map?.delegate = self
+        view.addSubview(self.map!)
+        
+        self.map?.showsUserLocation = true
+        
         setupNavBar()
     }
     
-    func grabLocation() {
-        self.myLocation = self.mapView?.myLocation
-        print("ehhhhhh")
-        if let location = self.myLocation {
-             print(location)
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations.last
+        
+        self.myLocation = location
+        
+        let center = CLLocationCoordinate2D(latitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!)
+        
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08))
+        
+        self.map?.setRegion(region, animated: true)
+        
+        self.locationManager.stopUpdatingLocation()
+        
+        if (self.region?.doesContain(location: self.myLocation!))! {
+            print("you're in there big guy")
         }
-       
     }
-
-    /*override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.layer.zPosition = 0
-    }*/
-
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Location Manager Failed with errors: " + error.localizedDescription)
+    }
+    
     
     func setupNavBar() {
         let image = UIImage(named: "CastIcon")
@@ -83,3 +108,4 @@ class CastMapController: UIViewController, CLLocationManagerDelegate {
         present(castMenuController, animated: false, completion: nil)
     }
 }
+

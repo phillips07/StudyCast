@@ -22,6 +22,7 @@
 		95FDB77C1DEEAA9500252B65 /* CastMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FDB77B1DEEAA9500252B65 /* CastMapController.swift */; };
 		ACE7CAFE7E6161F8135B5191 /* Pods_StudyCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD4B076B9D45A92B99103F4F /* Pods_StudyCast.framework */; };
 		B9D7C8271DE114430043B38C /* ChangeNameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D7C8261DE114430043B38C /* ChangeNameController.swift */; };
+		D906211E1DF21385004F6B51 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = D906211D1DF21385004F6B51 /* Region.swift */; };
 		D9158CB31DCE56AE002E1122 /* ClassSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */; };
 		D9158CB41DCE56AE002E1122 /* ClassSelectController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAD1DCE56AE002E1122 /* ClassSelectController+handlers.swift */; };
 		D9158CB51DCE56AE002E1122 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9158CAE1DCE56AE002E1122 /* LoginController.swift */; };
@@ -58,6 +59,7 @@
 		95FDB77B1DEEAA9500252B65 /* CastMapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CastMapController.swift; sourceTree = "<group>"; };
 		B9D7C8261DE114430043B38C /* ChangeNameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeNameController.swift; sourceTree = "<group>"; };
 		CD4B076B9D45A92B99103F4F /* Pods_StudyCast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StudyCast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D906211D1DF21385004F6B51 /* Region.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
 		D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassSelectController.swift; sourceTree = "<group>"; };
 		D9158CAD1DCE56AE002E1122 /* ClassSelectController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ClassSelectController+handlers.swift"; sourceTree = "<group>"; };
 		D9158CAE1DCE56AE002E1122 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			children = (
 				95FDB77B1DEEAA9500252B65 /* CastMapController.swift */,
 				95A4543B1DF113D200F9EA81 /* CastMenuController.swift */,
+				D906211D1DF21385004F6B51 /* Region.swift */,
 			);
 			name = Cast;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				D9C06CA11DCED29B00D264B4 /* RestAPIManager.swift in Sources */,
 				D9E66C731DC1A8DF00579C88 /* AppDelegate.swift in Sources */,
 				95C174801DDEE45D00F1C606 /* MainScreenController+handlers.swift in Sources */,
+				D906211E1DF21385004F6B51 /* Region.swift in Sources */,
 				95EAFD6B1DDD99B9005FB966 /* ChangePasswordController.swift in Sources */,
 				950DCDEF1DE02BD800FF7D96 /* GroupsTableViewController.swift in Sources */,
 				D9158CB91DCE56AE002E1122 /* MainScreenController.swift in Sources */,
