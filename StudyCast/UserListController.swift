@@ -141,6 +141,21 @@ class UserListController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! GroupCell
         cell.textLabel?.text = usersInClass[indexPath.row].name
+        if let profileImageURL = usersInClass[indexPath.row].profileURL {
+            //cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: groupImageURL)
+            let url = NSURL(string: profileImageURL)
+            URLSession.shared.dataTask(with: url! as URL, completionHandler: { (data, response, error) in
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    cell.profileImageView.image = UIImage(data: data!)
+                }
+            }).resume()
+        }
+        
         return cell
     }
     
