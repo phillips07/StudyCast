@@ -241,10 +241,10 @@ class MainScreenController: UITableViewController {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! GroupCell
         
-        
         if notificationDataSet.count != 0 {
-        cell.textLabel?.text = notificationDataSet[indexPath.section][indexPath.row].senderName! +
-            " has invited you to group \n" + notificationDataSet[indexPath.section][indexPath.row].groupName!
+            cell.textLabel?.numberOfLines = 2;
+            cell.textLabel?.text = notificationDataSet[indexPath.section][indexPath.row].senderName! +
+                " has invited you to group \n" + notificationDataSet[indexPath.section][indexPath.row].groupName!
         }
         
         if let groupImageURL = notificationDataSet[indexPath.section][indexPath.row].groupPictureURL {

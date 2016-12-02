@@ -15,6 +15,7 @@
 		952773051DD67C5100931E5F /* CustomTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952773041DD67C5100931E5F /* CustomTabBarController.swift */; };
 		95778B8B1DE1611E002942AA /* UserListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95778B8A1DE1611E002942AA /* UserListController.swift */; };
 		959C12521DD832A9004B3B6C /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959C12511DD832A9004B3B6C /* Extensions.swift */; };
+		95A4543C1DF113D200F9EA81 /* CastMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A4543B1DF113D200F9EA81 /* CastMenuController.swift */; };
 		95C1747C1DDEC1F700F1C606 /* PasswordResetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1747B1DDEC1F700F1C606 /* PasswordResetController.swift */; };
 		95C174801DDEE45D00F1C606 /* MainScreenController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1747F1DDEE45D00F1C606 /* MainScreenController+handlers.swift */; };
 		95EAFD691DDD9087005FB966 /* ModifyAccountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EAFD681DDD9087005FB966 /* ModifyAccountController.swift */; };
@@ -51,6 +52,7 @@
 		952773041DD67C5100931E5F /* CustomTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBarController.swift; sourceTree = "<group>"; };
 		95778B8A1DE1611E002942AA /* UserListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListController.swift; sourceTree = "<group>"; };
 		959C12511DD832A9004B3B6C /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		95A4543B1DF113D200F9EA81 /* CastMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CastMenuController.swift; sourceTree = "<group>"; };
 		95C1747B1DDEC1F700F1C606 /* PasswordResetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetController.swift; sourceTree = "<group>"; };
 		95C1747F1DDEE45D00F1C606 /* MainScreenController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainScreenController+handlers.swift"; sourceTree = "<group>"; };
 		95EAFD681DDD9087005FB966 /* ModifyAccountController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyAccountController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				95FDB77B1DEEAA9500252B65 /* CastMapController.swift */,
+				95A4543B1DF113D200F9EA81 /* CastMenuController.swift */,
 			);
 			name = Cast;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				950DCDF71DE039C400FF7D96 /* AddGroupController+handlers.swift in Sources */,
 				D9158CB81DCE56AE002E1122 /* RegisterController+handlers.swift in Sources */,
 				950DCDF11DE02CA100FF7D96 /* GroupsTableViewController+handlers.swift in Sources */,
+				95A4543C1DF113D200F9EA81 /* CastMenuController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
