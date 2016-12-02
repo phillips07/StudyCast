@@ -54,15 +54,16 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         
         let uploadImageView = UIImageView()
         uploadImageView.isUserInteractionEnabled = true
-        uploadImageView.image = UIImage(named: "add_photos")
+        uploadImageView.image = UIImage(named: "add_photos")?.withRenderingMode(.alwaysTemplate)
+        uploadImageView.tintColor = UIColor.lightGray
         uploadImageView.translatesAutoresizingMaskIntoConstraints = false
         uploadImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleUploadTap)))
         containerView.addSubview(uploadImageView)
         //x,y,w,h
         uploadImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor).isActive = true
         uploadImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
-        uploadImageView.widthAnchor.constraint(equalToConstant: 44).isActive = true
-        uploadImageView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        uploadImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        uploadImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
         
         let sendButton = UIButton(type: .system)
