@@ -27,6 +27,7 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         
         navigationItem.title = group.name
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white]

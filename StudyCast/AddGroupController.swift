@@ -17,6 +17,7 @@ class AddGroupController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
         view.backgroundColor = UIColor(r: 61, g: 91, b: 151)
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
         self.navigationController?.navigationBar.tintColor = UIColor.white
