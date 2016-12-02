@@ -21,6 +21,10 @@ class CastMapController: UIViewController {
         setupNavBar()
     }
     
+    /*override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.layer.zPosition = 0
+    }*/
+    
     func setupNavBar() {
         let image = UIImage(named: "CastIcon")
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(handleCastSettings))
@@ -46,6 +50,7 @@ class CastMapController: UIViewController {
     }
     
     func handleCastSettings() {
+        //self.tabBarController?.tabBar.layer.zPosition = -1
         let castMenuController = CastMenuController()
         castMenuController.modalPresentationStyle = .overCurrentContext
         present(castMenuController, animated: false, completion: nil)
