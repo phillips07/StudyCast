@@ -40,6 +40,7 @@ class LoginController: UIViewController {
         let tf = UITextField()
         tf.placeholder = " Email Address"
         tf.translatesAutoresizingMaskIntoConstraints = false
+        tf.autocapitalizationType = .none
         return tf
     }()
     

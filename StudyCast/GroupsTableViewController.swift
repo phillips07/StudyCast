@@ -114,6 +114,8 @@ class GroupsTableViewController: UITableViewController {
                             }
                             
                         }
+                        
+                        
                         self.tableView.reloadData()
                     }
 
