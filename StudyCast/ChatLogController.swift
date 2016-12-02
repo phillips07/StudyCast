@@ -34,7 +34,9 @@ class ChatLogController: UICollectionViewController, UICollectionViewDelegateFlo
         self.navigationController?.navigationBar.titleTextAttributes = titleDict as? [String : Any]
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(handleBack))
         self.navigationItem.leftBarButtonItem?.tintColor = UIColor.white
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Invite", style: .plain, target: self, action: #selector(handleTapAddMembers))
+        
+        let image = UIImage(named: "invite")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(handleTapAddMembers))
         self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
 
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
