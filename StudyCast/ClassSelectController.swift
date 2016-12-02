@@ -38,7 +38,6 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         view.backgroundColor = UIColor(r: 61, g: 91, b: 151)
         
-        
      
         //called to fetch JSON data from SFU API
         fetchFaculties(semester: "2016/fall/")
@@ -61,7 +60,9 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         //called to populate the upper tableView
         loadClassesToTable(key: currentFaculty.lowercased())
 
-
+        self.navigationController?.navigationBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        
         //creating subviews
         view.addSubview(facultyTableView)
         view.addSubview(userClassesTableView)
@@ -328,17 +329,24 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         return ul
     }()
 
+    func setupPickerView(){
+        facultyPicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        facultyPicker.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 140).isActive = true
+        facultyPicker.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -35).isActive = true
+        facultyPicker.heightAnchor.constraint(equalToConstant: 60).isActive = true
+    }
+    
     func setupFacultyTableView() {
         facultyTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        facultyTableView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -35).isActive = true
-        facultyTableView.heightAnchor.constraint(equalToConstant: 185).isActive = true
-        facultyTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 165).isActive = true
+        facultyTableView.widthAnchor.constraint(equalTo: facultyPicker.widthAnchor).isActive = true
+        facultyTableView.topAnchor.constraint(equalTo: facultyPicker.bottomAnchor, constant: 25).isActive = true
+        facultyTableView.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
     func setupUserClassesTableView() {
         userClassesTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         userClassesTableView.widthAnchor.constraint(equalTo: facultyTableView.widthAnchor).isActive = true
-        userClassesTableView.heightAnchor.constraint(equalTo: facultyTableView.heightAnchor).isActive = true
+        userClassesTableView.bottomAnchor.constraint(equalTo: doneButton.topAnchor, constant: -17).isActive = true
         userClassesTableView.topAnchor.constraint(equalTo: facultyTableView.bottomAnchor, constant: 40).isActive = true
     }
     
@@ -352,13 +360,6 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         doneButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
         doneButton.widthAnchor.constraint(equalTo: userClassesTableView.widthAnchor).isActive = true
         doneButton.heightAnchor.constraint(equalToConstant: 55).isActive = true
-    }
-    
-    func setupPickerView(){
-        facultyPicker.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        facultyPicker.bottomAnchor.constraint(equalTo: facultyTableView.topAnchor, constant: -25).isActive = true
-        facultyPicker.widthAnchor.constraint(equalTo: facultyTableView.widthAnchor).isActive = true
-        facultyPicker.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
     func setupViewLabel() {
