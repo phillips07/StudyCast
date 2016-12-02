@@ -49,10 +49,6 @@ class MainScreenController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    //Not a really a good fix, but it will do for now.
-    //This is bad because everytime the mainScreen re-opend it reloads all data on that screen
-    //we only need to do this when something changes on that screen such as, a change of classes, logout and login as a 
-    //different user, etc.
     override func viewWillAppear(_ animated: Bool) {
         if FIRAuth.auth()?.currentUser?.uid == nil {
             perform(#selector(handleLogout), with: nil, afterDelay: 0)
@@ -76,20 +72,22 @@ class MainScreenController: UITableViewController {
                 self.navigationItem.rightBarButtonItem?.tintColor = UIColor.white
                 self.navigationItem.leftBarButtonItem?.tintColor = UIColor.white
                 
+                let screenSize: CGRect = UIScreen.main.bounds
+                
+                
                 let titleView = UIView()
-                titleView.frame = CGRect(x: 0, y: 0, width: 5, height: 40)
+                titleView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: 40)
                 
                 let containerView = UIView()
                 containerView.translatesAutoresizingMaskIntoConstraints = false
                 titleView.addSubview(containerView)
+                containerView.leftAnchor.constraint(equalTo: titleView.leftAnchor).isActive = true
                 
                 let profileImageView = UIImageView()
                 profileImageView.translatesAutoresizingMaskIntoConstraints = false
                 profileImageView.contentMode = .scaleAspectFill
                 profileImageView.layer.cornerRadius = 20
                 profileImageView.clipsToBounds = true
-                
-                //profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleSelectProfileImageView)))
                 
                 if let profileImageUrl = userDictionary["profileImage"] as? String{
                     profileImageView.loadImageUsingCacheWithUrlString(urlString: profileImageUrl)
