@@ -33,6 +33,7 @@ class GroupsTableViewController: UITableViewController {
         tableView.register(GroupCell.self, forCellReuseIdentifier: "groupCell")
         
         tableView.sectionHeaderHeight = 50
+        tableView.tableFooterView = UIView()
         
         self.tableView.reloadData()
         

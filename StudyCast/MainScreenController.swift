@@ -46,6 +46,7 @@ class MainScreenController: UITableViewController {
         notificationSectionHeaders.removeAll()
         fetchNotifications()
         fetchCurrentName()
+        tableView.tableFooterView = UIView()
         self.tableView.reloadData()
     }
     
