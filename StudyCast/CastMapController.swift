@@ -9,16 +9,43 @@
 import UIKit
 import GoogleMaps
 
-class CastMapController: UIViewController {
+class CastMapController: UIViewController, CLLocationManagerDelegate {
 
+    var locationManager = CLLocationManager()
+    
+    var firstLocationUpdate: Bool?
+    
+    var didFindMyLocation = false
+    var mapView: GMSMapView?
+    var myLocation: CLLocation?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        
+        self.mapView?.settings.compassButton = true
+        self.mapView?.settings.myLocationButton = true
+
+        self.mapView?.addObserver(self, forKeyPath: "myLocation", options: .new, context: nil)
         
         let camera = GMSCameraPosition.camera(withLatitude: 49.278084, longitude: -122.919879, zoom: 16)
-        let mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
-        view = mapView
+        self.mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
+        view = self.mapView
+        mapView?.isMyLocationEnabled = true
+        grabLocation()
         setupNavBar()
+    }
+    
+    NSKeyValue
+    func grabLocation() {
+        self.myLocation = self.mapView?.myLocation
+        print("ehhhhhh")
+        if let location = self.myLocation {
+             print(location)
+        }
+       
     }
     
     func setupNavBar() {
