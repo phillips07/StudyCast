@@ -18,7 +18,6 @@
 		95A4543C1DF113D200F9EA81 /* CastMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A4543B1DF113D200F9EA81 /* CastMenuController.swift */; };
 		95C1747C1DDEC1F700F1C606 /* PasswordResetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1747B1DDEC1F700F1C606 /* PasswordResetController.swift */; };
 		95C174801DDEE45D00F1C606 /* MainScreenController+handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1747F1DDEE45D00F1C606 /* MainScreenController+handlers.swift */; };
-		95EAFD691DDD9087005FB966 /* ModifyAccountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EAFD681DDD9087005FB966 /* ModifyAccountController.swift */; };
 		95EAFD6B1DDD99B9005FB966 /* ChangePasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95EAFD6A1DDD99B9005FB966 /* ChangePasswordController.swift */; };
 		95FDB77C1DEEAA9500252B65 /* CastMapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95FDB77B1DEEAA9500252B65 /* CastMapController.swift */; };
 		ACE7CAFE7E6161F8135B5191 /* Pods_StudyCast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD4B076B9D45A92B99103F4F /* Pods_StudyCast.framework */; };
@@ -55,7 +54,6 @@
 		95A4543B1DF113D200F9EA81 /* CastMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CastMenuController.swift; sourceTree = "<group>"; };
 		95C1747B1DDEC1F700F1C606 /* PasswordResetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetController.swift; sourceTree = "<group>"; };
 		95C1747F1DDEE45D00F1C606 /* MainScreenController+handlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MainScreenController+handlers.swift"; sourceTree = "<group>"; };
-		95EAFD681DDD9087005FB966 /* ModifyAccountController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModifyAccountController.swift; sourceTree = "<group>"; };
 		95EAFD6A1DDD99B9005FB966 /* ChangePasswordController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordController.swift; sourceTree = "<group>"; };
 		95FDB77B1DEEAA9500252B65 /* CastMapController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CastMapController.swift; sourceTree = "<group>"; };
 		B9D7C8261DE114430043B38C /* ChangeNameController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeNameController.swift; sourceTree = "<group>"; };
@@ -140,7 +138,6 @@
 				95182CFF1DD6903300904E0E /* SettingsController.swift */,
 				95EAFD6A1DDD99B9005FB966 /* ChangePasswordController.swift */,
 				B9D7C8261DE114430043B38C /* ChangeNameController.swift */,
-				95EAFD681DDD9087005FB966 /* ModifyAccountController.swift */,
 			);
 			name = SettingsControllers;
 			sourceTree = "<group>";
@@ -348,7 +345,6 @@
 				950DCDEF1DE02BD800FF7D96 /* GroupsTableViewController.swift in Sources */,
 				D9158CB91DCE56AE002E1122 /* MainScreenController.swift in Sources */,
 				D96621831DE81DA4007AA5C7 /* MessageClass.swift in Sources */,
-				95EAFD691DDD9087005FB966 /* ModifyAccountController.swift in Sources */,
 				952773051DD67C5100931E5F /* CustomTabBarController.swift in Sources */,
 				D9158CB31DCE56AE002E1122 /* ClassSelectController.swift in Sources */,
 				959C12521DD832A9004B3B6C /* Extensions.swift in Sources */,
