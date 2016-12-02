@@ -79,10 +79,8 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         setupViewLabel()
         setupPickerView()
         
-        
         self.facultyTableView.register(UserCell.self, forCellReuseIdentifier: "cell")
         self.userClassesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell2")
-        
     }
     
     func setCurrentFaculty(row: Int) {

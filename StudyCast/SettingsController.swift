@@ -28,6 +28,7 @@ class SettingsController: UITableViewController {
         tableView.register(Header.self, forHeaderFooterViewReuseIdentifier: "headerId")
         
         tableView.sectionHeaderHeight = 50
+        tableView.tableFooterView = UIView()
     }
 
 
