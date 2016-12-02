@@ -35,6 +35,7 @@ class UserListController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: .plain, target: self, action: #selector(handleSend))
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(handleSkip))
         tableView.register(GroupCell.self, forCellReuseIdentifier: "userCell")
+        tableView.tableFooterView = UIView()
     }
     
     func fetchUsers() {
