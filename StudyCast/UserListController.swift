@@ -120,7 +120,7 @@ class UserListController: UITableViewController {
                 notificationsRef.updateChildValues(["class" : self.className])
                 notificationsRef.updateChildValues(["accepted" : "false"])
                 notificationsRef.updateChildValues(["SenderUid" : loggedInUserUid!])
-                //notificationsRef.updateChildValues(["groupPictureURL" : self.notificationSender.groupPictureURL!])
+                notificationsRef.updateChildValues(["groupPictureURL" : self.notificationSender.groupPictureURL!])
                 userRef = FIRDatabase.database().reference().child("users")
                 notificationsRef = userRef
             }

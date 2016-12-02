@@ -106,6 +106,8 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
         userRef.updateChildValues(["gid" : gid])
         
         
+        
+        
         if groupName != "" {
             groupRef.updateChildValues(["groupName" : groupName])
             userRef.updateChildValues(["groupName" : groupName])
@@ -130,8 +132,18 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
                     return
                 }
                 if let groupImage = metadata?.downloadURL()?.absoluteString {
+                    self.imgURL = groupImage
                     groupRef.updateChildValues(["groupPictureURL" : groupImage])
                     userRef.updateChildValues(["groupPictureURL" : groupImage])
+                    
+                    DispatchQueue.main.async {
+                        let groupForInvite = Group(id: gid, name: groupName, photoUrl: self.imgURL, users: nil, groupClass: self.groupClass)
+                        
+                        let inviteController = UserListController()
+                        inviteController.setInfoForInvite(cn: self.groupClass, group: groupForInvite, sn: userName)
+                        let inviteNavController = UINavigationController(rootViewController: inviteController)
+                        self.present(inviteNavController, animated: true, completion: nil)
+                    }
                 }
             })
         }
@@ -142,12 +154,7 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
         userRef.updateChildValues(["groupClass" : groupClass])
         //dismiss(animated: true, completion: nil)
         
-        let groupForInvite = Group(id: gid, name: groupName, photoUrl: nil, users: nil, groupClass: groupClass)
-        
-        let inviteController = UserListController()
-        inviteController.setInfoForInvite(cn: groupClass, group: groupForInvite, sn: userName)
-        let inviteNavController = UINavigationController(rootViewController: inviteController)
-        present(inviteNavController, animated: true, completion: nil)
+
         
         
 

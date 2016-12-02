@@ -132,6 +132,7 @@ class MainScreenController: UITableViewController {
         FIRDatabase.database().reference().child("users").child(uid).child("notifications").observe(.childAdded, with: { (snapshot) in
             let numClassSections = self.notificationSectionHeaders.count
             let notificationSender = NotificationSender()
+            var duplicate = false
             
             if let notificationsDictionary = snapshot.value as? [String: AnyObject] {
                 notificationSender.senderName = notificationsDictionary["senderName"] as? String
@@ -142,12 +143,21 @@ class MainScreenController: UITableViewController {
                 notificationSender.groupPictureURL = notificationsDictionary["groupPictureURL"] as? String
                 notificationSender.nid = notificationsDictionary["nid"] as? String
             }
+            
+            for i in self.notificationDataSet {
+                for g in i {
+                    if g.gid == notificationSender.gid {
+                        duplicate = true
+                    }
+                }
+            }
+
             if notificationSender.className == nil {
             }
-            else {
-                if numClassSections == 0 && self.notificationDataSet.count != 0{
+            else if !duplicate {
+                if numClassSections == 0 {
                     self.notificationSectionHeaders.append(notificationSender.className!)
-                    self.notificationDataSet[0] = [notificationSender]
+                    self.notificationDataSet.append([notificationSender])
                 } else {
                     var i = 0
                     var added = false
@@ -163,8 +173,15 @@ class MainScreenController: UITableViewController {
                         self.notificationDataSet.append([notificationSender])
                     }
                 }
+                self.tableView.reloadData()
+            } else if duplicate {
+                let noteRef = FIRDatabase.database().reference().child("users").child(uid).child("notifications").child(notificationSender.nid!)
+                noteRef.removeValue()
+                duplicate = false
+                print("removed?")
+//                self.notificationDataSet.removeAll()
+//                self.notificationSectionHeaders.removeAll()
             }
-            self.tableView.reloadData()
         })
     }
     
@@ -217,7 +234,7 @@ class MainScreenController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection
         section: Int) -> Int {
-        return 1
+        return notificationDataSet[section].count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -230,7 +247,7 @@ class MainScreenController: UITableViewController {
             " has invited you to group \n" + notificationDataSet[indexPath.section][indexPath.row].groupName!
         }
         
-        /*if let groupImageURL = notificationDataSet[indexPath.section][indexPath.row].groupPictureURL {
+        if let groupImageURL = notificationDataSet[indexPath.section][indexPath.row].groupPictureURL {
             let url = NSURL(string: groupImageURL)
             URLSession.shared.dataTask(with: url! as URL, completionHandler: { (data, response, error) in
                 if error != nil {
@@ -240,9 +257,10 @@ class MainScreenController: UITableViewController {
                 
                 DispatchQueue.main.async {
                     cell.profileImageView.image = UIImage(data: data!)
+                    self.tableView.reloadData()
                 }
             }).resume()
-        }*/
+        }
         return cell
     }
     
@@ -277,7 +295,7 @@ class MainScreenController: UITableViewController {
                 userRef.updateChildValues(["gid" : self.notificationDataSet[indexPath.section][indexPath.row].gid!])
                 userRef.updateChildValues(["groupClass" : self.notificationDataSet[indexPath.section][indexPath.row].className!])
                 userRef.updateChildValues(["groupName" : self.notificationDataSet[indexPath.section][indexPath.row].groupName!])
-                //userRef.updateChildValues(["groupPictureURL" : self.self.notificationDataSet[indexPath.section][indexPath.row].groupPictureURL!])
+                userRef.updateChildValues(["groupPictureURL" : self.self.notificationDataSet[indexPath.section][indexPath.row].groupPictureURL!])
                 
                 noteRef.removeValue()
                 self.fetchNotifications()
