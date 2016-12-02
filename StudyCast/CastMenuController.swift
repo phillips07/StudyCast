@@ -10,9 +10,10 @@ import UIKit
 import Firebase
 
 class CastMenuController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-
+    
     var userCourses = [String]()
     var castClass = ""
+    var previousClass = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,7 @@ class CastMenuController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         view.addSubview(popUp)
         fetchClasses()
+        fetchPreviousClass()
         setupPopUpView()
     }
     
@@ -133,6 +135,35 @@ class CastMenuController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         }, completion: {( finished : Bool ) in
             if (finished) {
                 self.dismiss(animated: false, completion: nil)
+                guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+                    return
+                }
+                if self.previousClass != "" {
+                    let previousRef = FIRDatabase.database().reference().child(self.previousClass).child(uid).child("location")
+                    previousRef.removeValue()
+                }
+                let userRef = FIRDatabase.database().reference().child("users").child(uid).child("cast")
+                let classRef = FIRDatabase.database().reference().child(self.castClass).child(uid)
+                userRef.updateChildValues(["course" : self.castClass])
+                //hard coded location for testing
+                classRef.updateChildValues(["location" : "Applied Science Building"])
+                //self.previousClass = self.castClass
+                //Need to update cast location here
+            }
+        })
+    }
+    
+    func fetchPreviousClass() {
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+            return
+        }
+        FIRDatabase.database().reference().child("users").child(uid).child("cast").child("course").observe(.value, with: { (snapshot) in
+            print(snapshot)
+            
+            if snapshot.exists() == true {
+                self.previousClass = snapshot.value as! String
+            } else {
+                self.previousClass = ""
             }
         })
     }
@@ -144,6 +175,7 @@ class CastMenuController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         }
         FIRDatabase.database().reference().child("users").child(uid).child("courses").observe(.childAdded, with: { (snapshot) in
             self.userCourses.append(snapshot.value as! String)
+            self.castClass = self.userCourses[0]
         })
     }
 }
