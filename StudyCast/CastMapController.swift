@@ -38,7 +38,6 @@ class CastMapController: UIViewController, CLLocationManagerDelegate {
         setupNavBar()
     }
     
-    NSKeyValue
     func grabLocation() {
         self.myLocation = self.mapView?.myLocation
         print("ehhhhhh")
@@ -47,6 +46,11 @@ class CastMapController: UIViewController, CLLocationManagerDelegate {
         }
        
     }
+
+    /*override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.layer.zPosition = 0
+    }*/
+
     
     func setupNavBar() {
         let image = UIImage(named: "CastIcon")
@@ -73,6 +77,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate {
     }
     
     func handleCastSettings() {
+        //self.tabBarController?.tabBar.layer.zPosition = -1
         let castMenuController = CastMenuController()
         castMenuController.modalPresentationStyle = .overCurrentContext
         present(castMenuController, animated: false, completion: nil)
