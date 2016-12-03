@@ -13,6 +13,10 @@ import Firebase
 
 class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
+    lazy var initialize : () = {
+        checkCast()
+    }()
+    
     var map: MKMapView?
     let locationManager = CLLocationManager()
     var myLocation: CLLocation?
@@ -105,21 +109,33 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         map?.addAnnotation(southScienceAnnotation)
         
         setupNavBar()
-        checkCast()
     }
     
     func checkCast() {
         guard let uid = FIRAuth.auth()?.currentUser?.uid else {
             return
         }
-        FIRDatabase.database().reference().child("users").child(uid).child("cast").child("course").observe(.value, with: { (snapshot) in
-            if snapshot.exists() == true {
-                self.currentCast = snapshot.value as? String
-            } else {
-                self.handleNotCasting()
-                return
-            }
-        })
+        
+        //self.myLocation = asbLocation
+        setRegionName()
+        if let nom = self.regionName {
+            FIRDatabase.database().reference().child("users").child(uid).child("cast").child("course").observe(.value, with: { (snapshot) in
+                if snapshot.exists() == true {
+                    self.currentCast = snapshot.value as? String
+                } else {
+                    self.handleNotCasting()
+                    return
+                }
+                FIRDatabase.database().reference().child(self.currentCast!).observe(.childAdded, with: { (snapshot) in
+                    if let usersDictionary = snapshot.value as? [String: AnyObject] {
+                        if usersDictionary["location"] as? String == nom {
+                            print("found one")
+                        }
+                    }
+                })
+            })
+        }
+
 
     }
     
@@ -138,7 +154,9 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let location = locations.last
         
         //self.myLocation = location
-        self.myLocation = outLocation
+        self.myLocation = asbLocation
+        
+        
         
         let center = CLLocationCoordinate2D(latitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!)
         
@@ -150,6 +168,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         self.castClass = ""
