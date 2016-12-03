@@ -85,7 +85,7 @@ class GroupsTableViewController: UITableViewController {
                     
                     for i in self.groupsDataSet {
                         for g in i {
-                            if g.name == group.name {
+                            if g.id == group.id {
                                 duplicate = true
                             }
                         }

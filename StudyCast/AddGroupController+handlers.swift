@@ -152,7 +152,6 @@ extension AddGroupController: UIImagePickerControllerDelegate, UINavigationContr
         }
         groupRef.updateChildValues(["groupClass" : groupClass])
         userRef.updateChildValues(["groupClass" : groupClass])
-        //dismiss(animated: true, completion: nil)
         
 
         

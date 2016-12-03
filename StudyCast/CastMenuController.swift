@@ -147,12 +147,10 @@ class CastMenuController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
             let userRef = FIRDatabase.database().reference().child("users").child(uid).child("cast")
             let classRef = FIRDatabase.database().reference().child(self.castClass).child(uid)
             userRef.updateChildValues(["course" : self.castClass])
-            //hard coded location for testing
             classRef.updateChildValues(["location" : self.userLocation!])
-            //self.previousClass = self.castClass
-            //Need to update cast location here
         }, completion: {( finished : Bool ) in
             if (finished) {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "refresh"), object: nil)
                 self.dismiss(animated: false, completion: nil)
             }
         })
