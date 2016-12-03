@@ -16,6 +16,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var map: MKMapView?
     let locationManager = CLLocationManager()
     var myLocation: CLLocation?
+    var regionName: String?
 
     var castClass = ""
     
@@ -118,7 +119,8 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last
         
-        self.myLocation = location
+        //self.myLocation = location
+        self.myLocation = mbcLocation
         
         let center = CLLocationCoordinate2D(latitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!)
         
@@ -127,6 +129,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.map?.setRegion(region1, animated: true)
         
         self.locationManager.stopUpdatingLocation()
+        
         
     }
     
@@ -173,10 +176,44 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.navigationItem.titleView = titleView
     }
     
+    func setRegionName() {
+        if aq.doesContain(location: self.myLocation!) {
+            self.regionName = aq.regionName
+        } else if mbc.doesContain(location: self.myLocation!) {
+            self.regionName = mbc.regionName
+        } else if westMall.doesContain(location: self.myLocation!) {
+            self.regionName = westMall.regionName
+        } else if sciBuilds.doesContain(location: self.myLocation!) {
+            self.regionName = sciBuilds.regionName
+        } else if southScience.doesContain(location: self.myLocation!) {
+            self.regionName = southScience.regionName
+        } else if asb.doesContain(location: self.myLocation!) {
+            self.regionName = asb.regionName
+        } else if blusson.doesContain(location: self.myLocation!) {
+            self.regionName = blusson.regionName
+        } else if tasc2.doesContain(location: self.myLocation!) {
+            self.regionName = tasc2.regionName
+        } else if tasc1.doesContain(location: self.myLocation!) {
+            self.regionName = tasc1.regionName
+        } else if library.doesContain(location: self.myLocation!) {
+            self.regionName = library.regionName
+        } else {
+            handleNotInSchool()
+        }
+    }
+    
+    func handleNotInSchool() {
+        
+    }
+    
     func handleCastSettings() {
         let castMenuController = CastMenuController()
-        castMenuController.modalPresentationStyle = .overCurrentContext
-        present(castMenuController, animated: false, completion: nil)
+        setRegionName()
+        if let nom = self.regionName {
+            castMenuController.setLocation(location: nom)
+            castMenuController.modalPresentationStyle = .overCurrentContext
+            present(castMenuController, animated: false, completion: nil)
+        }
     }
     
 
