@@ -174,10 +174,10 @@ class MainScreenController: UITableViewController {
                 }
                 self.tableView.reloadData()
             } else if duplicate {
-                let noteRef = FIRDatabase.database().reference().child("users").child(uid).child("notifications").child(notificationSender.nid!)
-                noteRef.removeValue()
-                duplicate = false
-                print("removed?")
+//                let noteRef = FIRDatabase.database().reference().child("users").child(uid).child("notifications").child(notificationSender.nid!)
+//                noteRef.removeValue()
+//                duplicate = false
+//                print("removed?")
 //                self.notificationDataSet.removeAll()
 //                self.notificationSectionHeaders.removeAll()
             }
@@ -244,28 +244,32 @@ class MainScreenController: UITableViewController {
             cell.textLabel?.numberOfLines = 2;
             cell.textLabel?.text = notificationDataSet[indexPath.section][indexPath.row].senderName! +
                 " has invited you to group \n" + notificationDataSet[indexPath.section][indexPath.row].groupName!
+        
+            if let groupImageURL = notificationDataSet[indexPath.section][indexPath.row].groupPictureURL {
+                let url = NSURL(string: groupImageURL)
+                URLSession.shared.dataTask(with: url! as URL, completionHandler: { (data, response, error) in
+                    if error != nil {
+                        print(error!)
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        cell.profileImageView.image = UIImage(data: data!)
+                        self.tableView.reloadData()
+                    }
+                }).resume()
+            }
         }
         
-        if let groupImageURL = notificationDataSet[indexPath.section][indexPath.row].groupPictureURL {
-            let url = NSURL(string: groupImageURL)
-            URLSession.shared.dataTask(with: url! as URL, completionHandler: { (data, response, error) in
-                if error != nil {
-                    print(error!)
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    cell.profileImageView.image = UIImage(data: data!)
-                    self.tableView.reloadData()
-                }
-            }).resume()
-        }
+
         return cell
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "headerId") as! Header
-        header.nameLabel.text = notificationSectionHeaders[section]
+        if notificationDataSet.count != 0 {
+            header.nameLabel.text = notificationSectionHeaders[section]
+        }
         return header
     }
     
