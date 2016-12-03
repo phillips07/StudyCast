@@ -10,6 +10,7 @@ import UIKit
 //import GoogleMaps
 import MapKit
 import CoreLocation
+import Firebase
 
 class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     //google maps stuff commented for work with mapKit
@@ -27,6 +28,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let c11 = CLLocation(latitude: 49.279231, longitude: -122.903533)
     var region: Region?
     var myLocation: CLLocation?
+    var castClass = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +53,8 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         annotation.coordinate = location
         annotation.title = "Applied Science Building"
         
+        fetchCurrentCastClass()
+        setAnnotationSubtitles()
         
         //FOR TESTING
         let span = MKCoordinateSpanMake(0.002, 0.002)
@@ -59,6 +63,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         
         map?.addAnnotation(annotation)
+        fetchCurrentCastClass()
         
         setupNavBar()
     }
@@ -115,6 +120,31 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         let castMenuController = CastMenuController()
         castMenuController.modalPresentationStyle = .overCurrentContext
         present(castMenuController, animated: false, completion: nil)
+    }
+    
+    func fetchCurrentCastClass() {
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+            return
+        }
+        FIRDatabase.database().reference().child("users").child(uid).child("cast").child("course").observe(.value, with: { (snapshot) in
+            if snapshot.exists() == true {
+                self.castClass = snapshot.value as! String
+            } else {
+                self.castClass = ""
+            }
+        })
+    }
+    
+    func setAnnotationSubtitles() {
+        if castClass != "" {
+            /*guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+                return
+            }*/
+            FIRDatabase.database().reference().child(castClass).observe(.childAdded, with: { (snapshot) in
+                print(snapshot)
+            
+            })
+        }
     }
 }
 
