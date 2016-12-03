@@ -137,23 +137,23 @@ class CastMenuController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         UIView.animate(withDuration: 0.25, animations: {
             self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
             self.view.alpha = 0.0
+            guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+                return
+            }
+            if self.previousClass != "" {
+                let previousRef = FIRDatabase.database().reference().child(self.previousClass).child(uid).child("location")
+                previousRef.removeValue()
+            }
+            let userRef = FIRDatabase.database().reference().child("users").child(uid).child("cast")
+            let classRef = FIRDatabase.database().reference().child(self.castClass).child(uid)
+            userRef.updateChildValues(["course" : self.castClass])
+            //hard coded location for testing
+            classRef.updateChildValues(["location" : self.userLocation!])
+            //self.previousClass = self.castClass
+            //Need to update cast location here
         }, completion: {( finished : Bool ) in
             if (finished) {
                 self.dismiss(animated: false, completion: nil)
-                guard let uid = FIRAuth.auth()?.currentUser?.uid else {
-                    return
-                }
-                if self.previousClass != "" {
-                    let previousRef = FIRDatabase.database().reference().child(self.previousClass).child(uid).child("location")
-                    previousRef.removeValue()
-                }
-                let userRef = FIRDatabase.database().reference().child("users").child(uid).child("cast")
-                let classRef = FIRDatabase.database().reference().child(self.castClass).child(uid)
-                userRef.updateChildValues(["course" : self.castClass])
-                //hard coded location for testing
-                classRef.updateChildValues(["location" : self.userLocation!])
-                //self.previousClass = self.castClass
-                //Need to update cast location here
             }
         })
     }
@@ -163,7 +163,7 @@ class CastMenuController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
             return
         }
         FIRDatabase.database().reference().child("users").child(uid).child("cast").child("course").observe(.value, with: { (snapshot) in
-            print(snapshot)
+            //print(snapshot)
             
             if snapshot.exists() == true {
                 self.previousClass = snapshot.value as! String
