@@ -10,12 +10,14 @@ import UIKit
 import CoreLocation
 
 class Region: NSObject {
+    var regionName: String?
     var corner00: CLLocation?
     var corner01: CLLocation?
     var corner10: CLLocation?
     var corner11: CLLocation?
     
-    init(zz: CLLocation, zo: CLLocation, oz: CLLocation, oo: CLLocation) {
+    init(name: String, zz: CLLocation, zo: CLLocation, oz: CLLocation, oo: CLLocation) {
+        regionName = name
         corner00 = zz
         corner01 = zo
         corner10 = oz
