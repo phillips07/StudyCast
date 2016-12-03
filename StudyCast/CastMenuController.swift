@@ -14,6 +14,7 @@ class CastMenuController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     var userCourses = [String]()
     var castClass = ""
     var previousClass = ""
+    var userLocation: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,10 @@ class CastMenuController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     
     override func viewWillAppear(_ animated: Bool) {
         showAnimate()
+    }
+    
+    func setLocation(location: String) {
+        userLocation = location
     }
     
     lazy var castButton: UIButton = {
@@ -146,7 +151,7 @@ class CastMenuController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
                 let classRef = FIRDatabase.database().reference().child(self.castClass).child(uid)
                 userRef.updateChildValues(["course" : self.castClass])
                 //hard coded location for testing
-                classRef.updateChildValues(["location" : "Applied Science Building"])
+                classRef.updateChildValues(["location" : self.userLocation!])
                 //self.previousClass = self.castClass
                 //Need to update cast location here
             }
