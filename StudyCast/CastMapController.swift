@@ -29,7 +29,10 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     var region: Region?
     var myLocation: CLLocation?
     var castClass = ""
-
+    
+    let location = CLLocationCoordinate2DMake(49.277446, -122.914248)
+    let annotation = MKPointAnnotation()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
@@ -38,7 +41,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
-        
+        self.castClass = ""
         
         myLocation = CLLocation(latitude: 49.279339, longitude: -122.915539)
         
@@ -47,6 +50,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         } else {
             print("Not in")
         }*/
+        
         
         self.map = MKMapView()
         
@@ -57,12 +61,9 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         self.map?.showsUserLocation = true
         
-        let location = CLLocationCoordinate2DMake(49.277446, -122.914248)
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = location
-        annotation.title = "Applied Science Building"
+        self.annotation.coordinate = location
+        self.annotation.title = "Applied Science Building"
         
-        fetchCurrentCastClass()
         setAnnotationSubtitles()
         
         //FOR TESTING
@@ -72,7 +73,6 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         
         map?.addAnnotation(annotation)
-        fetchCurrentCastClass()
         
         setupNavBar()
     }
@@ -93,6 +93,11 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 //        if (self.region?.doesContain(location: self.myLocation!))! {
 //            print("you're in there big guy")
 //        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.castClass = ""
+        setAnnotationSubtitles()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -125,35 +130,39 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func handleCastSettings() {
-        //self.tabBarController?.tabBar.layer.zPosition = -1
         let castMenuController = CastMenuController()
         castMenuController.modalPresentationStyle = .overCurrentContext
         present(castMenuController, animated: false, completion: nil)
     }
     
-    func fetchCurrentCastClass() {
+    func setAnnotationSubtitles() {
+        var castersCount = 0
+        self.castClass = ""
         guard let uid = FIRAuth.auth()?.currentUser?.uid else {
             return
         }
         FIRDatabase.database().reference().child("users").child(uid).child("cast").child("course").observe(.value, with: { (snapshot) in
+            castersCount = 0
             if snapshot.exists() == true {
                 self.castClass = snapshot.value as! String
             } else {
                 self.castClass = ""
             }
+            if self.castClass != "" {
+                FIRDatabase.database().reference().child(self.castClass).observe(.childAdded, with: { (snapshot) in
+                    if let usersDictionary = snapshot.value as? [String: AnyObject] {
+                        if usersDictionary["location"] != nil {
+                            castersCount += 1
+                        }
+                    }
+                    if castersCount == 1 {
+                        self.annotation.subtitle = "Currently there is \(castersCount) person studying " + self.castClass + " here"
+                    } else {
+                        self.annotation.subtitle = "Currently there are \(castersCount) people studying " + self.castClass + " here"
+                    }
+                })
+            }
         })
-    }
-    
-    func setAnnotationSubtitles() {
-        if castClass != "" {
-            /*guard let uid = FIRAuth.auth()?.currentUser?.uid else {
-                return
-            }*/
-            FIRDatabase.database().reference().child(castClass).observe(.childAdded, with: { (snapshot) in
-                print(snapshot)
-            
-            })
-        }
     }
 }
 
