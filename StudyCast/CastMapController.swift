@@ -22,10 +22,10 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     var map: MKMapView?
     let locationManager = CLLocationManager()
-    let c00 = CLLocation(latitude: 49.278773, longitude: -122.904642)
-    let c01 = CLLocation(latitude: 49.279267, longitude: -122.904727)
-    let c10 = CLLocation(latitude: 49.278691, longitude: -122.903508)
-    let c11 = CLLocation(latitude: 49.279231, longitude: -122.903533)
+    let c00 = CLLocation(latitude: 49.278466, longitude: -122.917649)
+    let c01 = CLLocation(latitude: 49.279685, longitude: -122.917251)
+    let c10 = CLLocation(latitude: 49.278167, longitude: -122.915804)
+    let c11 = CLLocation(latitude: 49.279386, longitude: -122.915346)
     var region: Region?
     var myLocation: CLLocation?
     var castClass = ""
@@ -38,6 +38,15 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
+        
+        
+        myLocation = CLLocation(latitude: 49.279339, longitude: -122.915539)
+        
+        /*if (region?.doesContain(location: myLocation!))! {
+            print("You're in")
+        } else {
+            print("Not in")
+        }*/
         
         self.map = MKMapView()
         
@@ -71,7 +80,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last
         
-        self.myLocation = location
+        //self.myLocation = location
         
         let center = CLLocationCoordinate2D(latitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!)
         
@@ -81,9 +90,9 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         self.locationManager.stopUpdatingLocation()
         
-        if (self.region?.doesContain(location: self.myLocation!))! {
-            print("you're in there big guy")
-        }
+//        if (self.region?.doesContain(location: self.myLocation!))! {
+//            print("you're in there big guy")
+//        }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
