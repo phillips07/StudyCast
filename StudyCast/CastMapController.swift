@@ -17,6 +17,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let locationManager = CLLocationManager()
     var myLocation: CLLocation?
     var regionName: String?
+    var currentCast: String?
 
     var castClass = ""
     
@@ -39,9 +40,6 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
         self.castClass = ""
-        
-
-        myLocation = CLLocation(latitude: 49.279339, longitude: -122.915539)
         
         self.map = MKMapView()
         self.map?.mapType = .standard
@@ -107,13 +105,40 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         map?.addAnnotation(southScienceAnnotation)
         
         setupNavBar()
+        checkCast()
+    }
+    
+    func checkCast() {
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+            return
+        }
+        FIRDatabase.database().reference().child("users").child(uid).child("cast").child("course").observe(.value, with: { (snapshot) in
+            if snapshot.exists() == true {
+                self.currentCast = snapshot.value as? String
+            } else {
+                self.handleNotCasting()
+                return
+            }
+        })
+
+    }
+    
+    func handleNotCasting(){
+        let alertController = UIAlertController(title: "No Cast Found", message: "It doesn't look like you're casting any of your classes.\n\nThis could be because your cast was successful, and you have group invitation waiting for you on the home screen!\n\nOr...\n\nYou may not have begun casting.\n\nTo begin/resume casting, tap the icon in the top right corner.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: {UIAlertAction in
+            NSLog("OK Pressed")
+        })
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last
         
-        self.myLocation = location
-        //self.myLocation = mbcLocation
+        //self.myLocation = location
+        self.myLocation = outLocation
         
         let center = CLLocationCoordinate2D(latitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!)
         
@@ -167,6 +192,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         titleLabel.textColor = UIColor.white
         
         self.navigationItem.titleView = titleView
+
     }
     
     func setRegionName() {
@@ -196,7 +222,13 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func handleNotInSchool() {
+        let alertController = UIAlertController(title: "Beuller? Beuller?", message: "We cant't locate you in any of the study Locations at SFU.\nTo cast for study partners you'll need to be in one of the following places:\nAQ, MBC, WMC, ASB, Shrum Science Centre, South Science Building, Blusson Hall, TASC 1, TASC 2, or the Library.\nHead to one of those locations, and try casting again!", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: {UIAlertAction in
+        NSLog("OK Pressed")
+        })
         
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func handleCastSettings() {
@@ -251,6 +283,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let blusson = Region(name: "Blusson Hall", zz: CLLocation(latitude: 49.279349, longitude: -122.915243), zo: CLLocation(latitude: 49.279973, longitude: -122.914993), oz: CLLocation(latitude: 49.278910, longitude: -122.912473), oo: CLLocation(latitude: 49.279539, longitude: -122.912282))
     let southScience = Region(name: "South Science Building", zz: CLLocation(latitude: 49.277190, longitude: -122.918811), zo: CLLocation(latitude: 49.277526, longitude: -122.918745), oz: CLLocation(latitude: 49.276956, longitude: -122.917356), oo: CLLocation(latitude: 49.277314, longitude: -122.917206))
     
+    let outLocation = CLLocation(latitude: 49.276874, longitude: -122.911443)
     let aqLocation = CLLocation(latitude: 49.278810, longitude: -122.916604)
     let mbcLocation = CLLocation(latitude: 49.278859, longitude: -122.919021)
     let wmLocation = CLLocation(latitude: 49.279799, longitude: -122.921348)
