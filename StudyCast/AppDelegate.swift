@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,8 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         FIRApp.configure()
-        
-        GMSServices.provideAPIKey("AIzaSyCS_nM0i8W11zw0UVfrqMXAqN1T93eR7pQ")
         
         //override UI creation, skipping the use of storyboarding
         window = UIWindow(frame: UIScreen.main.bounds)

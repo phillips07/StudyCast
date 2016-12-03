@@ -9,7 +9,5 @@ target 'StudyCast' do
 pod 'Firebase/Auth'
 pod 'Firebase/Storage'
 pod 'Firebase/Database'
-pod 'GoogleMaps'
-pod 'GooglePlaces'
 
 end
