@@ -274,7 +274,19 @@ class MainScreenController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-       return notificationSectionHeaders.count
+        
+        if notificationSectionHeaders.count > 0 {
+            tableView.separatorStyle = .singleLine
+            tableView.backgroundView = nil
+        } else {
+            let noDataLabel: UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.text = "You have no notifications"
+            noDataLabel.textColor = UIColor(r: 61, g: 91, b: 151)
+            noDataLabel.textAlignment = .center
+            tableView.backgroundView = noDataLabel
+            tableView.separatorStyle = .none
+        }
+        return notificationSectionHeaders.count
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
