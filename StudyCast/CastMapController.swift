@@ -13,15 +13,14 @@ import Firebase
 
 class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
-    lazy var initialize : () = {
-        checkCast()
-    }()
-    
+    var foundUsers: [String] = Array()
     var map: MKMapView?
     let locationManager = CLLocationManager()
     var myLocation: CLLocation?
     var regionName: String?
     var currentCast: String?
+    var imgURL: String?
+    var userName: String?
 
     var castClass = ""
     
@@ -38,11 +37,11 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(refresh), name:NSNotification.Name(rawValue: "refresh"), object: nil)
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.startUpdatingLocation()
         self.castClass = ""
         
         self.map = MKMapView()
@@ -51,6 +50,8 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.map?.delegate = self
         view.addSubview(self.map!)
         self.map?.showsUserLocation = true
+        
+        
         
         let aqCoordinate = CLLocationCoordinate2DMake(49.278810, -122.916604)
         let mbcCoordinate = CLLocationCoordinate2DMake(49.278859, -122.919021)
@@ -109,6 +110,11 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         map?.addAnnotation(southScienceAnnotation)
         
         setupNavBar()
+        
+    }
+    
+    func refresh(notification: NSNotification){
+        startLocating()
     }
     
     func checkCast() {
@@ -129,14 +135,131 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 FIRDatabase.database().reference().child(self.currentCast!).observe(.childAdded, with: { (snapshot) in
                     if let usersDictionary = snapshot.value as? [String: AnyObject] {
                         if usersDictionary["location"] as? String == nom {
-                            print("found one")
+                            if  (usersDictionary["uid"] as? String)! != uid {
+                                self.foundUsers.append((usersDictionary["uid"] as? String)!)
+                                self.handleFoundMatch()
+                            }
+                            
+                            if self.foundUsers.count == 0 {
+                                self.handleCastingNoMatches()
+                            }
                         }
                     }
                 })
             })
         }
+    }
+    
+    func handleCastingNoMatches () {
+        let alertController = UIAlertController(title: "No Matches Right Now", message: "You're casting \(self.currentCast!) in the \(self.regionName!).\n\nThere currently aren't any matches at that location.\n\nYou can wait here for a match, change the class you're casting, or tap each location on the map to see if anyone is studying your class.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: {UIAlertAction in
+            NSLog("OK Pressed")
+        })
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func startLocating() {
+        DispatchQueue.onceTracker.removeAll()
+        self.locationManager.startUpdatingLocation()
+    }
+    
+    
+    
+    func handleFoundMatch(){
+        let alertController = UIAlertController(title: "Found a Match!", message: "There's another person in your location looking for a partener to study with.\n\nTap OK to send them an invitation to chat.\n\nAn item will be added to you Groups page, and you can head there to leave your new study partner a message to see once they accept your invitation.", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: {UIAlertAction in
+            print("accepted")
+            
+            //create group and send invite
+            
+            
+    
+            
+            
+            //getting all references to the DB
+            var userName: String = ""
+            let gid = UUID().uuidString
+            let user = FIRAuth.auth()?.currentUser
+            let uid = user?.uid
+            let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
+            let groupUsersRef = ref.child("groups").child(gid).child("members")
+            let groupRef = ref.child("groups").child(gid)
+            let userRef = ref.child("users").child(uid!).child("groups").child(gid)
+            FIRDatabase.database().reference().child("users").child(uid!).observeSingleEvent(of: .value, with: { (snapshot) in
+                if let userDictionary = snapshot.value as? [String: AnyObject] {
+                    userName = userDictionary["name"] as! String
+                }
+                
+                
+            })
+            
+            let diceRoll = Int(arc4random_uniform(9))
+            let diceRoll1 = Int(arc4random_uniform(9))
+            
+            let groupName = "StudyCast Match -\(diceRoll)\(diceRoll1)"
+            
+            userRef.updateChildValues(["gid" : gid])
+            
+            
+            
+            groupRef.updateChildValues(["groupName" : groupName])
+            userRef.updateChildValues(["groupName" : groupName])
+            
+            self.fetchUserName( closure: {(name) in
+                groupUsersRef.updateChildValues([uid! : name])
+            })
+            
+            //storage of group image
+            let groupImageName = UUID().uuidString
+            let storage = FIRStorage.storage().reference().child("groupImages").child("\(groupImageName).jpg")
+            let img = UIImage(named: "studyCast_book3")
+            if let imageToUpload = UIImageJPEGRepresentation(img!, 0.1) {
+                storage.put(imageToUpload, metadata: nil, completion: { (metadata, error) in
+                    if error != nil {
+                        print(error!)
+                        return
+                    }
+                    if let groupImage = metadata?.downloadURL()?.absoluteString {
+                        self.imgURL = groupImage
+                        groupRef.updateChildValues(["groupPictureURL" : groupImage])
+                        userRef.updateChildValues(["groupPictureURL" : groupImage])
+                        
+                        DispatchQueue.main.async {
+                            let groupForInvite = Group(id: gid, name: groupName, photoUrl: self.imgURL, users: nil, groupClass: self.currentCast)
+                            
+                            let inviteController = UserListController()
+                            inviteController.setInfoForInvite(cn: self.currentCast!, group: groupForInvite, sn: userName)
+                            let invitee = ChatUser()
+                            invitee.uid = self.foundUsers[0]
+                            inviteController.setSelectedUsers(users: [invitee])
+                            inviteController.handleSend()
+                            
+                            //removing cast attributes from matched users
+                            let senderRef = FIRDatabase.database().reference().child(self.currentCast!).child(uid!).child("location")
+                            senderRef.removeValue()
+                            let senderUserRef = FIRDatabase.database().reference().child("users").child(uid!).child("cast")
+                            senderUserRef.removeValue()
+                            
+                            let receiverRef = FIRDatabase.database().reference().child(self.currentCast!).child(self.foundUsers[0]).child("location")
+                            receiverRef.removeValue()
+                            let receiverUserRef = FIRDatabase.database().reference().child("users").child(self.foundUsers[0]).child("cast")
+                            receiverUserRef.removeValue()
+                        }
+                    }
+                })
+            }
+            groupRef.updateChildValues(["groupClass" : self.currentCast!])
+            userRef.updateChildValues(["groupClass" : self.currentCast!])
+            
 
-
+            
+            NSLog("OK Pressed")
+        })
+        
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func handleNotCasting(){
@@ -153,10 +276,8 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last
         
-        //self.myLocation = location
-        self.myLocation = asbLocation
-        
-        
+        self.myLocation = location
+        //self.myLocation = asbLocation
         
         let center = CLLocationCoordinate2D(latitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!)
         
@@ -166,6 +287,9 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         self.locationManager.stopUpdatingLocation()
         
+        DispatchQueue.once {
+            checkCast()
+        }
         
     }
     
@@ -182,6 +306,8 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         setAnnotationSubtitles(locationAnnotation: self.sciBuildsAnnotation, locationName: "Shrum Science Centre")
         setAnnotationSubtitles(locationAnnotation: self.blussonAnnotation, locationName: "Blusson Hall")
         setAnnotationSubtitles(locationAnnotation: self.southScienceAnnotation, locationName: "South Science Building")
+        
+        startLocating()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -238,6 +364,15 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         } else {
             handleNotInSchool()
         }
+    }
+    
+    func fetchUserName( closure:((String) -> Void)?) -> Void {
+        let uid = FIRAuth.auth()?.currentUser?.uid
+        let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
+        ref.child("users").child(uid!).child("name").observe(.value, with: { (snapshot) in
+            self.userName = snapshot.value as? String
+            closure!(self.userName!)
+        })
     }
     
     func handleNotInSchool() {

@@ -12,6 +12,7 @@ import Firebase
 class UserListController: UITableViewController {
 
     //var usersInClass = [ChatUser]()
+    var needToDismiss = false
     var usersInClass: [ChatUser] = []
     var selectedUsers: [ChatUser] = []
     var className = "ENSC 351"
@@ -39,6 +40,7 @@ class UserListController: UITableViewController {
     }
     
     func fetchUsers() {
+        self.needToDismiss = true
         var userIds = [String]()
         let ref = FIRDatabase.database().reference().child(self.className)
         var userRef = FIRDatabase.database().reference().child(self.className).child("users")
@@ -86,6 +88,10 @@ class UserListController: UITableViewController {
         self.groupInfo.users = group.users
     }
     
+    func setSelectedUsers(users: [ChatUser]) {
+        selectedUsers = users
+    }
+    
     func handleBack() {
         dismiss(animated: true, completion: nil)
     }
@@ -99,9 +105,6 @@ class UserListController: UITableViewController {
         notificationSender.groupPictureURL = self.groupInfo.photoUrl
         
         
-        //let i: UInt = 0
-        
-        
         let loggedInUser = FIRAuth.auth()?.currentUser
         let loggedInUserUid = loggedInUser?.uid
         var userRef = FIRDatabase.database().reference().child("users")
@@ -110,8 +113,7 @@ class UserListController: UITableViewController {
             for user in selectedUsers{
                 userRef = userRef.child(user.uid!)
                 notificationsRef = userRef.child("notifications")
-                
-                //notificationsRef = notificationsRef.child("\(i)")
+
                 notificationsRef = notificationsRef.childByAutoId()
                 let nid = notificationsRef.key
                 notificationsRef.updateChildValues(["nid" : nid])
@@ -125,7 +127,9 @@ class UserListController: UITableViewController {
                 userRef = FIRDatabase.database().reference().child("users")
                 notificationsRef = userRef
             }
-             self.view.window!.rootViewController?.dismiss(animated: true, completion: nil)
+            if needToDismiss {
+                self.view.window!.rootViewController?.dismiss(animated: true, completion: nil)
+            }
         }
     }
     
@@ -143,7 +147,6 @@ class UserListController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! GroupCell
         cell.textLabel?.text = usersInClass[indexPath.row].name
         if let profileImageURL = usersInClass[indexPath.row].profileURL {
-            //cell.profileImageView.loadImageUsingCacheWithUrlString(urlString: groupImageURL)
             let url = NSURL(string: profileImageURL)
             URLSession.shared.dataTask(with: url! as URL, completionHandler: { (data, response, error) in
                 if error != nil {
