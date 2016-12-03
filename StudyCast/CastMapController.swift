@@ -27,7 +27,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let c11 = CLLocation(latitude: 49.279231, longitude: -122.903533)
     var region: Region?
     var myLocation: CLLocation?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.barTintColor = UIColor(r: 61, g: 91, b: 151)
@@ -37,11 +37,6 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
         
-        
-        
-        
-        
-        
         self.map = MKMapView()
         
         self.map?.mapType = .standard
@@ -50,6 +45,20 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         view.addSubview(self.map!)
         
         self.map?.showsUserLocation = true
+        
+        let location = CLLocationCoordinate2DMake(49.277446, -122.914248)
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = location
+        annotation.title = "Applied Science Building"
+        
+        
+        //FOR TESTING
+        let span = MKCoordinateSpanMake(0.002, 0.002)
+        let region = MKCoordinateRegion(center: location, span: span)
+        map?.setRegion(region, animated: true)
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        
+        map?.addAnnotation(annotation)
         
         setupNavBar()
     }
