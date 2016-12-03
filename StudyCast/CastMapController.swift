@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import Firebase
 
 class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
@@ -16,6 +17,20 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let locationManager = CLLocationManager()
     var myLocation: CLLocation?
 
+    var castClass = ""
+    
+    let location = CLLocationCoordinate2DMake(49.277446, -122.914248)
+    
+    let asbAnnotation = MKPointAnnotation()
+    let aqAnnotation = MKPointAnnotation()
+    let libraryAnnotation = MKPointAnnotation()
+    let mbcAnnotation = MKPointAnnotation()
+    let westMallAnnotation = MKPointAnnotation()
+    let tasc1Annotation = MKPointAnnotation()
+    let tasc2Annotation = MKPointAnnotation()
+    let sciBuildsAnnotation = MKPointAnnotation()
+    let blussonAnnotation = MKPointAnnotation()
+    let southScienceAnnotation = MKPointAnnotation()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +39,10 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         self.locationManager.requestWhenInUseAuthorization()
         self.locationManager.startUpdatingLocation()
+        self.castClass = ""
         
+
+        myLocation = CLLocation(latitude: 49.279339, longitude: -122.915539)
         
         self.map = MKMapView()
         self.map?.mapType = .standard
@@ -32,6 +50,67 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.map?.delegate = self
         view.addSubview(self.map!)
         self.map?.showsUserLocation = true
+        
+        let aqCoordinate = CLLocationCoordinate2DMake(49.278810, -122.916604)
+        let mbcCoordinate = CLLocationCoordinate2DMake(49.278859, -122.919021)
+        let wmCoordinate = CLLocationCoordinate2DMake(49.279799, -122.921348)
+        let sciCoordinate = CLLocationCoordinate2DMake(49.277906, -122.916950)
+        let southSciCoordinate = CLLocationCoordinate2DMake(49.277228, -122.917989)
+        let asbCoordinate = CLLocationCoordinate2DMake(49.277443, -122.914305)
+        let blussonCoordinate = CLLocationCoordinate2DMake(49.279465, -122.914055)
+        let tasc1Coordinate = CLLocationCoordinate2DMake(49.276721, -122.914348)
+        let tasc2Coordinate = CLLocationCoordinate2DMake(49.277057,  -122.916194)
+        let libraryCoordinate = CLLocationCoordinate2DMake(49.279710, -122.919050)
+ 
+        asbAnnotation.coordinate = asbCoordinate
+        aqAnnotation.coordinate = aqCoordinate
+        libraryAnnotation.coordinate = libraryCoordinate
+        mbcAnnotation.coordinate = mbcCoordinate
+        westMallAnnotation.coordinate = wmCoordinate
+        tasc1Annotation.coordinate = tasc1Coordinate
+        tasc2Annotation.coordinate = tasc2Coordinate
+        sciBuildsAnnotation.coordinate = sciCoordinate
+        blussonAnnotation.coordinate = blussonCoordinate
+        southScienceAnnotation.coordinate = southSciCoordinate
+        
+        asbAnnotation.title = "Applied Science Building"
+        aqAnnotation.title = "Academic Quadrangle"
+        libraryAnnotation.title = "Bennett Library"
+        mbcAnnotation.title = "Maggie Benston Centre"
+        westMallAnnotation.title = "West Mall Centre"
+        tasc1Annotation.title = "TASC 1"
+        tasc2Annotation.title = "TASC 2"
+        sciBuildsAnnotation.title = "Shrum Science Centre"
+        blussonAnnotation.title = "Blusson Hall"
+        southScienceAnnotation.title = "South Science Building"
+        
+        setAnnotationSubtitles(locationAnnotation: self.asbAnnotation, locationName: "Applied Science Building")
+        setAnnotationSubtitles(locationAnnotation: self.aqAnnotation, locationName: "Academic Quadrangle")
+        setAnnotationSubtitles(locationAnnotation: self.libraryAnnotation, locationName: "Bennett Library")
+        setAnnotationSubtitles(locationAnnotation: self.mbcAnnotation, locationName: "Maggie Benston Centre")
+        setAnnotationSubtitles(locationAnnotation: self.westMallAnnotation, locationName: "West Mall Centre")
+        setAnnotationSubtitles(locationAnnotation: self.tasc1Annotation, locationName: "TASC 1")
+        setAnnotationSubtitles(locationAnnotation: self.tasc2Annotation, locationName: "TASC 2")
+        setAnnotationSubtitles(locationAnnotation: self.sciBuildsAnnotation, locationName: "Shrum Science Centre")
+        setAnnotationSubtitles(locationAnnotation: self.blussonAnnotation, locationName: "Blusson Hall")
+        setAnnotationSubtitles(locationAnnotation: self.southScienceAnnotation, locationName: "South Science Building")
+
+        //FOR TESTING
+        let span = MKCoordinateSpanMake(0.002, 0.002)
+        let region = MKCoordinateRegion(center: location, span: span)
+        map?.setRegion(region, animated: true)
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        
+        map?.addAnnotation(asbAnnotation)
+        map?.addAnnotation(aqAnnotation)
+        map?.addAnnotation(libraryAnnotation)
+        map?.addAnnotation(mbcAnnotation)
+        map?.addAnnotation(westMallAnnotation)
+        map?.addAnnotation(tasc1Annotation)
+        map?.addAnnotation(tasc2Annotation)
+        map?.addAnnotation(sciBuildsAnnotation)
+        map?.addAnnotation(blussonAnnotation)
+        map?.addAnnotation(southScienceAnnotation)
         
         setupNavBar()
     }
@@ -43,12 +122,26 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         
         let center = CLLocationCoordinate2D(latitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!)
         
-        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08))
+        let region1 = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08))
         
-        self.map?.setRegion(region, animated: true)
+        self.map?.setRegion(region1, animated: true)
         
         self.locationManager.stopUpdatingLocation()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.castClass = ""
+        setAnnotationSubtitles(locationAnnotation: self.asbAnnotation, locationName: "Applied Science Building")
+        setAnnotationSubtitles(locationAnnotation: self.aqAnnotation, locationName: "Academic Quadrangle")
+        setAnnotationSubtitles(locationAnnotation: self.libraryAnnotation, locationName: "Bennett Library")
+        setAnnotationSubtitles(locationAnnotation: self.mbcAnnotation, locationName: "Maggie Benston Centre")
+        setAnnotationSubtitles(locationAnnotation: self.westMallAnnotation, locationName: "West Mall Centre")
+        setAnnotationSubtitles(locationAnnotation: self.tasc1Annotation, locationName: "TASC 1")
+        setAnnotationSubtitles(locationAnnotation: self.tasc2Annotation, locationName: "TASC 2")
+        setAnnotationSubtitles(locationAnnotation: self.sciBuildsAnnotation, locationName: "Shrum Science Centre")
+        setAnnotationSubtitles(locationAnnotation: self.blussonAnnotation, locationName: "Blusson Hall")
+        setAnnotationSubtitles(locationAnnotation: self.southScienceAnnotation, locationName: "South Science Building")
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -81,10 +174,40 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func handleCastSettings() {
-        //self.tabBarController?.tabBar.layer.zPosition = -1
         let castMenuController = CastMenuController()
         castMenuController.modalPresentationStyle = .overCurrentContext
         present(castMenuController, animated: false, completion: nil)
+    }
+    
+
+    func setAnnotationSubtitles(locationAnnotation: MKPointAnnotation, locationName: String) {
+        var castersCount = 0
+        self.castClass = ""
+        guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+            return
+        }
+        FIRDatabase.database().reference().child("users").child(uid).child("cast").child("course").observe(.value, with: { (snapshot) in
+            castersCount = 0
+            if snapshot.exists() == true {
+                self.castClass = snapshot.value as! String
+            } else {
+                self.castClass = ""
+            }
+            if self.castClass != "" {
+                FIRDatabase.database().reference().child(self.castClass).observe(.childAdded, with: { (snapshot) in
+                    if let usersDictionary = snapshot.value as? [String: AnyObject] {
+                        if usersDictionary["location"] as? String == locationName {
+                            castersCount += 1
+                        }
+                    }
+                    if castersCount == 1 {
+                        locationAnnotation.subtitle = "Currently there is \(castersCount) person studying " + self.castClass + " here"
+                    } else {
+                        locationAnnotation.subtitle = "Currently there are \(castersCount) people studying " + self.castClass + " here"
+                    }
+                })
+            }
+        })
     }
     
     let aq = Region(name: "Academic Quadrangle", zz: CLLocation(latitude: 49.278473, longitude: -122.917770), zo: CLLocation(latitude: 49.279724, longitude: -122.917312), oz: CLLocation(latitude: 49.278151, longitude: -122.915756), oo: CLLocation(latitude: 49.279386, longitude: -122.915262))
