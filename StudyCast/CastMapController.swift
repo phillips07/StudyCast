@@ -20,8 +20,6 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
 
     var castClass = ""
     
-    let location = CLLocationCoordinate2DMake(49.277446, -122.914248)
-    
     let asbAnnotation = MKPointAnnotation()
     let aqAnnotation = MKPointAnnotation()
     let libraryAnnotation = MKPointAnnotation()
@@ -96,11 +94,6 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         setAnnotationSubtitles(locationAnnotation: self.blussonAnnotation, locationName: "Blusson Hall")
         setAnnotationSubtitles(locationAnnotation: self.southScienceAnnotation, locationName: "South Science Building")
 
-        //FOR TESTING
-        let span = MKCoordinateSpanMake(0.002, 0.002)
-        let region = MKCoordinateRegion(center: location, span: span)
-        map?.setRegion(region, animated: true)
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         
         map?.addAnnotation(asbAnnotation)
         map?.addAnnotation(aqAnnotation)
@@ -119,14 +112,14 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last
         
-        //self.myLocation = location
-        self.myLocation = mbcLocation
+        self.myLocation = location
+        //self.myLocation = mbcLocation
         
         let center = CLLocationCoordinate2D(latitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!)
         
-        let region1 = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08))
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.08, longitudeDelta: 0.08))
         
-        self.map?.setRegion(region1, animated: true)
+        self.map?.setRegion(region, animated: true)
         
         self.locationManager.stopUpdatingLocation()
         
