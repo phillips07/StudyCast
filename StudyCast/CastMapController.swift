@@ -38,10 +38,10 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         self.locationManager.startUpdatingLocation()
         
         
-        myLocation = CLLocation(latitude: 49.278977, longitude: -122.916709)
+        myLocation = CLLocation(latitude: 49.279339, longitude: -122.915539)
         
         if (region?.doesContain(location: myLocation!))! {
-            print("Holy Fuck yes")
+            print("You're in")
         } else {
             print("Not in")
         }

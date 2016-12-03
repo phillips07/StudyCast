@@ -34,6 +34,18 @@ class Region: NSObject {
         var x4 = (self.corner11?.coordinate.longitude)!
         var y4 = (self.corner11?.coordinate.latitude)!
         
+        x0 = x0 - x1
+        x2 = x2 - x1
+        x3 = x3 - x1
+        x4 = x4 - x1
+        x1 = 0
+        
+        y0 = y0 - y2
+        y1 = y1 - y2
+        y3 = y3 - y2
+        y4 = y4 - y2
+        y2 = 0
+        
         let slope1 = (y2-y1)/(x2-x1)
         let slope2 = (y3-y1)/(x3-x1)
         let slope3 = (y4-y3)/(x4-x3)
