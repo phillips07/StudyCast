@@ -189,7 +189,6 @@ class GroupsTableViewController: UITableViewController {
                             }
                             if self.groupsDataSet[indexPath.section].count == 1 {
                                 self.groupsDataSet[indexPath.section].remove(at: indexPath.row)
-                                //self.groupsDataSet.remove(at: indexPath.section)
                                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
                                 self.classSectionHeaders.remove(at: indexPath.section)
                                 self.tableView.reloadData()
