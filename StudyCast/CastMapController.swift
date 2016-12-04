@@ -344,28 +344,33 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func setRegionName() {
-        if aq.doesContain(location: self.myLocation!) {
-            self.regionName = aq.regionName
-        } else if mbc.doesContain(location: self.myLocation!) {
-            self.regionName = mbc.regionName
-        } else if westMall.doesContain(location: self.myLocation!) {
-            self.regionName = westMall.regionName
-        } else if sciBuilds.doesContain(location: self.myLocation!) {
-            self.regionName = sciBuilds.regionName
-        } else if southScience.doesContain(location: self.myLocation!) {
-            self.regionName = southScience.regionName
-        } else if asb.doesContain(location: self.myLocation!) {
-            self.regionName = asb.regionName
-        } else if blusson.doesContain(location: self.myLocation!) {
-            self.regionName = blusson.regionName
-        } else if tasc2.doesContain(location: self.myLocation!) {
-            self.regionName = tasc2.regionName
-        } else if tasc1.doesContain(location: self.myLocation!) {
-            self.regionName = tasc1.regionName
-        } else if library.doesContain(location: self.myLocation!) {
-            self.regionName = library.regionName
+        if self.myLocation != nil {
+            if aq.doesContain(location: self.myLocation!) {
+                self.regionName = aq.regionName
+            } else if mbc.doesContain(location: self.myLocation!) {
+                self.regionName = mbc.regionName
+            } else if westMall.doesContain(location: self.myLocation!) {
+                self.regionName = westMall.regionName
+            } else if sciBuilds.doesContain(location: self.myLocation!) {
+                self.regionName = sciBuilds.regionName
+            } else if southScience.doesContain(location: self.myLocation!) {
+                self.regionName = southScience.regionName
+            } else if asb.doesContain(location: self.myLocation!) {
+                self.regionName = asb.regionName
+            } else if blusson.doesContain(location: self.myLocation!) {
+                self.regionName = blusson.regionName
+            } else if tasc2.doesContain(location: self.myLocation!) {
+                self.regionName = tasc2.regionName
+            } else if tasc1.doesContain(location: self.myLocation!) {
+                self.regionName = tasc1.regionName
+            } else if library.doesContain(location: self.myLocation!) {
+                self.regionName = library.regionName
+            } else {
+                handleNotInSchool()
+            }
         } else {
-            handleNotInSchool()
+            self.myLocation = asbLocation
+            self.regionName = asb.regionName
         }
     }
     
