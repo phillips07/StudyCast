@@ -276,8 +276,11 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last
         
-        self.myLocation = location
-        //self.myLocation = asbLocation
+        if let place = location {
+            self.myLocation = place
+        } else {
+            self.myLocation = asbLocation
+        }
         
         let center = CLLocationCoordinate2D(latitude: (location?.coordinate.latitude)!, longitude: (location?.coordinate.longitude)!)
         
