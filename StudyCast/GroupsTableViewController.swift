@@ -34,7 +34,7 @@ class GroupsTableViewController: UITableViewController {
         
         tableView.sectionHeaderHeight = 50
         tableView.tableFooterView = UIView()
-        
+        tableView.allowsMultipleSelectionDuringEditing = true
         self.tableView.reloadData()
         
     }
@@ -158,6 +158,54 @@ class GroupsTableViewController: UITableViewController {
         self.navigationItem.titleView = titleView
     }
     
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let leave = UITableViewRowAction(style: .normal, title: "Leave") { action, index in
+            guard let uid = FIRAuth.auth()?.currentUser?.uid else {
+                return
+            }
+            
+            if let gid = self.groupsDataSet[indexPath.section][indexPath.row].id {
+                FIRDatabase.database().reference().child("users").child(uid).child("groups").child(gid).removeValue(completionBlock: { (error, ref) in
+                    if error != nil {
+                        print("Failed to leave group")
+                        return
+                    }
+                    FIRDatabase.database().reference().child("groups").child(gid).child("members").child(uid).removeValue(completionBlock: { (error, ref) in
+                        if error != nil {
+                            print("Failed to leave group")
+                            return
+                        }
+                        FIRDatabase.database().reference().child("groups").child(gid).observeSingleEvent(of: .value, with: { (snapshot) in
+                            if !snapshot.hasChild("members") {
+                                FIRDatabase.database().reference().child("groups").child(gid).removeValue()
+                            }
+                            if self.groupsDataSet[indexPath.section].count == 1 {
+                                self.groupsDataSet[indexPath.section].remove(at: indexPath.row)
+                                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                                self.classSectionHeaders.remove(at: indexPath.section)
+                                self.tableView.reloadData()
+                            } else {
+                                self.groupsDataSet[indexPath.section].remove(at: indexPath.row)
+                                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                                self.tableView.reloadData()
+                            }
+                        })
+                    })
+                })
+            }
+        }
+        leave.backgroundColor = UIColor(r: 61, g: 91, b: 151)
+        return [leave]
+    }
+
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "headerId") as! Header
         header.nameLabel.text = classSectionHeaders[section]
@@ -181,8 +229,11 @@ class GroupsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return groupsDataSet[section].count
+        if groupsDataSet.count != 0 {
+            return groupsDataSet[section].count
+        } else {
+            return 0
+        }
     }
 
     
@@ -302,7 +353,7 @@ class GroupCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        textLabel?.frame = CGRect(x: 56, y: textLabel!.frame.origin.y, width: textLabel!.frame.width, height: textLabel!.frame.height)
+        textLabel?.frame = CGRect(x: 56, y: textLabel!.frame.origin.y, width: textLabel!.frame.width - 23, height: textLabel!.frame.height)
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
