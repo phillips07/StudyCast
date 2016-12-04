@@ -179,6 +179,7 @@ class CastMenuController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         FIRDatabase.database().reference().child("users").child(uid).child("courses").observe(.childAdded, with: { (snapshot) in
             self.userCourses.append(snapshot.value as! String)
             self.castClass = self.userCourses[0]
+            self.classPicker.reloadAllComponents()
         })
     }
 }
