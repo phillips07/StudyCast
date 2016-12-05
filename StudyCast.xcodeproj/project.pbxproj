@@ -98,6 +98,7 @@
 			children = (
 				950DCDEE1DE02BD800FF7D96 /* GroupsTableViewController.swift */,
 				950DCDF21DE0377300FF7D96 /* AddGroupController.swift */,
+				95778B8A1DE1611E002942AA /* UserListController.swift */,
 			);
 			name = Groups;
 			sourceTree = "<group>";
@@ -108,17 +109,10 @@
 				95FDB77A1DEEAA5C00252B65 /* Cast */,
 				95EAFD6C1DDDA33F005FB966 /* SettingsControllers */,
 				950DCDF41DE0378600FF7D96 /* Groups */,
-				D9158CB01DCE56AE002E1122 /* RegisterController.swift */,
+				9571E6FB1DF5224100113D31 /* LoginFlow */,
+				9571E6FA1DF5222900113D31 /* Chat */,
 				D9158CB21DCE56AE002E1122 /* MainScreenController.swift */,
-				D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */,
-				D9158CAE1DCE56AE002E1122 /* LoginController.swift */,
-				D96621841DECEFB7007AA5C7 /* ChatMessageCell.swift */,
-				D9381EEA1DF34A5200087615 /* DispatchOnceExtension.swift */,
-				95C1747B1DDEC1F700F1C606 /* PasswordResetController.swift */,
 				952773041DD67C5100931E5F /* CustomTabBarController.swift */,
-				95778B8A1DE1611E002942AA /* UserListController.swift */,
-				D96621821DE81DA4007AA5C7 /* MessageClass.swift */,
-				D96621801DE7E2E7007AA5C7 /* ChatLogController.swift */,
 			);
 			name = UIControllers;
 			sourceTree = "<group>";
@@ -133,8 +127,30 @@
 				950DCDF01DE02CA100FF7D96 /* GroupsTableViewController+handlers.swift */,
 				D9158CB11DCE56AE002E1122 /* RegisterController+handlers.swift */,
 				950DCDF61DE039C400FF7D96 /* AddGroupController+handlers.swift */,
+				D9381EEA1DF34A5200087615 /* DispatchOnceExtension.swift */,
 			);
 			name = Handlers;
+			sourceTree = "<group>";
+		};
+		9571E6FA1DF5222900113D31 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				D96621821DE81DA4007AA5C7 /* MessageClass.swift */,
+				D96621801DE7E2E7007AA5C7 /* ChatLogController.swift */,
+				D96621841DECEFB7007AA5C7 /* ChatMessageCell.swift */,
+			);
+			name = Chat;
+			sourceTree = "<group>";
+		};
+		9571E6FB1DF5224100113D31 /* LoginFlow */ = {
+			isa = PBXGroup;
+			children = (
+				95C1747B1DDEC1F700F1C606 /* PasswordResetController.swift */,
+				D9158CB01DCE56AE002E1122 /* RegisterController.swift */,
+				D9158CAC1DCE56AE002E1122 /* ClassSelectController.swift */,
+				D9158CAE1DCE56AE002E1122 /* LoginController.swift */,
+			);
+			name = LoginFlow;
 			sourceTree = "<group>";
 		};
 		95EAFD6C1DDDA33F005FB966 /* SettingsControllers */ = {
