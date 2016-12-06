@@ -365,6 +365,8 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 self.regionName = tasc1.regionName
             } else if library.doesContain(location: self.myLocation!) {
                 self.regionName = library.regionName
+            } else if theOffice.doesContain(location: self.myLocation!) {
+                self.regionName = theOffice.regionName
             } else {
                 handleNotInSchool()
             }
@@ -444,6 +446,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let sciBuilds = Region(name: "Shrum Science Centre", zz: CLLocation(latitude: 49.277629, longitude: -122.918271), zo: CLLocation(latitude: 49.278443, longitude: -122.917971), oz: CLLocation(latitude: 49.277271, longitude: -122.915859), oo: CLLocation(latitude: 49.278052, longitude: -122.915609))
     let blusson = Region(name: "Blusson Hall", zz: CLLocation(latitude: 49.279349, longitude: -122.915243), zo: CLLocation(latitude: 49.279973, longitude: -122.914993), oz: CLLocation(latitude: 49.278910, longitude: -122.912473), oo: CLLocation(latitude: 49.279539, longitude: -122.912282))
     let southScience = Region(name: "South Science Building", zz: CLLocation(latitude: 49.277190, longitude: -122.918811), zo: CLLocation(latitude: 49.277526, longitude: -122.918745), oz: CLLocation(latitude: 49.276956, longitude: -122.917356), oo: CLLocation(latitude: 49.277314, longitude: -122.917206))
+    let theOffice = Region(name: "The Office", zz: CLLocation(latitude: 49.285366, longitude: -123.113844), zo: CLLocation(latitude: 49.285709, longitude: -123.113383), oz: CLLocation(latitude: 49.284935, longitude: -123.113182), oo: CLLocation(latitude: 49.285275, longitude: -123.113182))
     
     let outLocation = CLLocation(latitude: 49.276874, longitude: -122.911443)
     let aqLocation = CLLocation(latitude: 49.278810, longitude: -122.916604)
@@ -456,5 +459,6 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     let tasc1Location = CLLocation(latitude: 49.276721, longitude: -122.914348)
     let tasc2Location = CLLocation(latitude: 49.277057, longitude: -122.916194)
     let libraryLocation = CLLocation(latitude: 49.279710, longitude: -122.919050)
+    let officeLocation = CLLocation(latitude: 49.285499, longitude: -123.113363)
 }
 
