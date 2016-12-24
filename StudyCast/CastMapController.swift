@@ -183,7 +183,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             let gid = UUID().uuidString
             let user = FIRAuth.auth()?.currentUser
             let uid = user?.uid
-            let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
+            let ref = FIRDatabase.database().reference()
             let groupUsersRef = ref.child("groups").child(gid).child("members")
             let groupRef = ref.child("groups").child(gid)
             let userRef = ref.child("users").child(uid!).child("groups").child(gid)
@@ -378,7 +378,7 @@ class CastMapController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     func fetchUserName( closure:((String) -> Void)?) -> Void {
         let uid = FIRAuth.auth()?.currentUser?.uid
-        let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
+        let ref = FIRDatabase.database().reference()
         ref.child("users").child(uid!).child("name").observe(.value, with: { (snapshot) in
             self.userName = snapshot.value as? String
             closure!(self.userName!)

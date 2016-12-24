@@ -84,7 +84,7 @@ extension RegisterController: UIImagePickerControllerDelegate, UINavigationContr
     
     fileprivate func registerUser(_ uid: String, values: [String : AnyObject]) {
         
-        let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
+        let ref = FIRDatabase.database().reference()
         let usersReference = ref.child("users").child(uid)
         usersReference.updateChildValues(values, withCompletionBlock: { (err, ref) in
             if err != nil{

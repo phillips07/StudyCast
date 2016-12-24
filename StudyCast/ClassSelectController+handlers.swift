@@ -15,7 +15,7 @@ extension ClassSelectController {
     func handleDone() {
         if let user = FIRAuth.auth()?.currentUser {
             let uid = user.uid
-            let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
+            let ref = FIRDatabase.database().reference()
             var classRef = ref
             for pickedClass in pickedClassesDataSet {
                 classRef = ref.child(pickedClass).child(uid)
@@ -30,7 +30,7 @@ extension ClassSelectController {
     
     fileprivate func addUserCourses(_ uid: String, values: [String : AnyObject]) {
         
-        let ref = FIRDatabase.database().reference(fromURL: "https://studycast-11ca5.firebaseio.com")
+        let ref = FIRDatabase.database().reference()
         let coursesReference = ref.child("users").child(uid).child("courses")
         coursesReference.setValue(nil, withCompletionBlock: {(error, ref) in
             if error != nil {
