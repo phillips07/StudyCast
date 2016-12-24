@@ -7,21 +7,21 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>167422366562-42hr3d6b052faks6gm6bgo4tlksp0no0.apps.googleusercontent.com</string>
+	<string>304440490143-kga1jelbi045muvm2k7v9vic7g32fqm3.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.167422366562-42hr3d6b052faks6gm6bgo4tlksp0no0</string>
+	<string>com.googleusercontent.apps.304440490143-kga1jelbi045muvm2k7v9vic7g32fqm3</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC3KRMSiNQ648GLfjeLGgmCdpuFl-1_TO0</string>
+	<string>AIzaSyD1nkscdr8yNNURSoWq1bEG3a0xWR7dC5s</string>
 	<key>GCM_SENDER_ID</key>
-	<string>167422366562</string>
+	<string>304440490143</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.phillips.StudyCast</string>
+	<string>com.StudyCast.phillips</string>
 	<key>PROJECT_ID</key>
-	<string>studycast-11ca5</string>
+	<string>studydb-63ec0</string>
 	<key>STORAGE_BUCKET</key>
-	<string>studycast-11ca5.appspot.com</string>
+	<string>studydb-63ec0.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<true/>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -33,8 +33,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:167422366562:ios:504814397e8b8386</string>
+	<string>1:304440490143:ios:bb55540a6ad34433</string>
 	<key>DATABASE_URL</key>
-	<string>https://studycast-11ca5.firebaseio.com</string>
+	<string>https://studydb-63ec0.firebaseio.com</string>
 </dict>
 </plist>
