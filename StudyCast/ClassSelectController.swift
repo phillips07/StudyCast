@@ -45,15 +45,11 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
         
         //vanquishing the slobbering beast of multi-threading issues
         while !(self.facultiesDone) {
+            
+            // ADD LOADING SCREEN HERE INSTEAD
             sleep(UInt32(0.1))
         }
         
-        
-        fetchClasses()
-        //more vanquishing
-        while !(self.classesDone) {
-            sleep(UInt32(0.1))
-        }
         
         //getting the correct value in currentFaculty
         setCurrentFaculty(row: 0)
@@ -108,71 +104,12 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     
-    //to be implimented in a loop to run for each faculty in faculties array
-    func fetchClasses() {
+    func fetchFaculties(semester: String) {
+        let url = URL(string: "http://www.sfu.ca/bin/wcm/course-outlines?\(semester)")
         
         //prepares my hashTable for storing the data gathered from the API
         //its keys are faculty names, values are an array of classes within that faculty
         self.hashTable = HashTable<String, [Class]>(capacity: 333)
-        
-        //loop through every faculty, make API calls for each one by updating the URL to use the facutlty's respective name
-        for fac in self.faculties! {
-            
-            //2 minutes for hacking #yoloswag #figureItOutInAnotherLife
-            if (fac.name! == "expl") || (fac.name! == "fnlg") || (fac.name! == "lang") {
-                continue
-            }
-            
-            //set current URL
-            let urlString = "http://www.sfu.ca/bin/wcm/course-outlines?2015/fall/\(fac.name!)"
-            let url = URL(string: urlString)
-            var loopDone = false
-            
-            //get JSON from API
-            URLSession.shared.dataTask(with: url!) { (data, response, error) in
-                //check if an error is returned form the server
-                if error != nil {
-                    print(error!)
-                    return
-                }
-                
-                //parse JSON
-                do {
-                    let jsonData = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
-                    
-                    //create an array to hold the classes to be added to the hashTable
-                    var classArr = [Class]()
-                    
-                    //********** THIS LINE RANDOMLY CAUSES ERRORS ******************
-                    //sometimes gets completey or nearly through jsonData, other times breaks almost immediately
-                    for dict in jsonData as! [[String:AnyObject]]{
-                        
-                        //add each class inthe JSON data to the array
-                        let new = Class()
-                        new.number = dict["text"] as! String?
-                        classArr.append(new)
-                    }
-                    //add the array to the hashTable
-                    self.hashTable!["\(fac.name!)"] = classArr
-                    
-                } catch let error {
-                    print(error)
-                }
-                //set to true when thread parsing the JSON data is done
-                loopDone = true
-            }.resume()
-            
-            //makes main thread wait until parsing is complete to go to the next itertion of the loop
-            while !loopDone {
-                sleep(UInt32(0.1))
-            }
-        }
-        //Set to true when the hashTable is finished populating and other functions that rely on it can continue
-        self.classesDone = true
-    }
-    
-    func fetchFaculties(semester: String) {
-        let url = URL(string: "http://www.sfu.ca/bin/wcm/course-outlines?\(semester)")
         
         URLSession.shared.dataTask(with: url!) { (data, response, error) in
             //check if an error is returned form the server
@@ -193,6 +130,42 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
                     faculty.name = dict["value"] as! String?
                     self.faculties?.append(faculty)
                     
+                    let urlString = "http://www.sfu.ca/bin/wcm/course-outlines?\(semester)\(faculty.name!)"
+                    let url = URL(string: urlString)
+                    
+                    //get JSON from API
+                    URLSession.shared.dataTask(with: url!) { (data, response, error) in
+                        //check if an error is returned form the server
+                        if error != nil {
+                            print(error!)
+                            return
+                        }
+                        
+                        //parse JSON
+                        do {
+                            let jsonData = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers)
+                            
+                            //create an array to hold the classes to be added to the hashTable
+                            var classArr = [Class]()
+                            
+                            //********** THIS LINE RANDOMLY CAUSES ERRORS ******************
+                            //sometimes gets completey or nearly through jsonData, other times breaks almost immediately
+                            for dict in jsonData as! [[String:AnyObject]]{
+                                
+                                //add each class inthe JSON data to the array
+                                let new = Class()
+                                new.number = dict["text"] as! String?
+                                classArr.append(new)
+                            }
+                            //add the array to the hashTable
+                            self.hashTable!["\(faculty.name!)"] = classArr
+                            
+                        } catch let error {
+                            print(error)
+                        }
+                        //set to true when thread parsing the JSON data is done
+                        }.resume()
+                    
                 }
                 
                 self.facultiesDone = true
@@ -203,7 +176,6 @@ class ClassSelectController: UIViewController, UITableViewDelegate, UITableViewD
             
             
             }.resume()
-        
     }
 
     
